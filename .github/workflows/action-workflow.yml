@@ -37,11 +37,23 @@ jobs:
           docker --version
           docker-compose --version
 
-      - name: Run Docker Compose
+      - name: Build and run Docker Compose
         run: |
+          docker-compose build
           docker-compose up -d
+          # Wait for Apache to start
+          sleep 10
 
-      - name: Run Django tests inside Docker container
+      - name: Check Apache status
+        run: |
+          docker-compose ps
+          docker-compose exec -T web apache2ctl -S
+
+      - name: Run Django migrations
+        run: |
+          docker-compose exec -T web python manage.py migrate --noinput
+
+      - name: Run Django tests
         run: |
           docker-compose exec -T web python manage.py test
 

@@ -444,48 +444,6 @@
         fill: currentColor;
       }
 
-      .notifications-wrapper {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 40px 20px;
-        box-sizing: border-box;
-      }
-
-      .notifications-container {
-        background-color: rgba(255, 255, 255, 0.8); /* blanco translúcido */
-        padding: 30px;
-        border-radius: 18px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .notification-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 12px 0;
-        border-bottom: 1px solid #ddd;
-      }
-
-      .notification-item:last-child {
-        border-bottom: none;
-      }
-
-      .notification-icon img {
-        width: 24px;
-        height: 24px;
-        margin-top: 2px;
-      }
-
-      .notification-content {
-        font-size: 16px;
-        line-height: 1.4;
-      }
-
-      .notification-content strong {
-        font-weight: bold;
-      }
-
-
       /* Media Queries */
       @media (max-width: 900px) {
         body {
@@ -644,19 +602,12 @@
         }
 
         .main-content {
-          display: block; /* IMPORTANTE: evitar centramiento vertical por flex/grid */
+          display: block;
           background: white;
           padding-left: 1rem;
           padding-right: 1rem;
           padding-bottom: 1rem;
-          min-height: auto; /* elimina centramiento forzado */
-        }
-
-        .notifications-container {
-          background-color: white;
-          padding: 0;
-          box-shadow: none;
-          border-radius: 0;
+          min-height: auto;
         }
 
         .profile-header {
@@ -685,18 +636,4 @@
           justify-content: center;
         }
 
-        .top-bar {
-          left: 0;
-          width: 100%;
-          justify-content: center; /* centra el contenido */
-        }
-
-        .top-bar h1 {
-          text-align: center;
-          margin: 0 auto;
-          font-size: 18px;
-        }
-
-
-        
     }

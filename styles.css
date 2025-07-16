@@ -448,6 +448,11 @@
     grid-template-columns: 80px 1fr;
   }
 
+  .flex-wrapper {
+    flex-direction: column;
+    padding: 0;
+  }
+
   /* Sidebar adjustments */
   .sidebar {
     width: 80px;

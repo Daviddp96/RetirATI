@@ -185,4 +185,12 @@
     font-size: 15px;
     padding: 10px 10px;
   }
+
+    .followers-container {
+    padding-top: 10rem;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: white; /* opcional, pero consistente */
+    padding: 1rem 1rem 0 1rem; /* opcional: ajustar padding para móvil */
+  }
 }

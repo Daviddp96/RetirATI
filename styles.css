@@ -556,7 +556,7 @@
 
       @media (max-width: 600px) {
         body {
-          grid-template-columns: 1fr;
+          display: flex;
         }
 
         .main-content {
@@ -564,11 +564,11 @@
           flex-direction: column;
           justify-content: flex-start;
           align-items: stretch; /* <-- fuerza el contenido arriba y ancho completo */
-
           background: white;
           padding-left: 1rem;
           padding-right: 1rem;
           padding-bottom: 1rem;
+          padding-top: 2rem;
           min-height: auto;
         }        
 
@@ -660,5 +660,26 @@
           margin: 0 auto;
           font-size: 18px;
         }
+
+        .top-avatar {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .top-bar h1 {
+          font-size: 18px;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .top-settings {
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+        }
+
 
       }

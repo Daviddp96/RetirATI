@@ -242,6 +242,7 @@
 
 .input-icons {
     display: flex;
+    align-items: center;
     gap: 10px;
     color: #e91e63;
     font-size: 18px;

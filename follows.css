@@ -144,6 +144,36 @@
 }
 
 @media (max-width: 600px) {
+  .user-header {
+    position: relative; /* necesario para posicionar el botón dentro */
+    padding: 8px 0;
+    line-height: 1.1;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 0;
+    font-size: 1.2rem;
+    padding: 6px 10px;
+    color: #222;
+    z-index: 10;
+  }
+
+  .user-header h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    text-align: left;
+  }
+
+  .user-header .username {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: left;
+  }
+  
   .followers-tabs {
     left: 0;
     width: 100%;

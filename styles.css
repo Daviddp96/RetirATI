@@ -189,7 +189,8 @@
       .top-bar {
         position: fixed;
         top: 0;
-        left: var(--sidebar-width); /* deja espacio al sidebar */
+        left: var(--sidebar-width);
+        /* deja espacio al sidebar */
         width: calc(100% - var(--sidebar-width));
         height: 3rem;
         background-color: white;
@@ -207,13 +208,17 @@
 
       /* Contenido principal */
       .main-content {
-        padding-top: 70px; /* espacio para la top-bar */
+        padding-top: 70px;
+        /* espacio para la top-bar */
         padding-right: 1rem;
         padding-left: 1rem;
         width: 100%;
-        background: #f4c4f3;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to left, #fc67fa, #f4c4f3);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to left, #fc67fa, #f4c4f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #f4c4f3;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #fc67fa, #f4c4f3);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #fc67fa, #f4c4f3);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
 
       /* Encabezado del perfil */
@@ -379,7 +384,8 @@
         text-align: center;
         background-color: var(--primary-color);
         color: white;
-        padding: 8px; /* Reducir el padding vertical */
+        padding: 8px;
+        /* Reducir el padding vertical */
         border-radius: 20px;
         text-decoration: none;
         font-weight: bold;
@@ -443,48 +449,6 @@
         height: 18px;
         fill: currentColor;
       }
-
-      .notifications-wrapper {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 40px 20px;
-        box-sizing: border-box;
-      }
-
-      .notifications-container {
-        background-color: rgba(255, 255, 255, 0.8); /* blanco translúcido */
-        padding: 30px;
-        border-radius: 18px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .notification-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 12px 0;
-        border-bottom: 1px solid #ddd;
-      }
-
-      .notification-item:last-child {
-        border-bottom: none;
-      }
-
-      .notification-icon img {
-        width: 24px;
-        height: 24px;
-        margin-top: 2px;
-      }
-
-      .notification-content {
-        font-size: 16px;
-        line-height: 1.4;
-      }
-
-      .notification-content strong {
-        font-weight: bold;
-      }
-
 
       /* Media Queries */
       @media (max-width: 900px) {
@@ -595,6 +559,18 @@
           grid-template-columns: 1fr;
         }
 
+        .main-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: stretch; /* <-- fuerza el contenido arriba y ancho completo */
+          background: white;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-bottom: 1rem;
+          min-height: auto;
+        }        
+
         .profile-nav-btn {
           padding: 12px 0;
           font-size: 14px;
@@ -643,21 +619,7 @@
           font-size: 20px;
         }
 
-        .main-content {
-          display: block;
-          background: white;
-          padding-left: 1rem;
-          padding-right: 1rem;
-          padding-bottom: 1rem;
-          min-height: auto;
-        }
 
-        .notifications-container {
-          background-color: white;
-          padding: 0;
-          box-shadow: none;
-          border-radius: 0;
-        }
 
         .profile-header {
           padding: 15px;
@@ -688,7 +650,8 @@
         .top-bar {
           left: 0;
           width: 100%;
-          justify-content: center; /* centra el contenido */
+          justify-content: center;
+          /* centra el contenido */
         }
 
         .top-bar h1 {
@@ -697,6 +660,4 @@
           font-size: 18px;
         }
 
-
-        
-    }
+      }

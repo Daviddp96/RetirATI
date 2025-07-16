@@ -189,7 +189,8 @@
       .top-bar {
         position: fixed;
         top: 0;
-        left: var(--sidebar-width); /* deja espacio al sidebar */
+        left: var(--sidebar-width);
+        /* deja espacio al sidebar */
         width: calc(100% - var(--sidebar-width));
         height: 3rem;
         background-color: white;
@@ -207,13 +208,17 @@
 
       /* Contenido principal */
       .main-content {
-        padding-top: 70px; /* espacio para la top-bar */
+        padding-top: 70px;
+        /* espacio para la top-bar */
         padding-right: 1rem;
         padding-left: 1rem;
         width: 100%;
-        background: #f4c4f3;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to left, #fc67fa, #f4c4f3);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to left, #fc67fa, #f4c4f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #f4c4f3;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #fc67fa, #f4c4f3);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #fc67fa, #f4c4f3);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
 
       /* Encabezado del perfil */
@@ -379,7 +384,8 @@
         text-align: center;
         background-color: var(--primary-color);
         color: white;
-        padding: 8px; /* Reducir el padding vertical */
+        padding: 8px;
+        /* Reducir el padding vertical */
         border-radius: 20px;
         text-decoration: none;
         font-weight: bold;
@@ -553,6 +559,19 @@
           grid-template-columns: 1fr;
         }
 
+        .main-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: stretch; /* <-- fuerza el contenido arriba y ancho completo */
+
+          background: white;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-bottom: 1rem;
+          min-height: auto;
+        }        
+
         .profile-nav-btn {
           padding: 12px 0;
           font-size: 14px;
@@ -601,14 +620,7 @@
           font-size: 20px;
         }
 
-        .main-content {
-          display: block;
-          background: white;
-          padding-left: 1rem;
-          padding-right: 1rem;
-          padding-bottom: 1rem;
-          min-height: auto;
-        }
+
 
         .profile-header {
           padding: 15px;
@@ -636,4 +648,17 @@
           justify-content: center;
         }
 
-    }
+        .top-bar {
+          left: 0;
+          width: 100%;
+          justify-content: center;
+          /* centra el contenido */
+        }
+
+        .top-bar h1 {
+          text-align: center;
+          margin: 0 auto;
+          font-size: 18px;
+        }
+
+      }

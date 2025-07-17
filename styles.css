@@ -504,6 +504,15 @@
         fill: currentColor;
       }
 
+
+  .followers-container_ {
+    background-color: rgba(255, 255, 255, 0.8); /* fondo blanco translúcido */
+    padding: 1rem 2rem 1rem 2rem;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 95%;
+    margin: 3rem auto 0 auto; /* agrega espacio arriba */
+  }
       /* Media Queries */
 @media (max-width: 900px) {
   body {
@@ -733,5 +742,9 @@
           cursor: pointer;
         }
 
+        .followers-container_ {
+   
+          margin:  0px; /* agrega espacio arriba */
+        }
 
       }

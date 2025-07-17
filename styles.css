@@ -35,7 +35,12 @@
       .resp_publi{
             margin-right: auto !important;
       }
-
+      .flex_{
+        display: flex;
+      }
+      .flex_ span{
+        padding-left: 8px;
+      }
       .flex-wrapper {
         display: flex;
         padding: 1rem;

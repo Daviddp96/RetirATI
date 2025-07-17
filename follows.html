@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seguidos</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="follows.css" />  
+</head>
+<body>
+  <!-- Barra lateral -->
+    <!-- Barra lateral -->
+    <div id="menu-main"></div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+      <div class="top-bar">
+        <button class="back-button">←</button>
+        <div class="user-header">
+          <h1>Hanna G. Vollidot</h1>
+          <span class="username">@HannGVollidot</span>
+        </div>
+      </div>
+        
+
+      <div class="followers-tabs">
+          <button>Seguidores</button>
+          <button class="active">Siguiendo</button>
+      </div>      
+      <!-- Contenedor general -->
+      <div class="followers-container">
+        <!-- Tabs de navegación -->
+
+
+        <!-- Lista de seguidores -->
+        <div class="follower-item">
+          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
+          <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+          </div>
+          <button class="follow-button following">Siguiendo</button>
+        </div>
+
+        <!-- Repetición del mismo usuario -->
+        <div class="follower-item">
+          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
+          <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+          </div>
+          <button class="follow-button following">Siguiendo</button>
+        </div>
+
+        <div class="follower-item">
+          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
+          <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+          </div>
+          <button class="follow-button following">Siguiendo</button>
+        </div>
+
+        <div class="follower-item">
+          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
+          <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+          </div>
+          <button class="follow-button following">Siguiendo</button>
+        </div>
+
+        <div class="follower-item">
+          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
+          <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+          </div>
+          <button class="follow-button following">Siguiendo</button>
+        </div>
+
+        <div class="follower-item">
+          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
+          <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+          </div>
+          <button class="follow-button following">Siguiendo</button>
+        </div>
+      </div>
+    </div>
+
+  <script>
+    function loadHTML(selector, filePath) {
+      fetch(filePath)
+        .then(response => response.text())
+        .then(html => {
+          document.querySelector(selector).innerHTML = html;
+        })
+        .catch(error => console.error('Error al cargar el archivo:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadHTML('#menu-main', 'menu-main.html');
+    });
+  </script>
+</body>
+</html>

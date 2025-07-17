@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="edit.css" />
+  </head>
+  <body>
+    <!-- Barra lateral -->
+    <div id="menu-main"></div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+      <!-- Barra superior con título "Editar Perfil" -->
+      <div class="top-bar">
+        <h1>Editar Perfil</h1>
+      </div>
+
+      <!-- Contenido de edición de perfil -->
+      <div class="edit-profile-container">
+        <div class="profile-edit-header">
+          <div class="profile-edit-avatar"></div>
+          <div class="profile-edit-info">
+            <div class="profile-edit-name">Hannah G. Vollidot</div>
+            <div class="profile-edit-username">@HannGVollidot</div>
+          </div>
+        </div>
+
+        <div class="edit-section">
+          <div class="edit-section-title">Información personal</div>
+
+          <div class="edit-field">
+            <label class="edit-label">Biografía</label>
+            <textarea class="edit-textarea">
+No soy de muchas palabras, pero sí te quedas, te mostraré mi esencia con calma. Yo creo que todavía no es tarde para construir la utopía que nos permitirá compartir la tierra.</textarea
+            >
+            <div class="counter">69 / 130</div>
+          </div>
+        </div>
+
+        <div class="edit-sections-container">
+          <div class="edit-section">
+            <div class="edit-field">
+              <label class="edit-label">Correo</label>
+              <input type="email" class="edit-input" value="funait@funa.com" />
+            </div>
+
+            <div class="edit-field">
+              <label class="edit-label">Fecha de Nacimiento</label>
+              <div class="date-field-container">
+                <input type="text" class="date-input" value="01/01/1945" />
+                <span class="date-icon">📅</span>
+              </div>
+            </div>
+
+            <div class="edit-field">
+              <label class="edit-label">Color Favorito</label>
+              <input type="text" class="edit-input" value="Rosado" />
+            </div>
+
+            <div class="edit-field">
+              <label class="edit-label">Videojuegos Favoritos</label>
+              <input
+                type="text"
+                class="edit-input"
+                value="REPO, Doki Doki Girls"
+              />
+            </div>
+          </div>
+
+          <div class="edit-section">
+            <div class="edit-field">
+              <label class="edit-label">Cédula</label>
+              <input type="text" class="edit-input" value="V-6661369" />
+            </div>
+
+            <div class="edit-field">
+              <label class="edit-label">Libros Favoritos</label>
+              <input
+                type="text"
+                class="edit-input"
+                value="Romeo y Julieta, Kamasutra, 50 sombras..."
+              />
+            </div>
+
+            <div class="edit-field">
+              <label class="edit-label">Música Favorita</label>
+              <input
+                type="text"
+                class="edit-input"
+                value="Rock, Pop, Champeta, Duki"
+              />
+            </div>
+
+            <div class="edit-field">
+              <label class="edit-label">Lenguajes de Programación</label>
+              <input
+                type="text"
+                class="edit-input"
+                value="Haskell, Prolog, y otros lenguajes que nadie usa"
+              />
+            </div>
+          </div>
+        </div>
+        <button class="save-btn">Guardar</button>
+      </div>
+    </div>
+
+    <script>
+      // Función para cargar un archivo HTML en un elemento
+      function loadHTML(selector, filePath) {
+        fetch(filePath)
+          .then((response) => response.text())
+          .then((html) => {
+            document.querySelector(selector).innerHTML = html;
+          })
+          .catch((error) =>
+            console.error("Error al cargar el archivo:", error)
+          );
+      }
+
+      // Cargar el footer cuando el DOM esté listo
+      document.addEventListener("DOMContentLoaded", () => {
+        loadHTML("#menu-main", "menu-main.html");
+        loadHTML("#container-main", "container.html");
+        // Puedes cargar también un header si tuvieras:
+        // loadHTML('#header-placeholder', 'header.html');
+      });
+    </script>
+  </body>
+</html>

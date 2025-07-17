@@ -742,9 +742,19 @@
           cursor: pointer;
         }
 
-        .followers-container_ {
-   
+        .followers-container_, .profile-nav {
           margin:  0px; /* agrega espacio arriba */
+        }
+        .responder_publi{
+
+          margin: 0px;
+          margin-right: 20px;
+          margin-bottom: 20px;
+          padding: 1rem 2rem 1rem 2rem;
+        }
+
+        .post{
+          padding: 0px;
         }
 
       }

@@ -23,6 +23,15 @@
         grid-template-columns: var(--sidebar-width) 1fr;
         min-height: 100vh;
       }
+      .container {
+        width: 100%;
+       
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+      }
 
       .flex-wrapper {
         display: flex;
@@ -104,7 +113,10 @@
       }
 
       .profile-nav {
+        margin: 20px;
         display: flex;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 25px;
         border-bottom: 1px solid var(--border-color);
       }
 
@@ -133,8 +145,8 @@
         content: "";
         position: absolute;
         bottom: 0;
-        left: 0;
-        right: 0;
+        left: 80px;
+        right: 80px;
         height: 4px;
         background-color: var(--primary-color);
         border-radius: 2px;
@@ -226,16 +238,18 @@
       /* Encabezado del perfil */
       .profile-header {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 1fr;
         gap: 30px;
         padding: 20px;
-        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0px;
       }
 
       .profile-main {
         display: flex;
         flex-direction: column;
         gap: 15px;
+        max-width: 775px;
+        
       }
 
       .profile-name {
@@ -304,13 +318,12 @@
       .profile-details {
         display: flex;
         flex-direction: column;
-        gap: 20px;
       }
 
       .detail-section {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        
       }
 
       .detail-item {
@@ -332,6 +345,7 @@
       /* Secciones */
       .section {
         padding: 20px;
+        padding-top: 0px;
         border-bottom: 1px solid var(--border-color);
       }
 
@@ -349,6 +363,9 @@
 
       .post {
         margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 25px;
+        padding: 20px;
       }
 
       .post-header {
@@ -394,6 +411,22 @@
         margin: 20px auto;
         width: 50%;
         max-width: 200px;
+        transition: all 0.2s;
+      }
+      .seguidos{
+        display: flex;
+      }
+      .seguidores {
+        display: block;
+        text-align: center;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        width: 50%;
+        max-width: 120px;
+        margin: 2px;
         transition: all 0.2s;
       }
 
@@ -633,13 +666,6 @@
       padding: 15px;
     }
 
-    .profile-details {
-      gap: 15px;
-    }
-
-    .detail-section {
-      gap: 8px;
-    }
 
     .section:has(.edit-profile) {
       padding: 8px 15px;

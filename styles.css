@@ -359,6 +359,9 @@
         padding: 20px;
         /*border-bottom: 1px solid var(--border-color);*/
       }
+      .muro, .muro .section{
+        padding: 0px;
+      }
       .section_publi {
         padding: 0px 20px ; 
       }

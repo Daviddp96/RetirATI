@@ -17,6 +17,9 @@ def recover_password_view(request):
     return render(request, 'recoverpassword.html')
 
 # Páginas principales de la aplicación
+def muro_view(request):
+    return render(request, 'muro.html')
+
 def notifications_view(request):
     return render(request, 'notifications.html')
 

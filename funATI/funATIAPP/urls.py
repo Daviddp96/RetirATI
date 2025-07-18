@@ -13,7 +13,8 @@ urlpatterns = [
     path('recover-password/', views.recover_password_view, name='recover_password'),
     
     # Páginas principales de la aplicación
-    path('app/', views.notifications_view, name='app'),  # Página principal (muro)
+    path('app/', views.muro_view, name='app'),  # Página principal (muro)
+    path('muro/', views.muro_view, name='muro'),  # Alias para el muro
     path('notifications/', views.notifications_view, name='notifications'),
     path('chats/', views.chats_view, name='chats'),
     path('friends/', views.friends_view, name='friends'),

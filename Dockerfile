@@ -16,7 +16,6 @@ COPY . /app/funATIAPP/
 
 RUN /app/env/bin/python3 -c "import django; print('Django version:', django.get_version())"
 
-# Configurar ServerName globalmente para suprimir advertencia
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 COPY apache-funati.conf /etc/apache2/sites-available/000-default.conf

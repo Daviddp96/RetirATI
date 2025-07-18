@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+5&0_lmufy96)30v!cg9j%blax42rbcn@@pmdkjgq^pydk12ms
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -119,6 +119,13 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'funATIAPP' / 'static',
 ]
+
+# Static files root for production
+STATIC_ROOT = '/app/funATIAPP/funATI/staticfiles/'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/app/funATIAPP/funATI/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

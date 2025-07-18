@@ -34,4 +34,4 @@ chmod -R 755 /app/funATIAPP/
 a2enmod wsgi
 
 # Iniciar Apache en primer plano
-apache2ctl -D FOREGROUND 
+apache2ctl -D FOREGROUND

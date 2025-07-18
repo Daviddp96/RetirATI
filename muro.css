@@ -1,0 +1,47 @@
+.post {
+    padding:20px 70px;
+}
+.post-content{
+    padding: 0px 50px;
+    margin-top: -8px;
+}
+.post-media-placeholder{
+    padding: 0px 50px;
+    margin-top: 8px;
+}
+.post-actions{
+    padding: 0px 50px;
+}
+.funar{
+    background-color:  rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    padding: 3px 10px;
+    margin-bottom: 20px;
+    
+}
+    
+.funar-flex{
+    display: flex; 
+    
+}
+.icon{
+    margin-right: auto;
+}
+.buton-flex{
+    display: flex;
+}
+.span-funar{
+    padding-left: 5px;
+}
+.button-funar{
+     background-color: #f344ea;
+    padding: 7px 10px;
+    border: transparent;
+    border-radius: 20px;
+}
+    @media (max-width: 600px) {
+
+        .post{
+            padding: 0px;
+        }
+    }

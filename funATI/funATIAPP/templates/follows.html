@@ -1,115 +1,168 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seguidos</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="follows.css" />  
-</head>
-<body>
-  <!-- Barra lateral -->
-    <!-- Barra lateral -->
-    <div id="menu-main"></div>
+{% extends 'base.html' %}
+{% load static %}
 
-    <!-- Contenido principal -->
-    <div class="main-content">
+{% block title %}Seguidos - FunATI{% endblock %}
 
-      <div class="top-bar">
-        <button class="back-button">←</button>
-        <div class="user-header">
-          <h1>Hanna G. Vollidot</h1>
-          <span class="username">@HannGVollidot</span>
-        </div>
-      </div>
-        
+{% block page_title %}
+<button class="back-button">←</button>
+<div class="user-header">
+    <h1>Hanna G. Vollidot</h1>
+    <span class="username">@HannGVollidot</span>
+</div>
+{% endblock %}
 
-      <div class="followers-tabs">
-          <button>Seguidores</button>
-          <button class="active">Siguiendo</button>
-      </div>      
-      <!-- Contenedor general -->
-      <div class="followers-container">
-        <!-- Tabs de navegación -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/follows.css' %}">
+{% endblock %}
 
+{% block content %}
+<div class="followers-tabs">
+    <button>Seguidores</button>
+    <button class="active">Siguiendo</button>
+</div>      
 
-        <!-- Lista de seguidores -->
-        <div class="follower-item">
-          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
-          <div class="follower-info">
+<!-- Contenedor general -->
+<div class="followers-container">
+    <!-- Lista de seguidores -->
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
             <strong>Mapia Raula</strong>
             <span class="username">@mapia</span>
             <p class="bio">Esta es la biografía uwu</p>
-          </div>
-          <button class="follow-button following">Siguiendo</button>
         </div>
-
-        <!-- Repetición del mismo usuario -->
-        <div class="follower-item">
-          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
-          <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-          </div>
-          <button class="follow-button following">Siguiendo</button>
-        </div>
-
-        <div class="follower-item">
-          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
-          <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-          </div>
-          <button class="follow-button following">Siguiendo</button>
-        </div>
-
-        <div class="follower-item">
-          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
-          <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-          </div>
-          <button class="follow-button following">Siguiendo</button>
-        </div>
-
-        <div class="follower-item">
-          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
-          <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-          </div>
-          <button class="follow-button following">Siguiendo</button>
-        </div>
-
-        <div class="follower-item">
-          <img src="images/mapia.jpg" alt="Foto de perfil" class="profile-pic" />
-          <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-          </div>
-          <button class="follow-button following">Siguiendo</button>
-        </div>
-      </div>
+        <button class="follow-button following">Siguiendo</button>
     </div>
 
-  <script>
+    <!-- Repetición del mismo usuario -->
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+
+    <div class="follower-item">
+        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        <div class="follower-info">
+            <strong>Mapia Raula</strong>
+            <span class="username">@mapia</span>
+            <p class="bio">Esta es la biografía uwu</p>
+        </div>
+        <button class="follow-button following">Siguiendo</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Función para cargar un archivo HTML en un elemento
     function loadHTML(selector, filePath) {
-      fetch(filePath)
-        .then(response => response.text())
-        .then(html => {
-          document.querySelector(selector).innerHTML = html;
-        })
-        .catch(error => console.error('Error al cargar el archivo:', error));
+        fetch(filePath)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector(selector).innerHTML = html;
+            })
+            .catch(error => console.error('Error al cargar el archivo:', error));
     }
 
+    // Cargar el footer cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
-      loadHTML('#menu-main', 'menu-main.html');
+        // Puedes cargar también un header si tuvieras:
+        // loadHTML('#header-placeholder', 'header.html');
     });
-  </script>
-</body>
-</html>
+</script>
+{% endblock %}

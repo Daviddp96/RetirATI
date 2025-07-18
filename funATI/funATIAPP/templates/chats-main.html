@@ -1,217 +1,205 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Perfil</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="chats.css">
-  </head>
-  <body>
-    <!-- Barra lateral -->
+{% extends 'base.html' %}
+{% load static %}
 
-    <div id="menu-main"></div> 
-    <!-- Contenido principal -->
-    <div class="main-content">
-      <!-- Barra superior con título "Perfil" -->
-      <div class="top-bar">
-        <h1>Chats</h1>
-      </div>
+{% block title %}Chats - FunATI{% endblock %}
 
-      <div class="flex-wrapper">
-        <div class="container">
-            <div class="search-container">
-                <div class="search-icon"></div>
-                <input type="text" class="search-bar" placeholder="Buscar personas">
-                <div class="message-icon"></div>
-            </div>
+{% block page_title %}Chats{% endblock %}
 
-            <ul class="contacts-list">
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Local Taiwo" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name">Local Taiwo</div>
-                        <div class="contact-username">@localtaiwo</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Jan 20</div>
-                        <div class="notification-badge">1</div>
-                    </div>
-                </li>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chats.css' %}">
+{% endblock %}
 
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Mama saraki" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name">Mama saraki</div>
-                        <div class="contact-username">@mama34567</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Dec 12</div>
-                        <div class="status-indicator checkmark"></div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Omoiyala1" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name">Omoiyala1</div>
-                        <div class="contact-username">@lifeboyancy</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Dec 13</div>
-                        <div class="status-indicator checkmark"></div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Tarashy" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name">Tarashy</div>
-                        <div class="contact-username">@buildingnaija</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Dec 14</div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Designstyles" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name">Designstyles</div>
-                        <div class="contact-username">@designstyles</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Nov 4</div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Omoiyala1" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name"><span class="heart-emoji">😍</span> Omoiyala1 <span class="heart-emoji">😍</span></div>
-                        <div class="contact-username">@lifeboyancy</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Nov 10</div>
-                        <div class="status-indicator checkmark"></div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Omoiyala1" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name"><span class="heart-emoji">😍</span> Omoiyala1 <span class="heart-emoji">😍</span></div>
-                        <div class="contact-username">@lifeboyancy</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Nov 10</div>
-                        <div class="status-indicator checkmark"></div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Ana Lisa M." class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name"><span class="heart-emoji">😍</span> Ana Lisa M. <span class="heart-emoji">😍</span></div>
-                        <div class="contact-username">@MeItrozo</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Nov 10</div>
-                        <div class="status-indicator checkmark"></div>
-                    </div>
-                </li>
-
-                <li class="contact-item">
-                    <img src="/chat-picture.png" alt="Ana Lisa M." class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name"><span class="heart-emoji">😍</span> Ana Lisa M. <span class="heart-emoji">😍</span></div>
-                        <div class="contact-username">@MeItrozo</div>
-                    </div>
-                    <div class="contact-meta">
-                        <div class="contact-date">Nov 10</div>
-                        <div class="status-indicator checkmark"></div>
-                    </div>
-                </li>
-            </ul>
+{% block content %}
+<div class="flex-wrapper">
+    <div class="container">
+        <div class="search-container">
+            <div class="search-icon"></div>
+            <input type="text" class="search-bar" placeholder="Buscar personas">
+            <div class="message-icon"></div>
         </div>
-        <div class="chat">
-            <div class="chat-container">
-                <!-- Chat Header -->
-                <div class="chat-header">
-                    <img src="/chat-picture.png" alt="Mama saraki" class="profile-pic">
-                    <div class="contact-info">
-                        <div class="contact-name">Mama saraki</div>
-                        <div class="contact-username">@mama34567</div>
-                    </div>
-                </div>
 
-                <!-- Chat Messages -->
-                <div class="chat-messages">
-                    <div class="message sent">
-                        <div>
-                            <div class="message-bubble">
-                                ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ZZZZZ
-                            </div>
-                            <div class="message-time">
-                                Tue 7:08 AM <span class="checkmark"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="message received">
-                        <img src="/chat-picture.png" alt="Mama saraki" class="profile-pic" style="width: 30px; height: 30px;">
-                        <div>
-                            <div class="message-bubble">
-                                Okay
-                            </div>
-                            <div class="message-bubble" style="margin-top: 5px;">
-                                ZZZZZZZZZZZZZZZZZZZZZ
-                            </div>
-                            <div class="message-time">
-                                Tue 7:09 AM
-                            </div>
-                        </div>
-                    </div>
+        <ul class="contacts-list">
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Local Taiwo" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name">Local Taiwo</div>
+                    <div class="contact-username">@localtaiwo</div>
                 </div>
-
-                <!-- Message Input -->
-                <div class="message-input-container">
-                    <div class="message-input-wrapper">
-                        <div class="input-icons">
-                            <span class="icon-attachment"></span>
-                            <span class="icon-gif"></span>
-                        </div>
-                        <input type="text" class="message-input" placeholder="Comienza tu mensaje">
-                        <div class="input-icons">
-                            <span class="icon-emoji"></span>
-                            <span class="send-button icon-send"></span>
-                        </div>
-                    </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Jan 20</div>
+                    <div class="notification-badge">1</div>
                 </div>
-            </div>
-        </div>
-      </div>
-      
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Mama saraki" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name">Mama saraki</div>
+                    <div class="contact-username">@mama34567</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Dec 12</div>
+                    <div class="status-indicator checkmark"></div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Omoiyala1" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name">Omoiyala1</div>
+                    <div class="contact-username">@lifeboyancy</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Dec 13</div>
+                    <div class="status-indicator checkmark"></div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Tarashy" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name">Tarashy</div>
+                    <div class="contact-username">@buildingnaija</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Dec 14</div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Designstyles" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name">Designstyles</div>
+                    <div class="contact-username">@designstyles</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Nov 4</div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Omoiyala1" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name"><span class="heart-emoji">😍</span> Omoiyala1 <span class="heart-emoji">😍</span></div>
+                    <div class="contact-username">@lifeboyancy</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Nov 10</div>
+                    <div class="status-indicator checkmark"></div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Omoiyala1" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name"><span class="heart-emoji">😍</span> Omoiyala1 <span class="heart-emoji">😍</span></div>
+                    <div class="contact-username">@lifeboyancy</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Nov 10</div>
+                    <div class="status-indicator checkmark"></div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Ana Lisa M." class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name"><span class="heart-emoji">😍</span> Ana Lisa M. <span class="heart-emoji">😍</span></div>
+                    <div class="contact-username">@MeItrozo</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Nov 10</div>
+                    <div class="status-indicator checkmark"></div>
+                </div>
+            </li>
+
+            <li class="contact-item">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Ana Lisa M." class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name"><span class="heart-emoji">😍</span> Ana Lisa M. <span class="heart-emoji">😍</span></div>
+                    <div class="contact-username">@MeItrozo</div>
+                </div>
+                <div class="contact-meta">
+                    <div class="contact-date">Nov 10</div>
+                    <div class="status-indicator checkmark"></div>
+                </div>
+            </li>
+        </ul>
     </div>
+    <div class="chat">
+        <div class="chat-container">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <img src="{% static 'assets/chat-picture.png' %}" alt="Mama saraki" class="profile-pic">
+                <div class="contact-info">
+                    <div class="contact-name">Mama saraki</div>
+                    <div class="contact-username">@mama34567</div>
+                </div>
+            </div>
 
-    <script>
-        // Función para cargar un archivo HTML en un elemento
-        function loadHTML(selector, filePath) {
-            fetch(filePath)
-                .then(response => response.text())
-                .then(html => {
-                    document.querySelector(selector).innerHTML = html;
-                })
-                .catch(error => console.error('Error al cargar el archivo:', error));
-        }
+            <!-- Chat Messages -->
+            <div class="chat-messages">
+                <div class="message sent">
+                    <div>
+                        <div class="message-bubble">
+                            ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ZZZZZ
+                        </div>
+                        <div class="message-time">
+                            Tue 7:08 AM <span class="checkmark"></span>
+                        </div>
+                    </div>
+                </div>
 
-        // Cargar el footer cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', () => {
-            loadHTML('#menu-main', 'menu-main.html');
-            loadHTML('#container-main', 'container.html');
-            // Puedes cargar también un header si tuvieras:
-            // loadHTML('#header-placeholder', 'header.html');
-        });
-    </script>
-</body>
-</html>
+                <div class="message received">
+                    <img src="{% static 'assets/chat-picture.png' %}" alt="Mama saraki" class="profile-pic" style="width: 30px; height: 30px;">
+                    <div>
+                        <div class="message-bubble">
+                            Okay
+                        </div>
+                        <div class="message-bubble" style="margin-top: 5px;">
+                            ZZZZZZZZZZZZZZZZZZZZZ
+                        </div>
+                        <div class="message-time">
+                            Tue 7:09 AM
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="message-input-container">
+                <div class="message-input-wrapper">
+                    <div class="input-icons">
+                        <span class="icon-attachment"></span>
+                        <span class="icon-gif"></span>
+                    </div>
+                    <input type="text" class="message-input" placeholder="Comienza tu mensaje">
+                    <div class="input-icons">
+                        <span class="icon-emoji"></span>
+                        <span class="send-button icon-send"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Función para cargar un archivo HTML en un elemento
+    function loadHTML(selector, filePath) {
+        fetch(filePath)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector(selector).innerHTML = html;
+            })
+            .catch(error => console.error('Error al cargar el archivo:', error));
+    }
+
+    // Cargar el footer cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHTML('#container-main', '{% url "funATIAPP:container" %}');
+    });
+</script>
+{% endblock %}

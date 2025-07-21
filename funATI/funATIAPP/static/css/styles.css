@@ -1,9 +1,46 @@
+#funar-form {
+  position: relative;
+}
+/* Botón multimedia abajo a la izquierda */
+.multimedia-btn-bottom {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 2;
+}
+
+.svg-multimedia-bottom {
+  width: 28px;
+  height: 28px;
+  fill: #F344EA;
+  stroke: #F344EA;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+  display: block;
+}
+.input-media {
+  display: none;
+}
+/* Estilos para imágenes de publicaciones */
+.publication-img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
       :root {
         --primary-color: #f344ea;
         --text-color: #333;
         --light-gray: #f5f5f5;
         --border-color: #e1e8ed;
         --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+ 
+/* ...existing code... */
           Helvetica, Arial, sans-serif;
         --sidebar-width: 250px;
       }
@@ -485,17 +522,34 @@
         overflow: hidden;
       }
 
-      .media-preview {
-        width: 100%;
-        height: 200px;
-        background-color: #e1e8ed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #657786;
-        font-size: 14px;
-      }
+.media-preview {
+  width: 100%;
+  min-height: 50px;
+  max-height: 200px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  background: none;
+}
 
+.media-preview.no-image {
+  background-color: #e1e8ed;
+  align-items: center;
+  justify-content: center;
+  color: #657786;
+  font-size: 14px;
+  min-height: 200px;
+}
+
+.publication-img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 12px;
+  display: block;
+  margin: 0;
+  object-fit: contain;
+}
       .post-action:hover {
         background-color: rgba(29, 161, 242, 0.1);
         color: var(--primary-color);
@@ -761,3 +815,18 @@
         }
 
       }
+.span-funar {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    display: block;
+    min-height: 32px;
+    max-width: 100%;
+}
+.span-funar:focus {
+    outline: none;
+    box-shadow: none;
+}
+.placeholder {
+    color: #aaa;
+}

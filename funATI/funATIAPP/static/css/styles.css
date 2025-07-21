@@ -830,3 +830,24 @@
 .placeholder {
     color: #aaa;
 }
+.post-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.post-link:hover {
+  background: rgba(243,68,234,0.05);
+}
+.button-funar {
+    background-color: #f344ea;
+    padding: 7px 10px;
+    border: transparent;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.button-funar:hover {
+    background-color: #e130c1;
+}

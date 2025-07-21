@@ -6,7 +6,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm
-from .models import Publication, Profile
+from .models import Publication, Profile, Comment
 from django.http import JsonResponse
 
 # Create your views here.
@@ -122,3 +122,23 @@ def menu_main_view(request):
 def container_view(request):
     publications = Publication.objects.select_related('profile__user').order_by('-created_at')
     return render(request, 'container.html', {'publications': publications})
+
+def publication_detail_view(request, id):
+    publication = Publication.objects.select_related('profile__user').get(id=id)
+    if request.method == 'POST' and request.user.is_authenticated:
+        content = request.POST.get('content')
+        parent_id = request.POST.get('parent')
+        parent = Comment.objects.filter(id=parent_id).first() if parent_id else None
+        if content:
+            Comment.objects.create(
+                publication=publication,
+                user=request.user,
+                content=content,
+                parent=parent
+            )
+            return redirect('funATIAPP:publication_detail', id=id)
+    comments = publication.comments.select_related('user').order_by('created_at')
+    return render(request, 'publication.html', {
+        'publication': publication,
+        'comments': comments
+    })

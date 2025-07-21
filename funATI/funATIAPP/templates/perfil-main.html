@@ -59,6 +59,7 @@
 <!-- Publicaciones del usuario -->
 <div class="publications">
     {% for publication in publications %}
+    <a href="{% url 'funATIAPP:publication_detail' publication.id %}" class="post-link">
     <div class="post">
         <div class="post-header">
             <div class="post-avatar"></div>
@@ -95,6 +96,7 @@
             </button>
         </div>
     </div>
+    </a>
     {% empty %}
         <p>No hay publicaciones aún.</p>
     {% endfor %}

@@ -24,3 +24,13 @@ class Publication(models.Model):
 
     def __str__(self):
         return f"Publication by {self.profile.user.username} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+
+class Comment(models.Model):
+    publication = models.ForeignKey(Publication, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    
+    def __str__(self):
+        return f"Comentario de {self.user.username} en {self.publication.id}"

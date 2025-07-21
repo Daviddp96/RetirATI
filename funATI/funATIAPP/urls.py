@@ -21,6 +21,7 @@ urlpatterns = [
     path('settings/', views.settings_view, name='settings'),
     path('edit-profile/', views.edit_profile_view, name='edit_profile'),
     path('publication/', views.publication_view, name='publication'),
+    path('publication/<int:id>/', views.publication_detail_view, name='publication_detail'),
     path('profile/', views.profile_view, name='profile'),
     path('followers/', views.followers_view, name='followers'),
     path('follows/', views.follows_view, name='follows'),
@@ -28,4 +29,4 @@ urlpatterns = [
     # Componentes auxiliares (para AJAX)
     path('menu-main/', views.menu_main_view, name='menu_main'),
     path('container/', views.container_view, name='container'),
-] 
+]

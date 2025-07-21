@@ -24,8 +24,8 @@
         </div>
         <p class="profile-bio">{{ profile.biography }}</p>
         <div class="seguidos">
-            <a href="{% url 'funATIAPP:followers' %}" class="seguidores">Seguidores</a>
-            <a href="{% url 'funATIAPP:follows' %}" class="seguidores">Seguidos</a>
+            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="seguidores">Seguidores</a>
+            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="seguidores">Seguidos</a>
         </div>
     </div>
     <div class="profile-details container">
@@ -44,12 +44,14 @@
     </div>
 </div>
 <!-- Botón de editar perfil -->
+{% if user.is_authenticated and user.id == profile.user.id %}
 <div class="section_">
     <a href="{% url 'funATIAPP:edit_profile' %}" class="edit-profile">
         <!-- SVG ... -->
         Editar Perfil
     </a>
 </div>
+{% endif %}
 <!-- Barra de navegación de perfil -->
 <div class="profile-nav">
     <button class="profile-nav-btn active">Publicaciones</button>

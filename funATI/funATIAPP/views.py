@@ -181,7 +181,7 @@ def profile_view(request):
     publications = profile.publications.order_by('-created_at')
     return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
 
-def followers_view(request):
+def followers_view(request, profile_id=None):
     # Permite ver los seguidores de cualquier perfil
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
     if profile_id:
@@ -194,7 +194,7 @@ def followers_view(request):
     followers = profile.followers.all()
     return render(request, 'followers.html', {'profile': profile, 'followers': followers})
 
-def follows_view(request):
+def follows_view(request, profile_id=None):
     # Permite ver los seguidos de cualquier perfil y dejar de seguir
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
     if profile_id:

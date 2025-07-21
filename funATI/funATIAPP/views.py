@@ -8,6 +8,8 @@ from django.conf import settings
 from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm
 from .models import Publication, Profile, Comment
 from django.http import JsonResponse
+from random import sample
+from django.db.models import Q
 
 # Create your views here.
 
@@ -72,12 +74,20 @@ def recover_password_view(request):
 
 # Páginas principales de la aplicación
 def muro_view(request):
-    publications = Publication.objects.select_related('profile__user').order_by('-created_at')
+    if not request.user.is_authenticated:
+        return redirect('funATIAPP:login')
+    profile = request.user.profile
+    # IDs de perfiles amigos y seguidos
+    friends_ids = profile.friends.values_list('id', flat=True)
+    following_ids = profile.following.values_list('id', flat=True)
+    # Incluye tus propias publicaciones
+    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
+    publications = Publication.objects.select_related('profile__user').filter(profile_id__in=allowed_profiles).order_by('-created_at')
     if request.method == 'POST':
         form = PublicationForm(request.POST, request.FILES)
         if form.is_valid():
             publication = form.save(commit=False)
-            publication.profile = request.user.profile
+            publication.profile = profile
             publication.save()
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': True})
@@ -93,7 +103,62 @@ def chats_view(request):
     return render(request, 'chats-main.html')
 
 def friends_view(request):
-    return render(request, 'friends.html')
+    if not request.user.is_authenticated:
+        return redirect('funATIAPP:login')
+    profile = request.user.profile
+    if request.method == 'POST':
+        add_friend_id = request.POST.get('add_friend')
+        follow_id = request.POST.get('follow')
+        unfollow_id = request.POST.get('unfollow')
+        remove_friend_id = request.POST.get('remove_friend')
+        if add_friend_id:
+            try:
+                friend_profile = Profile.objects.get(id=add_friend_id)
+                profile.friends.add(friend_profile)
+                friend_profile.friends.add(profile)  # amistad mutua
+            except Profile.DoesNotExist:
+                pass
+        if follow_id:
+            try:
+                follow_profile = Profile.objects.get(id=follow_id)
+                profile.following.add(follow_profile)
+            except Profile.DoesNotExist:
+                pass
+        if unfollow_id:
+            try:
+                unfollow_profile = Profile.objects.get(id=unfollow_id)
+                profile.following.remove(unfollow_profile)
+            except Profile.DoesNotExist:
+                pass
+        if remove_friend_id:
+            try:
+                friend_profile = Profile.objects.get(id=remove_friend_id)
+                profile.friends.remove(friend_profile)
+                friend_profile.friends.remove(profile)  # eliminar mutua
+            except Profile.DoesNotExist:
+                pass
+        return redirect('funATIAPP:friends')
+    all_profiles = Profile.objects.exclude(id=profile.id)
+    friends = profile.friends.all()
+    # Excluir amigos y el propio usuario de las recomendaciones
+    exclude_ids = list(friends.values_list('id', flat=True)) + [profile.id]
+    recommendations_qs = all_profiles.exclude(id__in=exclude_ids)
+    recommendations = list(recommendations_qs)
+    # Si hay menos de 15/4 usuarios, ajustar el sample
+    if not friends:
+        num_recommend = min(15, len(recommendations))
+        recommendations = sample(recommendations, num_recommend) if num_recommend > 0 else []
+        return render(request, 'friends.html', {
+            'friends': [],
+            'recommendations': recommendations
+        })
+    else:
+        num_recommend = min(4, len(recommendations))
+        recommendations = sample(recommendations, num_recommend) if num_recommend > 0 else []
+        return render(request, 'friends.html', {
+            'friends': friends,
+            'recommendations': recommendations
+        })
 
 def settings_view(request):
     return render(request, 'settings.html')
@@ -110,17 +175,55 @@ def profile_view(request):
     return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
 
 def followers_view(request):
-    return render(request, 'followers.html')
+    # Permite ver los seguidores de cualquier perfil
+    profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
+    if profile_id:
+        try:
+            profile = Profile.objects.get(id=profile_id)
+        except Profile.DoesNotExist:
+            profile = request.user.profile
+    else:
+        profile = request.user.profile
+    followers = profile.followers.all()
+    return render(request, 'followers.html', {'profile': profile, 'followers': followers})
 
 def follows_view(request):
-    return render(request, 'follows.html')
+    # Permite ver los seguidos de cualquier perfil y dejar de seguir
+    profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
+    if profile_id:
+        try:
+            profile = Profile.objects.get(id=profile_id)
+        except Profile.DoesNotExist:
+            profile = request.user.profile
+    else:
+        profile = request.user.profile
+
+    if request.method == 'POST' and request.user.is_authenticated:
+        unfollow_id = request.POST.get('unfollow')
+        user_profile = request.user.profile
+        if unfollow_id:
+            try:
+                to_unfollow = Profile.objects.get(id=unfollow_id)
+                user_profile.following.remove(to_unfollow)
+            except Profile.DoesNotExist:
+                pass
+        return redirect(request.path_info)
+
+    following = profile.following.all()
+    return render(request, 'follows.html', {'profile': profile, 'following': following})
 
 # Componentes auxiliares
 def menu_main_view(request):
     return render(request, 'menu-main.html')
 
 def container_view(request):
-    publications = Publication.objects.select_related('profile__user').order_by('-created_at')
+    if not request.user.is_authenticated:
+        return render(request, 'container.html', {'publications': []})
+    profile = request.user.profile
+    friends_ids = profile.friends.values_list('id', flat=True)
+    following_ids = profile.following.values_list('id', flat=True)
+    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
+    publications = Publication.objects.select_related('profile__user').filter(profile_id__in=allowed_profiles).order_by('-created_at')
     return render(request, 'container.html', {'publications': publications})
 
 def publication_detail_view(request, id):

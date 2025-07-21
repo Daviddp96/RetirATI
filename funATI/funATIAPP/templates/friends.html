@@ -10,119 +10,64 @@
 {% endblock %}
 
 {% block content %}
-<!-- Contenedor general -->
 <div class="followers-container">
-    <!-- Lista de seguidores -->
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
+    {% if friends %}
+        <h3 style="margin-bottom: 16px;">Tus amigos</h3>
+        {% for friend in friends %}
+        <div class="follower-item">
+            {% if friend.avatar %}
+                <img src="{{ friend.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
+            {% else %}
+                <span class="profile-pic profile-pic-default"></span>
+            {% endif %}
+            <div class="follower-info">
+                <strong>{{ friend.user.get_full_name|default:friend.user.username }}</strong>
+                <span class="username">@{{ friend.user.username }}</span>
+                <p class="bio">{{ friend.biography|default:'Sin biografía' }}</p>
+            </div>
+            <form method="post" action="" style="display:inline;">
+                {% csrf_token %}
+                <button class="follow-button following amigo-hover-btn" name="remove_friend" value="{{ friend.id }}">Amigos</button>
+            </form>
         </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <!-- Repetición del mismo usuario -->
+        {% endfor %}
+        {% if recommendations %}
+        <h3 style="margin: 32px 0 16px 0;">Quizá te interese</h3>
+        {% endif %}
+    {% else %}
+        <h3 style="margin-bottom: 16px;">Recomendaciones de personas</h3>
+    {% endif %}
+    {% for rec in recommendations %}
     <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
+        {% if rec.avatar %}
+            <img src="{{ rec.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
+        {% else %}
+            <span class="profile-pic profile-pic-default"></span>
+        {% endif %}
         <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
+            <strong>{{ rec.user.get_full_name|default:rec.user.username }}</strong>
+            <span class="username">@{{ rec.user.username }}</span>
+            <p class="bio">{{ rec.biography|default:'Sin biografía' }}</p>
         </div>
-        <button class="follow-button following">Amigos</button>
+        <form method="post" action="" style="display:inline;">
+            {% csrf_token %}
+            <button class="follow-button" name="add_friend" value="{{ rec.id }}">Agregar amigo</button>
+        </form>
+        {% if rec in user.profile.following.all %}
+        <form method="post" action="" style="display:inline;">
+            {% csrf_token %}
+            <button class="follow-button unfollow" name="unfollow" value="{{ rec.id }}">Dejar de seguir</button>
+        </form>
+        {% else %}
+        <form method="post" action="" style="display:inline;">
+            {% csrf_token %}
+            <button class="follow-button" name="follow" value="{{ rec.id }}">Seguir</button>
+        </form>
+        {% endif %}
     </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
-
-    <div class="follower-item">
-        <img src="{% static 'assets/mapia.jpg' %}" alt="Foto de perfil" class="profile-pic" />
-        <div class="follower-info">
-            <strong>Mapia Raula</strong>
-            <span class="username">@mapia</span>
-            <p class="bio">Esta es la biografía uwu</p>
-        </div>
-        <button class="follow-button following">Amigos</button>
-    </div>
+    {% empty %}
+        <p>No hay recomendaciones por ahora.</p>
+    {% endfor %}
 </div>
 {% endblock %}
 

@@ -15,14 +15,16 @@
         <h3 style="margin-bottom: 16px;">Tus amigos</h3>
         {% for friend in friends %}
         <div class="follower-item">
-            {% if friend.avatar %}
-                <img src="{{ friend.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
-            {% else %}
-                <span class="profile-pic profile-pic-default"></span>
-            {% endif %}
+            <a href="{% url 'funATIAPP:profile_detail' friend.id %}">
+                {% if friend.avatar %}
+                    <img src="{{ friend.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
+                {% else %}
+                    <span class="profile-pic profile-pic-default"></span>
+                {% endif %}
+            </a>
             <div class="follower-info">
-                <strong>{{ friend.user.get_full_name|default:friend.user.username }}</strong>
-                <span class="username">@{{ friend.user.username }}</span>
+                <a href="{% url 'funATIAPP:profile_detail' friend.id %}" class="profile-link"><strong>{{ friend.user.get_full_name|default:friend.user.username }}</strong></a>
+                <a href="{% url 'funATIAPP:profile_detail' friend.id %}" class="profile-link"><span class="username">@{{ friend.user.username }}</span></a>
                 <p class="bio">{{ friend.biography|default:'Sin biografía' }}</p>
             </div>
             <form method="post" action="" style="display:inline;">
@@ -39,14 +41,16 @@
     {% endif %}
     {% for rec in recommendations %}
     <div class="follower-item">
-        {% if rec.avatar %}
-            <img src="{{ rec.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
-        {% else %}
-            <span class="profile-pic profile-pic-default"></span>
-        {% endif %}
+        <a href="{% url 'funATIAPP:profile_detail' rec.id %}">
+            {% if rec.avatar %}
+                <img src="{{ rec.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
+            {% else %}
+                <span class="profile-pic profile-pic-default"></span>
+            {% endif %}
+        </a>
         <div class="follower-info">
-            <strong>{{ rec.user.get_full_name|default:rec.user.username }}</strong>
-            <span class="username">@{{ rec.user.username }}</span>
+            <a href="{% url 'funATIAPP:profile_detail' rec.id %}" class="profile-link"><strong>{{ rec.user.get_full_name|default:rec.user.username }}</strong></a>
+            <a href="{% url 'funATIAPP:profile_detail' rec.id %}" class="profile-link"><span class="username">@{{ rec.user.username }}</span></a>
             <p class="bio">{{ rec.biography|default:'Sin biografía' }}</p>
         </div>
         <form method="post" action="" style="display:inline;">

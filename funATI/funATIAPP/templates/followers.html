@@ -26,14 +26,16 @@
 {% if followers %}
     {% for follower in followers %}
     <div class="follower-item">
-        {% if follower.avatar %}
-            <img src="{{ follower.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
-        {% else %}
-            <span class="profile-pic profile-pic-default"></span>
-        {% endif %}
+        <a href="{% url 'funATIAPP:profile_detail' follower.id %}">
+            {% if follower.avatar %}
+                <img src="{{ follower.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
+            {% else %}
+                <span class="profile-pic profile-pic-default"></span>
+            {% endif %}
+        </a>
         <div class="follower-info">
-            <strong>{{ follower.user.get_full_name|default:follower.user.username }}</strong>
-            <span class="username">@{{ follower.user.username }}</span>
+            <a href="{% url 'funATIAPP:profile_detail' follower.id %}" class="profile-link"><strong>{{ follower.user.get_full_name|default:follower.user.username }}</strong></a>
+            <a href="{% url 'funATIAPP:profile_detail' follower.id %}" class="profile-link"><span class="username">@{{ follower.user.username }}</span></a>
             <p class="bio">{{ follower.biography|default:'Sin biografía' }}</p>
         </div>
         {% if follower != user.profile %}

@@ -1,3 +1,10 @@
+def profile_detail_view(request, profile_id):
+    try:
+        profile = Profile.objects.get(id=profile_id)
+    except Profile.DoesNotExist:
+        return redirect('funATIAPP:profile')
+    publications = profile.publications.order_by('-created_at')
+    return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout

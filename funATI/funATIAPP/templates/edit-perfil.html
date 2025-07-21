@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Perfil</title>
-    <link rel="stylesheet" href="edit.css" />
+    <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
   </head>
   <body>
     <!-- Barra lateral -->
@@ -122,8 +123,8 @@ No soy de muchas palabras, pero sí te quedas, te mostraré mi esencia con calma
 
       // Cargar el footer cuando el DOM esté listo
       document.addEventListener("DOMContentLoaded", () => {
-        loadHTML("#menu-main", "menu-main.html");
-        loadHTML("#container-main", "container.html");
+        loadHTML("#menu-main", "{% url 'funATIAPP:menu_main' %}");
+        loadHTML("#container-main", "{% url 'funATIAPP:container' %}");
         // Puedes cargar también un header si tuvieras:
         // loadHTML('#header-placeholder', 'header.html');
       });

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Publicación - FunATI{% endblock %}
+
+{% block page_title %}Publicación{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/follows.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Sección de interacciones -->
+<div id="container-main" class="section_publi"> </div>
+
+<div class="profile-nav responder_publi">
+    <div class="post-avatar"></div>
+    <div class="resp_publi">Responder Publicación</div>
+    <div class="seguidos">
+        <button class="seguidores button_repond">Funar</button>
+    </div>
+</div>
+
+<!-- Contenedor general -->
+<div class="followers-container_">
+    <!-- Lista de seguidores -->
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <!-- Repetición del mismo usuario -->
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+
+    <div class="follower-item">
+        <div class="post-avatar"></div>
+        <div class="follower-info">
+            <div class="flex_">
+                <strong>Mapia Raula</strong>
+                <span class="username">@mapia</span>
+                <span class="username">13s</span>
+            </div>
+            
+            <p class="bio">Nos quieren robar!!! uwu</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Función para cargar un archivo HTML en un elemento
+    function loadHTML(selector, filePath) {
+        fetch(filePath)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector(selector).innerHTML = html;
+            })
+            .catch(error => console.error('Error al cargar el archivo:', error));
+    }
+
+    // Cargar el footer cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHTML('#container-main', '{% url "funATIAPP:container" %}');
+    });
+</script>
+{% endblock %}

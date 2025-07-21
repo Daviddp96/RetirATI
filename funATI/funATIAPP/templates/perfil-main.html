@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perfil - FunATI{% endblock %}
+
+{% block page_title %}Perfil{% endblock %}
+
+{% block content %}
+<!-- Encabezado del perfil -->
+<div class="profile-header">
+    <div class="profile-main container">
+        <div class="profile-heading">
+            <div class="profile-image">
+                <div class="avatar-placeholder"></div>
+            </div>
+
+            <div class="profile-identity">
+                <h1 class="profile-name">Hannah G. Vollidot</h1>
+                <span class="profile-username">@HannGVollidot</span>
+            </div>
+        </div>
+
+        <p class="profile-bio">
+            No soy de muchas palabras, pero si te quedas, te mostraré mi esencia
+            con calma. Yo creo que todavía no es tarde para construir la utopía
+            que nos permitirá compartir la tierra. Yo soy tu gominola.
+        </p>
+
+        <div class="seguidos">
+            <a href="{% url 'funATIAPP:followers' %}" class="seguidores">Seguidores</a>
+            <a href="{% url 'funATIAPP:follows' %}" class="seguidores">Seguidos</a>
+        </div>
+    </div>
+
+    <div class="profile-details container">
+        <div class="detail-section">
+            <div class="detail-item">
+                <span class="detail-icon">✉️</span>
+                <span class="detail-text">hannah@vollidot.com</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">🆔</span>
+                <span class="detail-text">V-6661369</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">📅</span>
+                <span class="detail-text">01 de enero de 1945</span>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-item">
+                <span class="detail-icon">📖</span>
+                <span class="detail-text">Romeo y Julieta, Kamasutra, 50 sombras...</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">🎨</span>
+                <span class="detail-text">Rosado</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">🎵</span>
+                <span class="detail-text">Rock, Pop, Champeta, Duki</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">🎮</span>
+                <span class="detail-text">REPO, Doki Doki Girls</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">💻</span>
+                <span class="detail-text">Haskell, Prolog, y otros lenguajes que nadie usa</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botón de editar perfil -->
+<div class="section_">
+    <a href="{% url 'funATIAPP:edit_profile' %}" class="edit-profile">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+            <path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z"/>
+        </svg>
+        Editar Perfil
+    </a>
+</div>
+
+<!-- Barra de navegación de perfil -->
+<div class="profile-nav">
+    <button class="profile-nav-btn active">Publicaciones</button>
+    <button class="profile-nav-btn">Respuestas</button>
+    <button class="profile-nav-btn">Multimedia</button>
+</div>
+
+<!-- Sección de interacciones -->
+<div id="container-main" class="section"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Función para cargar un archivo HTML en un elemento
+    function loadHTML(selector, filePath) {
+        fetch(filePath)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector(selector).innerHTML = html;
+            })
+            .catch(error => console.error('Error al cargar el archivo:', error));
+    }
+
+    // Cargar el footer cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHTML('#container-main', '{% url "funATIAPP:container" %}');
+    });
+</script>
+{% endblock %}

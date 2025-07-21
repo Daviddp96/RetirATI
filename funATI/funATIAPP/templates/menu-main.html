@@ -1,30 +1,31 @@
+{% load static %}
 <nav class="sidebar">
       <div class="sidebar-logo">FunATI</div>
       <div class="sidebar-nav">
-        <a href="#" class="active">
+        <a href="{% url 'funATIAPP:muro' %}" class="active">
           <span id="icon-sidebar">🏠</span>
           <span>Muro</span>
         </a>
-        <a href="#">
+        <a href="{% url 'funATIAPP:friends' %}">
           <span id="icon-sidebar">👥</span>
           <span>Amigos</span>
         </a>
-        <a href="#">
+        <a href="{% url 'funATIAPP:chats' %}">
           <span id="icon-sidebar">💬</span>
           <span>Chats</span>
         </a>
-        <a href="#">
+        <a href="{% url 'funATIAPP:notifications' %}">
           <span id="icon-sidebar">🔔</span>
           <span>Notificaciones</span>
         </a>
-        <a href="#">
+        <a href="{% url 'funATIAPP:settings' %}">
           <span id="icon-sidebar">⚙️</span>
           <span>Configuración</span>
         </a>
       </div>
 
       <div class="sidebar-footer">
-        <a href="#" class="profile-btn">
+        <a href="{% url 'funATIAPP:profile' %}" class="profile-btn">
           <span class="sidebar-avatar"></span>
           <span class="user-info">
             <span class="user-name">Hannah G. Vollidot</span>

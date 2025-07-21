@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notificaciones - FunATI{% endblock %}
+
+{% block page_title %}Notificaciones{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Contenedor de notificaciones -->
+<div class="notifications-container">
+    <!-- Notificación de nuevo seguidor -->
+    <div class="notification-item">
+    <div class="notification-icon">
+        <img src="{% static 'assets/Follow.png' %}" alt="icono" class="notification-symbol" />
+        <img src="{% static 'assets/rosa.jpg' %}" alt="RM" class="profile-pic" />
+    </div>
+    <div class="notification-content">
+        <strong>Rosa Melano</strong> te sigue uwu
+    </div>
+    </div>
+
+    <div class="notification-item">
+        <div class="notification-icon">
+            <img src="{% static 'assets/Follow.png' %}" alt="icono" class="notification-symbol" />
+            <img src="{% static 'assets/rosa.jpg' %}" alt="RM" class="profile-pic" />
+        </div>
+        <div class="notification-content">
+        <strong>Local Taiwo</strong> respondió:<br />
+        YISON, YIT, DIYANGO
+        </div>
+    </div>
+
+    <div class="notification-item">
+        <div class="notification-icon">
+        <img src="{% static 'assets/Follow.png' %}" alt="usuario" />
+        </div>
+        <div class="notification-content">
+        <strong>Tiger Blanca</strong> te sigue uwu<br />
+        aaaaaaaa
+        </div>
+    </div>
+
+    <div class="notification-item">
+        <div class="notification-icon">
+            <img src="{% static 'assets/Follow.png' %}" alt="icono" class="notification-symbol" />
+            <img src="{% static 'assets/rosa.jpg' %}" alt="RM" class="profile-pic" />
+        </div>
+        <div class="notification-content">
+        <strong>Local Taiwo</strong> respondió:<br />
+        aaaaaaaaaaa
+        </div>
+    </div>
+
+    <div class="notification-item">
+        <div class="notification-icon">
+            <img src="{% static 'assets/Follow.png' %}" alt="icono" class="notification-symbol" />
+            <img src="{% static 'assets/rosa.jpg' %}" alt="RM" class="profile-pic" />
+        </div>
+        <div class="notification-content">
+        <strong>Tiger Blanca</strong> te sigue uwu<br />
+        aaaa
+        </div>
+    </div>
+
+    <div class="notification-item">
+        <div class="notification-icon">
+            <img src="{% static 'assets/Follow.png' %}" alt="icono" class="notification-symbol" />
+            <img src="{% static 'assets/rosa.jpg' %}" alt="RM" class="profile-pic" />
+        </div>
+        <div class="notification-content">
+        <strong>Tiger Blanca</strong> te sigue uwu<br />
+        aaaa
+        </div>
+    </div>
+</div> 
+{% endblock %}

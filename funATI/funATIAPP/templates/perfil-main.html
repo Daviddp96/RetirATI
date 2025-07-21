@@ -11,87 +11,96 @@
     <div class="profile-main container">
         <div class="profile-heading">
             <div class="profile-image">
-                <div class="avatar-placeholder"></div>
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="Avatar" class="avatar-img" />
+                {% else %}
+                    <div class="avatar-placeholder"></div>
+                {% endif %}
             </div>
-
             <div class="profile-identity">
-                <h1 class="profile-name">Hannah G. Vollidot</h1>
-                <span class="profile-username">@HannGVollidot</span>
+                <h1 class="profile-name">{{ profile.user.username }}</h1>
+                <span class="profile-username">@{{ profile.user.username }}</span>
             </div>
         </div>
-
-        <p class="profile-bio">
-            No soy de muchas palabras, pero si te quedas, te mostraré mi esencia
-            con calma. Yo creo que todavía no es tarde para construir la utopía
-            que nos permitirá compartir la tierra. Yo soy tu gominola.
-        </p>
-
+        <p class="profile-bio">{{ profile.biography }}</p>
         <div class="seguidos">
             <a href="{% url 'funATIAPP:followers' %}" class="seguidores">Seguidores</a>
             <a href="{% url 'funATIAPP:follows' %}" class="seguidores">Seguidos</a>
         </div>
     </div>
-
     <div class="profile-details container">
         <div class="detail-section">
-            <div class="detail-item">
-                <span class="detail-icon">✉️</span>
-                <span class="detail-text">hannah@vollidot.com</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-icon">🆔</span>
-                <span class="detail-text">V-6661369</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-icon">📅</span>
-                <span class="detail-text">01 de enero de 1945</span>
-            </div>
+            <div class="detail-item"><span class="detail-icon">✉️</span><span class="detail-text">{{ profile.user.email }}</span></div>
+            <div class="detail-item"><span class="detail-icon">🆔</span><span class="detail-text">{{ profile.national_id }}</span></div>
+            <div class="detail-item"><span class="detail-icon">📅</span><span class="detail-text">{{ profile.birth_date }}</span></div>
         </div>
-
         <div class="detail-section">
-            <div class="detail-item">
-                <span class="detail-icon">📖</span>
-                <span class="detail-text">Romeo y Julieta, Kamasutra, 50 sombras...</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-icon">🎨</span>
-                <span class="detail-text">Rosado</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-icon">🎵</span>
-                <span class="detail-text">Rock, Pop, Champeta, Duki</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-icon">🎮</span>
-                <span class="detail-text">REPO, Doki Doki Girls</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-icon">💻</span>
-                <span class="detail-text">Haskell, Prolog, y otros lenguajes que nadie usa</span>
-            </div>
+            <div class="detail-item"><span class="detail-icon">📖</span><span class="detail-text">{{ profile.favorite_books }}</span></div>
+            <div class="detail-item"><span class="detail-icon">🎨</span><span class="detail-text">{{ profile.favorite_color }}</span></div>
+            <div class="detail-item"><span class="detail-icon">🎵</span><span class="detail-text">{{ profile.favorite_music }}</span></div>
+            <div class="detail-item"><span class="detail-icon">🎮</span><span class="detail-text">{{ profile.favorite_games }}</span></div>
+            <div class="detail-item"><span class="detail-icon">💻</span><span class="detail-text">{{ profile.programming_languages }}</span></div>
         </div>
     </div>
 </div>
-
 <!-- Botón de editar perfil -->
 <div class="section_">
     <a href="{% url 'funATIAPP:edit_profile' %}" class="edit-profile">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
-            <path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z"/>
-        </svg>
+        <!-- SVG ... -->
         Editar Perfil
     </a>
 </div>
-
 <!-- Barra de navegación de perfil -->
 <div class="profile-nav">
     <button class="profile-nav-btn active">Publicaciones</button>
     <button class="profile-nav-btn">Respuestas</button>
     <button class="profile-nav-btn">Multimedia</button>
 </div>
-
-<!-- Sección de interacciones -->
-<div id="container-main" class="section"></div>
+<!-- Publicaciones del usuario -->
+<div class="publications">
+    {% for publication in publications %}
+    <a href="{% url 'funATIAPP:publication_detail' publication.id %}" class="post-link">
+    <div class="post">
+        <div class="post-header">
+            <div class="post-avatar"></div>
+            <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
+            <span class="post-handle">@{{ publication.profile.user.username }}</span>
+            <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
+        </div>
+        <div class="post-content">{{ publication.content }}</div>
+        {% if publication.media %}
+        <div class="post-media-placeholder">
+            <div class="media-preview">
+                <img src="{{ publication.media.url }}" alt="Imagen publicación" class="publication-img" />
+            </div>
+        </div>
+        {% endif %}
+        <div class="post-actions">
+            <button class="post-action">
+              <svg class="action-icon" viewBox="0 0 24 24">
+                <path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l3.5-7 3.5 7H4zm10.5-7l3.5 7h-7l3.5-7z"/>
+              </svg>
+              <span>0</span>
+            </button>
+            <button class="post-action">
+              <svg class="action-icon" viewBox="0 0 24 24">
+                <path d="M10 3h4v18h-4V3zm7 3h4v15h-4V6zM3 6h4v15H3V6z" />
+              </svg>
+              <span>0</span>
+            </button>
+            <button class="post-action">
+              <svg class="action-icon" viewBox="0 0 24 24">
+                <path d="M8 10v12h8V10H8zM4 8h16v4H4V8zm10-6v4h-4V2h4z" />
+              </svg>
+              <span>0</span>
+            </button>
+        </div>
+    </div>
+    </a>
+    {% empty %}
+        <p>No hay publicaciones aún.</p>
+    {% endfor %}
+</div>
 {% endblock %}
 
 {% block extra_js %}

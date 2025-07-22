@@ -21,11 +21,10 @@
     width: 100%;
     padding: 12px 45px 12px 40px;
     border: none;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.8);
+    background: transparent;
     font-size: 16px;
     outline: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #EBEEF0;
 }
 
 .search-bar::placeholder {
@@ -130,18 +129,6 @@
     font-size: 14px;
 }
 
-/* Icons using CSS */
-.search-icon::before {
-    content: "🔍";
-}
-
-.message-icon::before {
-    content: "✉️";
-}
-
-.checkmark::before {
-    content: "✓";
-}
 
 /* Chat Interface Styles */
 .chat {
@@ -269,14 +256,6 @@
 }
 
 /* Icons using CSS */
-.search-icon::before {
-    content: "🔍";
-}
-
-.message-icon::before {
-    content: "✉️";
-}
-
 .checkmark::before {
     content: "✓";
 }
@@ -307,6 +286,10 @@
 
 .chat-messages {
     flex: 1;
+}
+
+.chat-placeholder {
+    text-align: center;
 }
 
 @media (max-width: 768px) {

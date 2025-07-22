@@ -50,3 +50,25 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Mensaje de {self.sender.username} para {self.receiver.username} - {self.timestamp.strftime('%Y-%m-%d %H:%M')}"
+
+class Notification(models.Model):
+    NOTIFICATION_TYPES = [
+        ('follow', 'Follow'),
+        ('friend', 'Friend'),
+        ('comment', 'Comment'),
+    ]
+    
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_notifications')
+    notification_type = models.CharField(max_length=10, choices=NOTIFICATION_TYPES)
+    publication = models.ForeignKey(Publication, on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Notificación para {self.recipient.username} de {self.sender.username} - {self.get_notification_type_display()}"

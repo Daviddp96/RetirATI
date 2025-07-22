@@ -105,7 +105,7 @@ body {
   padding: 20px;
   padding-top: 10px;
   border-right: 1px solid var(--border-color);
-  background-color: var(--light-gray);
+  background-color: white;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -123,6 +123,7 @@ body {
   flex-direction: column;
   flex-grow: 1;
   overflow-y: auto;
+  gap: 8px;
 }
 
 .sidebar-nav a {
@@ -286,6 +287,7 @@ body {
   align-items: center;
   padding: 0 24px;
   box-sizing: border-box;
+  border-bottom: 1px solid #EBEEF0;
 }
 
 .top-bar h1 {
@@ -293,21 +295,21 @@ body {
   font-weight: bold;
 }
 
-      /* Contenido principal */
-      .main-content {
-        padding: 0;
-        width: 100%;
-        height: 100vh;
-        overflow-y: auto;
-        background: #f4c4f3;
-        background: -webkit-linear-gradient(to left, #fc67fa, #f4c4f3);
-        background: linear-gradient(to left, #fc67fa, #f4c4f3);
-      }
+/* Contenido principal */
+.main-content {
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  background: #f4c4f3;
+  background: -webkit-linear-gradient(to left, #fc67fa, #f4c4f3);
+  background: linear-gradient(to left, #fc67fa, #f4c4f3);
+}
 
-      .content-inner {
-        padding: 1rem;
-        padding-top: 1.5rem;
-      }
+.content-inner {
+  padding: 1rem;
+  padding-top: 1.5rem;
+}
 
 /* Encabezado del perfil */
 .profile-header {
@@ -653,7 +655,7 @@ body {
   }
 
   .sidebar-nav {
-    gap: 10px;
+    gap: 12px;
   }
 
   .sidebar-nav a {
@@ -726,25 +728,25 @@ body {
     overflow: hidden;
   }
 
-          .main-content {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: stretch;
-          /* <-- fuerza el contenido arriba y ancho completo */
-          background: white;
-          padding: 0;
-          height: calc(100vh - 60px);
-          overflow-y: auto;
-          flex: 1;
-        }
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    /* <-- fuerza el contenido arriba y ancho completo */
+    background: white;
+    padding: 0;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    flex: 1;
+  }
 
-        .content-inner {
-          padding-left: 1rem;
-          padding-right: 1rem;
-          padding-bottom: 1rem;
-          padding-top: 2rem;
-        }
+  .content-inner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 2rem;
+  }
 
   .profile-nav-btn {
     padding: 12px 0;

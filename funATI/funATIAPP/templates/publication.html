@@ -15,9 +15,11 @@
 <!-- Publicación principal -->
 <div class="post">
     <div class="post-header">
-        <div class="post-avatar"></div>
-        <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
-        <span class="post-handle">@{{ publication.profile.user.username }}</span>
+        <a href="{% url 'funATIAPP:profile_detail' publication.profile.id %}" class="profile-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+            <div class="post-avatar"></div>
+            <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
+            <span class="post-handle">@{{ publication.profile.user.username }}</span>
+        </a>
         <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
     </div>
     <div class="post-content">{{ publication.content }}</div>
@@ -72,8 +74,10 @@
     {% if not comment.parent %}
     <div class="post" style="margin-bottom: 16px;" id="comment-{{ comment.id }}">
         <div class="post-header">
-            <div class="post-avatar"></div>
-            <span class="post-username">{{ comment.user.username }}</span>
+            <a href="{% url 'funATIAPP:profile_detail' comment.user.profile.id %}" class="profile-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+                <div class="post-avatar"></div>
+                <span class="post-username">{{ comment.user.username }}</span>
+            </a>
             <span class="post-time">{{ comment.created_at|timesince }} atrás</span>
         </div>
         <div class="post-content">{{ comment.content }}</div>

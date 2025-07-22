@@ -196,6 +196,7 @@ def get_messages_api(request, friend_id):
     messages_data = [{
         'id': msg.id,
         'content': msg.content,
+        'media_url': msg.media.url if msg.media else None,
         'sender_id': msg.sender.id,
         'sender_username': msg.sender.username,
         'timestamp': msg.timestamp.isoformat(),
@@ -210,25 +211,101 @@ def search_friends_api(request):
         return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     search_query = request.GET.get('q', '')
-    if not search_query:
-        return JsonResponse({'friends': []})
-    
     profile = request.user.profile
-    friends = profile.friends.filter(
-        Q(user__username__icontains=search_query) |
-        Q(user__first_name__icontains=search_query) |
-        Q(user__last_name__icontains=search_query)
-    )
     
-    friends_data = [{
-        'id': friend.id,
-        'username': friend.user.username,
-        'first_name': friend.user.first_name,
-        'last_name': friend.user.last_name,
-        'avatar_url': friend.avatar.url if friend.avatar else None,
-    } for friend in friends]
+    if not search_query:
+        # If no search query, return all friends with their last messages
+        friends = profile.friends.all()
+        friends_data = []
+        for friend in friends:
+            # Get last message between current user and this friend
+            last_message = Message.objects.filter(
+                Q(sender=request.user, receiver=friend.user) |
+                Q(sender=friend.user, receiver=request.user)
+            ).first()
+            
+            friends_data.append({
+                'id': friend.id,
+                'username': friend.user.username,
+                'first_name': friend.user.first_name,
+                'last_name': friend.user.last_name,
+                'avatar_url': friend.avatar.url if friend.avatar else None,
+                'last_message': {
+                    'content': last_message.content[:50] + '...' if last_message and len(last_message.content) > 50 else (last_message.content if last_message else ''),
+                    'timestamp': last_message.timestamp.strftime('%b %d') if last_message else '',
+                    'is_unread': last_message and last_message.sender != request.user and not last_message.is_read if last_message else False
+                } if last_message else None
+            })
+    else:
+        # Filter friends by search query
+        friends = profile.friends.filter(
+            Q(user__username__icontains=search_query) |
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query)
+        )
+        
+        friends_data = [{
+            'id': friend.id,
+            'username': friend.user.username,
+            'first_name': friend.user.first_name,
+            'last_name': friend.user.last_name,
+            'avatar_url': friend.avatar.url if friend.avatar else None,
+        } for friend in friends]
     
     return JsonResponse({'friends': friends_data})
+
+def send_message_api(request):
+    """API endpoint to send a message with optional media"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Not authenticated'}, status=401)
+    
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    try:
+        receiver_id = request.POST.get('receiver_id')
+        content = request.POST.get('content', '')
+        media_file = request.FILES.get('media')
+        
+        if not receiver_id:
+            return JsonResponse({'error': 'Receiver ID is required'}, status=400)
+            
+        if not content and not media_file:
+            return JsonResponse({'error': 'Message content or media is required'}, status=400)
+        
+        try:
+            receiver_profile = Profile.objects.get(id=receiver_id)
+            receiver_user = receiver_profile.user
+        except Profile.DoesNotExist:
+            return JsonResponse({'error': 'Receiver not found'}, status=404)
+        
+        # Check if they are friends
+        if receiver_profile not in request.user.profile.friends.all():
+            return JsonResponse({'error': 'You can only send messages to friends'}, status=403)
+        
+        # Create the message
+        message = Message.objects.create(
+            sender=request.user,
+            receiver=receiver_user,
+            content=content,
+            media=media_file if media_file else None
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': {
+                'id': message.id,
+                'content': message.content,
+                'media_url': message.media.url if message.media else None,
+                'sender_id': message.sender.id,
+                'sender_username': message.sender.username,
+                'timestamp': message.timestamp.isoformat(),
+                'is_sent': True,
+            }
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 def friends_view(request):
     if not request.user.is_authenticated:

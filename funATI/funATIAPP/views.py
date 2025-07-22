@@ -79,6 +79,10 @@ def recover_password_view(request):
         form = RecoverPasswordForm()
     return render(request, 'recoverpassword.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('funATIAPP:index')
+
 # Páginas principales de la aplicación
 def muro_view(request):
     if not request.user.is_authenticated:

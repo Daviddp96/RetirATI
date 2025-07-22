@@ -18,8 +18,10 @@
             <h1>{% block page_title %}FunATI{% endblock %}</h1>
         </div>
         
-        {% block content %}
-        {% endblock %}
+        <div class="content-inner">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
     
     {% block extra_js %}{% endblock %}

@@ -26,8 +26,8 @@ urlpatterns = [
     path('publication/<int:id>/', views.publication_detail_view, name='publication_detail'),
     path('profile/', views.profile_view, name='profile'),
     path('profile/<int:profile_id>/', views.profile_detail_view, name='profile_detail'),
-path('followers/', views.followers_view, name='followers'),
-path('followers/<int:profile_id>/', views.followers_view, name='followers_profile'),
+    path('followers/', views.followers_view, name='followers'),
+    path('followers/<int:profile_id>/', views.followers_view, name='followers_profile'),
     path('follows/', views.follows_view, name='follows'),
     path('follows/<int:profile_id>/', views.follows_view, name='follows_profile'),
     

@@ -30,7 +30,7 @@
                 {% if followed.avatar %}
                     <img src="{{ followed.avatar.url }}" alt="Foto de perfil" class="profile-pic" />
                 {% else %}
-                    <span class="profile-pic profile-pic-default"></span>
+                    <img src="{% static 'assets/user-placeholder.png' %}" alt="Foto de perfil" class="profile-pic" />
                 {% endif %}
             </a>
             <div class="follower-info">

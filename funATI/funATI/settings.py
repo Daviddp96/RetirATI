@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -27,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# To upload media in publication
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 
@@ -123,9 +128,9 @@ STATICFILES_DIRS = [
 # Static files root for production
 STATIC_ROOT = '/app/funATIAPP/funATI/staticfiles/'
 
-# Media files
+# Archivos multimedia
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/app/funATIAPP/funATI/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

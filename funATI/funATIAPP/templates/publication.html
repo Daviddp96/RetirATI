@@ -6,185 +6,105 @@
 {% block page_title %}Publicación{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/muro.css' %}">
 <link rel="stylesheet" href="{% static 'css/follows.css' %}">
 {% endblock %}
 
 {% block content %}
-<!-- Sección de interacciones -->
-<div id="container-main" class="section_publi"> </div>
-
-<div class="profile-nav responder_publi">
-    <div class="post-avatar"></div>
-    <div class="resp_publi">Responder Publicación</div>
-    <div class="seguidos">
-        <button class="seguidores button_repond">Funar</button>
+<!-- Publicación principal -->
+<div class="post">
+    <div class="post-header">
+        <div class="post-avatar"></div>
+        <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
+        <span class="post-handle">@{{ publication.profile.user.username }}</span>
+        <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
+    </div>
+    <div class="post-content">{{ publication.content }}</div>
+    {% if publication.media %}
+    <div class="post-media-placeholder">
+        <div class="media-preview">
+            <img src="{{ publication.media.url }}" alt="Imagen publicación" class="publication-img" />
+        </div>
+    </div>
+    {% endif %}
+    <div class="post-actions">
+        <button class="post-action">
+          <svg class="action-icon" viewBox="0 0 24 24">
+            <path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l3.5-7 3.5 7H4zm10.5-7l3.5 7h-7l3.5-7z"/>
+          </svg>
+          <span>0</span>
+        </button>
+        <button class="post-action">
+          <svg class="action-icon" viewBox="0 0 24 24">
+            <path d="M10 3h4v18h-4V3zm7 3h4v15h-4V6zM3 6h4v15H3V6z" />
+          </svg>
+          <span>0</span>
+        </button>
+        <button class="post-action">
+          <svg class="action-icon" viewBox="0 0 24 24">
+            <path d="M8 10v12h8V10H8zM4 8h16v4H4V8zm10-6v4h-4V2h4z" />
+          </svg>
+          <span>0</span>
+        </button>
     </div>
 </div>
-
-<!-- Contenedor general -->
-<div class="followers-container_">
-    <!-- Lista de seguidores -->
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
+<!-- Sección de comentarios -->
+<div class="comments-section container" style="margin-top: 32px;">
+    <h3 style="margin-bottom: 16px;">Comentarios</h3>
+    {% if user.is_authenticated %}
+    <form method="post" class="funar comment-form" style="margin-bottom: 24px;">
+        {% csrf_token %}
+        <div class="funar-flex">
+            <div class="post-avatar"></div>
+            <span class="span-funar comment-contenteditable" id="comment-content" contenteditable="true">Escribe un comentario...</span>
+            <input type="hidden" name="content" id="hidden-comment-content" />
+            <input type="hidden" name="parent" id="comment-parent-id" value="">
         </div>
-    </div>
-
-    <!-- Repetición del mismo usuario -->
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
+        <div class="buton-flex" style="position: relative; min-height: 50px;">
+            <div style="margin-left: auto;">
+                <button type="submit" class="button-funar" id="funar-btn">Comentar</button>
             </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
         </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
+    </form>
+    {% endif %}
+    {% for comment in comments %}
+    {% if not comment.parent %}
+    <div class="post" style="margin-bottom: 16px;" id="comment-{{ comment.id }}">
+        <div class="post-header">
+            <div class="post-avatar"></div>
+            <span class="post-username">{{ comment.user.username }}</span>
+            <span class="post-time">{{ comment.created_at|timesince }} atrás</span>
         </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
+        <div class="post-content">{{ comment.content }}</div>
+        <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 8px;">
+            <button class="reply-btn button-funar" onclick="showReplyForm('{{ comment.id }}')">Responder</button>
         </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
+        <div class="reply-form-container" id="reply-form-{{ comment.id }}" style="display:none;">
+            <form method="post" class="funar reply-form" style="margin-bottom: 16px;">
+                {% csrf_token %}
+                <div class="funar-flex">
+                    <div class="post-avatar"></div>
+                    <span class="span-funar reply-contenteditable" contenteditable="true">Escribe una respuesta...</span>
+                    <input type="hidden" name="content" class="hidden-reply-content" />
+                    <input type="hidden" name="parent" value="{{ comment.id }}">
+                </div>
+                <div class="buton-flex" style="position: relative; min-height: 50px;">
+                    <div style="margin-left: auto;">
+                        <button type="submit" class="button-funar" id="funar-btn-reply-{{ comment.id }}">Responder</button>
+                    </div>
+                </div>
+            </form>
         </div>
+        {% include "replies_recursive.html" with replies=comment.replies.all parent_margin=32 %}
     </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
-        </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
-        </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
-        </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
-        </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
-        </div>
-    </div>
-
-    <div class="follower-item">
-        <div class="post-avatar"></div>
-        <div class="follower-info">
-            <div class="flex_">
-                <strong>Mapia Raula</strong>
-                <span class="username">@mapia</span>
-                <span class="username">13s</span>
-            </div>
-            
-            <p class="bio">Nos quieren robar!!! uwu</p>
-        </div>
-    </div>
+    {% endif %}
+    {% empty %}
+        <p>No hay comentarios aún.</p>
+    {% endfor %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    // Función para cargar un archivo HTML en un elemento
-    function loadHTML(selector, filePath) {
-        fetch(filePath)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector(selector).innerHTML = html;
-            })
-            .catch(error => console.error('Error al cargar el archivo:', error));
-    }
-
-    // Cargar el footer cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', () => {
-        loadHTML('#container-main', '{% url "funATIAPP:container" %}');
-    });
-</script>
+<script src="{% static 'assets/publication.js' %}"></script>
 {% endblock %}

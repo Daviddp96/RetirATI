@@ -6,46 +6,41 @@
 {% block page_title %}Muro{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 <link rel="stylesheet" href="{% static 'css/muro.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="funar">
+<!-- Formulario de publicación -->
+<form method="post" enctype="multipart/form-data" class="funar" id="funar-form" data-container-url="{% url 'funATIAPP:container' %}">
+    {% csrf_token %}
     <div class="funar-flex">
         <div class="post-avatar"></div>
-        <span class="span-funar">¿A quién quieres Funar?</span>
+        <span class="span-funar" id="funar-content" contenteditable="true">¿A quién quieres Funar?</span>
+        <input type="hidden" name="content" id="hidden-content" />
     </div>
-    <div class="buton-flex">
-        <div class="icon"></div>
-        <div>
-            <button class="button-funar">Funar</button>
+    <div class="buton-flex" style="position: relative; min-height: 50px;">
+        <div class="multimedia-btn-bottom">
+            <label for="media-input">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#F344EA" stroke="#F344EA" stroke-width="0.00016" class="svg-multimedia-bottom">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path fill="#F344EA" d="M13,1 C14.1046,1 15,1.89543 15,3 L15,13 C15,14.1046 14.1046,15 13,15 L3,15 C1.89543,15 1,14.1046 1,13 L1,3 C1,1.89543 1.89543,1 3,1 L13,1 Z M13,3 L3,3 L3,13 L13,13 L13,3 Z M9.5,8 L12,10.8571 L12,12 L4,12 L4,10.8 L5.5,9 L7.02439,10.8293 L9.5,8 Z M6.5,5 C7.32843,5 8,5.67157 8,6.5 C8,7.32843 7.32843,8 6.5,8 C5.67157,8 5,7.32843 5,6.5 C5,5.67157 5.67157,5 6.5,5 Z"></path>
+                    </g>
+                </svg>
+            </label>
+            <input type="file" name="media" id="media-input" class="input-media" />
+        </div>
+        <div style="margin-left: auto;">
+            <button type="submit" class="button-funar" id="funar-btn" disabled>Funar</button>
         </div>
     </div>
-</div>
-
-<!-- Sección de interacciones -->
-<div id="container-main" class="section muro"></div>
-<div id="container-main2" class="section muro"></div>
+</form>
+<!-- Un solo contenedor para publicaciones -->
+<div id="publicaciones" class="section muro"></div>
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    // Función para cargar un archivo HTML en un elemento
-    function loadHTML(selector, filePath) {
-        fetch(filePath)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector(selector).innerHTML = html;
-            })
-            .catch(error => console.error('Error al cargar el archivo:', error));
-    }
-
-    // Cargar el footer cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', () => {
-        loadHTML('#container-main', '{% url "funATIAPP:container" %}');
-        loadHTML('#container-main2', '{% url "funATIAPP:container" %}');
-        // Puedes cargar también un header si tuvieras:
-        // loadHTML('#header-placeholder', 'header.html');
-    });
-</script>
+<script src="{% static 'js/muro.js' %}"></script>
 {% endblock %}

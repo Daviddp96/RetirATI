@@ -15,6 +15,19 @@
         <button type="submit">Registrarse</button>
     </form>
 
+    {% if form.errors %}
+        <div class="error-message">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="login-links">
         <a href="{% url 'funATIAPP:login' %}">¿Ya tienes cuenta? Inicia sesión</a>
     </div>

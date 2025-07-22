@@ -1,8 +1,13 @@
+{% load static %}
 {% for publication in publications %}
 <a href="{% url 'funATIAPP:publication_detail' publication.id %}" class="post-link">
 <div class="post">
     <div class="post-header">
-        <div class="post-avatar"></div>
+        {% if publication.profile.avatar %}
+            <img src="{{ publication.profile.avatar.url }}" alt="{{ publication.profile.user.username }}" class="post-avatar" />
+        {% else %}
+            <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ publication.profile.user.username }}" class="post-avatar" />
+        {% endif %}
         <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
         <span class="post-handle">@{{ publication.profile.user.username }}</span>
         <span class="post-time">{{ publication.created_at|timesince }} atrás</span>

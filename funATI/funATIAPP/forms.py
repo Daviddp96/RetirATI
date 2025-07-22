@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
-from .models import Publication
+from .models import Publication, Profile
 
 class PublicationForm(forms.ModelForm):
     class Meta:
@@ -33,3 +33,97 @@ class LoginForm(AuthenticationForm):
 
 class RecoverPasswordForm(PasswordResetForm):
     email = forms.EmailField(label='Email', max_length=254)
+
+class ProfileEditForm(forms.ModelForm):
+    # User fields
+    first_name = forms.CharField(
+        max_length=30, 
+        required=False, 
+        widget=forms.TextInput(attrs={'class': 'edit-input', 'placeholder': 'Nombre'})
+    )
+    last_name = forms.CharField(
+        max_length=30, 
+        required=False, 
+        widget=forms.TextInput(attrs={'class': 'edit-input', 'placeholder': 'Apellido'})
+    )
+    email = forms.EmailField(
+        required=True, 
+        widget=forms.EmailInput(attrs={'class': 'edit-input', 'placeholder': 'correo@ejemplo.com'})
+    )
+    
+    class Meta:
+        model = Profile
+        fields = [
+            'avatar', 'biography', 'birth_date', 'favorite_color', 
+            'favorite_games', 'national_id', 'favorite_books', 
+            'favorite_music', 'programming_languages'
+        ]
+        widgets = {
+            'avatar': forms.FileInput(attrs={'class': 'avatar-input', 'accept': 'image/*'}),
+            'biography': forms.Textarea(attrs={
+                'class': 'edit-textarea', 
+                'placeholder': 'Cuéntanos sobre ti...', 
+                'maxlength': 130,
+                'rows': 4
+            }),
+            'birth_date': forms.DateInput(attrs={
+                'class': 'date-input', 
+                'type': 'date'
+            }),
+            'favorite_color': forms.TextInput(attrs={
+                'class': 'edit-input', 
+                'placeholder': 'Tu color favorito'
+            }),
+            'favorite_games': forms.TextInput(attrs={
+                'class': 'edit-input', 
+                'placeholder': 'Tus videojuegos favoritos'
+            }),
+            'national_id': forms.TextInput(attrs={
+                'class': 'edit-input', 
+                'placeholder': 'V-12345678'
+            }),
+            'favorite_books': forms.TextInput(attrs={
+                'class': 'edit-input', 
+                'placeholder': 'Tus libros favoritos'
+            }),
+            'favorite_music': forms.TextInput(attrs={
+                'class': 'edit-input', 
+                'placeholder': 'Tu música favorita'
+            }),
+            'programming_languages': forms.TextInput(attrs={
+                'class': 'edit-input', 
+                'placeholder': 'Lenguajes de programación que conoces'
+            }),
+        }
+        
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        
+        if user:
+            # Set initial values for user fields
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name  
+            self.fields['email'].initial = user.email
+            
+            # If we have initial data from instance, make sure user fields are populated
+            if hasattr(self, 'instance') and self.instance:
+                self.initial.update({
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email,
+                })
+            
+    def save(self, commit=True, user=None):
+        profile = super().save(commit=False)
+        
+        if user and commit:
+            # Update user fields
+            user.first_name = self.cleaned_data['first_name']
+            user.last_name = self.cleaned_data['last_name']
+            user.email = self.cleaned_data['email']
+            user.save()
+            
+            profile.save()
+            
+        return profile

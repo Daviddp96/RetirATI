@@ -6,15 +6,15 @@
         </a>
       </div>
       <div class="sidebar-nav">
-        <a href="{% url 'funATIAPP:muro' %}" class="active menu-item">
+        <a href="{% url 'funATIAPP:muro' %}" class="menu-item {% if request.resolver_match.url_name == 'muro' or request.resolver_match.url_name == 'app' %}active{% endif %}">
           <span class="icon-sidebar">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="25" viewBox="0 0 32 25" fill="none">
-              <path d="M32 1.25V6.875H17.2308V0H30.7692C31.0957 3.31515e-06 31.4087 0.131701 31.6395 0.36612C31.8703 0.60054 32 0.91848 32 1.25ZM24.6154 16.25H32V9.375H24.6154V16.25ZM9.84615 16.25H22.1538V9.375H9.84615V16.25ZM7.38462 9.375H0V16.25H7.38462V9.375ZM17.2308 25H30.7692C31.0957 25 31.4087 24.8683 31.6395 24.6339C31.8703 24.3995 32 24.0815 32 23.75V18.75H17.2308V25ZM14.7692 0H1.23077C0.90435 3.31515e-06 0.591301 0.131701 0.360487 0.36612C0.129674 0.60054 3.26414e-06 0.91848 0 1.25V6.875H14.7692V0ZM0 23.75C3.26414e-06 24.0815 0.129674 24.3995 0.360487 24.6339C0.591301 24.8683 0.90435 25 1.23077 25H14.7692V18.75H0V23.75Z" fill="#F344EA"/>
+              <path d="M32 1.25V6.875H17.2308V0H30.7692C31.0957 3.31515e-06 31.4087 0.131701 31.6395 0.36612C31.8703 0.60054 32 0.91848 32 1.25ZM24.6154 16.25H32V9.375H24.6154V16.25ZM9.84615 16.25H22.1538V9.375H9.84615V16.25ZM7.38462 9.375H0V16.25H7.38462V9.375ZM17.2308 25H30.7692C31.0957 25 31.4087 24.8683 31.6395 24.6339C31.8703 24.3995 32 24.0815 32 23.75V18.75H17.2308V25ZM14.7692 0H1.23077C0.90435 3.31515e-06 0.591301 0.131701 0.360487 0.36612C0.129674 0.60054 3.26414e-06 0.91848 0 1.25V6.875H14.7692V0ZM0 23.75C3.26414e-06 24.0815 0.129674 24.3995 0.360487 24.6339C0.591301 24.8683 0.90435 25 1.23077 25H14.7692V18.75H0V23.75Z" fill="currentColor"/>
             </svg>
           </span>
           <span>Muro</span>
         </a>
-        <a href="{% url 'funATIAPP:friends' %}">
+        <a href="{% url 'funATIAPP:friends' %}" class="menu-item {% if request.resolver_match.url_name == 'friends' %}active{% endif %}">
                      <span class="icon-sidebar">
              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="27" viewBox="0 0 32 27" fill="none">
                <path d="M14.3649 9.25271C14.6496 9.06454 14.915 8.88754 15.1561 8.74171C15.7299 8.39496 15.9144 7.64837 15.5665 7.07475C15.2205 6.50087 14.4737 6.31778 13.9002 6.66374C13.6325 6.82522 13.3375 7.02059 13.0224 7.2291C12.0034 7.90469 10.4535 8.9561 9.58381 8.71027C8.9481 8.53062 8.87142 8.09273 8.66219 7.77537C8.21188 6.94437 7.25512 6.39281 6.39057 6.41084C6.39057 6.41084 5.61947 6.41085 4.68009 6.78044C0.447138 8.29001 0.435844 9.29148 0.436372 9.78129C0.436966 10.228 0.446147 10.6596 1.69919 11.3883H0.00402886L0 25.503H10.5719L11.2736 19.0432C11.2736 19.0432 7.76818 18.7849 6.02236 18.5321C3.9249 18.2284 3.55815 16.2949 3.55815 16.2949L2.46659 11.7937C3.09212 12.0983 3.90423 12.4478 4.97637 12.8611C5.11989 12.9162 5.26718 12.9424 5.41228 12.9424C5.90004 12.9424 6.35959 12.6465 6.54571 12.1649C6.78665 11.5388 6.47458 10.8358 5.84892 10.5951C5.18898 10.3408 4.45037 10.0292 3.83871 9.74773C3.94346 9.69945 4.05852 9.64979 4.17192 9.59966L5.86754 10.2733C6.89107 10.6685 7.17699 11.4965 6.87436 12.2834C6.64842 12.8704 5.96648 13.6013 4.76971 13.1287C4.40018 12.9829 4.06743 12.8533 3.75219 12.7233L4.27878 16.145C4.42878 17.1189 5.02663 17.6232 6.06258 17.9023C6.56295 18.1113 11.9865 18.5229 11.9865 18.5229C11.8039 20.6476 11.432 24.134 11.3872 24.5417C11.2656 25.3892 11.8143 26.2009 12.6627 26.3923C12.7853 26.4195 12.908 26.4326 13.0278 26.4326C13.7852 26.4326 14.4682 25.9094 14.6413 25.1398C14.7142 24.8154 15.3505 17.2256 15.3565 17.1499C15.3947 16.6898 15.219 16.1881 14.9075 15.8477C14.5077 15.4105 14.1494 15.0242 9.89026 14.8798L9.31156 11.123C9.4848 11.1491 9.65811 11.1664 9.83175 11.1664C11.4794 11.1664 13.1194 10.0789 14.3649 9.25271Z" fill="currentColor"/>
@@ -25,7 +25,7 @@
            </span>
           <span>Amigos</span>
         </a>
-        <a href="{% url 'funATIAPP:chats' %}">
+        <a href="{% url 'funATIAPP:chats' %}" class="menu-item {% if request.resolver_match.url_name == 'chats' or request.resolver_match.url_name == 'chat_room' %}active{% endif %}">
                      <span class="icon-sidebar">
              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                <path fill-rule="evenodd" clip-rule="evenodd" d="M31.594 15.8715C31.1429 15.1816 30.3853 14.7699 29.5674 14.7699H20.226L21.3639 12.3083H23.8785C24.8392 12.3083 25.7118 11.7329 26.1008 10.8424L29.3286 3.45739C29.6665 2.68566 29.5926 1.80501 29.1323 1.10159C28.6812 0.411712 27.9236 0 27.1058 0H5.65982C4.69916 0 3.82651 0.574796 3.43757 1.4653L0.209721 8.85026C-0.128141 9.62199 -0.0542915 10.5026 0.406038 11.2061C0.857751 11.8959 1.61471 12.3083 2.43259 12.3083H17.5453L16.408 14.7699H8.12148C7.16082 14.7699 6.28816 15.3447 5.89922 16.2352L2.67137 23.6202C2.33351 24.3919 2.40736 25.2726 2.86769 25.976C3.31941 26.6659 4.07636 27.0782 4.89425 27.0782H8.23471L6.21862 31.1104C6.09307 31.3602 6.15215 31.6624 6.36139 31.847C6.47709 31.9492 6.62295 32.0015 6.7688 32.0015C6.88757 32.0015 7.00635 31.967 7.11035 31.8981L14.3402 27.0782H26.3402C27.3008 27.0782 28.1735 26.5028 28.5624 25.6123L31.7903 18.2273C32.1281 17.4556 32.0543 16.5749 31.594 15.8715Z" fill="currentColor"/>
@@ -33,7 +33,7 @@
            </span>
           <span>Chats</span>
         </a>
-        <a href="{% url 'funATIAPP:notifications' %}">
+        <a href="{% url 'funATIAPP:notifications' %}" class="menu-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
                      <span class="icon-sidebar">
              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                <g clip-path="url(#clip0_110_463)">
@@ -48,7 +48,7 @@
            </span>
           <span>Notificaciones</span>
         </a>
-        <a href="{% url 'funATIAPP:settings' %}">
+        <a href="{% url 'funATIAPP:settings' %}" class="menu-item {% if request.resolver_match.url_name == 'settings' or request.resolver_match.url_name == 'edit_profile' %}active{% endif %}">
                      <span class="icon-sidebar">
              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                <g clip-path="url(#clip0_110_467)">
@@ -67,14 +67,28 @@
       </div>
 
       <div class="sidebar-footer">
+        {% if user.is_authenticated %}
         <a href="{% url 'funATIAPP:profile' %}" class="profile-btn">
-          <span class="sidebar-avatar"></span>
+          <span class="sidebar-avatar">
+            {% if user.profile.avatar %}
+              <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="sidebar-avatar-img" />
+            {% else %}
+              <img src="{% static 'assets/user-placeholder.png' %}" alt="Avatar" class="sidebar-avatar-img" />
+            {% endif %}
+          </span>
           <span class="user-info">
-            <span class="user-name">Hannah G. Vollidot</span>
-            <span class="user-username">@HannGVollidot</span>
+            <span class="user-name">
+              {% if user.first_name or user.last_name %}
+                {{ user.first_name }} {{ user.last_name }}
+              {% else %}
+                {{ user.username }}
+              {% endif %}
+            </span>
+            <span class="user-username">@{{ user.username }}</span>
           </span>
         </a>
-        <button class="logout-btn" title="Cerrar sesión">
+        {% endif %}
+        <a href="{% url 'funATIAPP:logout' %}" class="logout-btn" title="Cerrar sesión">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +102,63 @@
               />
             </svg>
           </span>
-        </button>
+        </a>
     </div>
 </nav>
+
+<style>
+  .sidebar-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .sidebar-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e1e8ed;
+    overflow: hidden;
+  }
+
+  /* Estilos para el sistema de enlaces activos */
+  .sidebar .sidebar-nav .menu-item {
+    color: #333 !important; /* Negro por defecto - aplicará a texto e íconos */
+  }
+
+  .sidebar .sidebar-nav .menu-item.active {
+    color: #1DA1F2 !important; /* Azul para texto activo */
+  }
+
+  .sidebar .sidebar-nav .menu-item.active .icon-sidebar {
+    color: #F344EA !important; /* Rosado para ícono activo */
+  }
+
+  /* Estados hover se mantienen iguales */
+  .sidebar .sidebar-nav .menu-item:hover {
+    color: #1DA1F2 !important;
+  }
+
+  /* Estilos para el botón de logout */
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .logout-btn:hover {
+    background-color: rgba(243, 68, 234, 0.1);
+  }
+</style>

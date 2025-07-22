@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm
+from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm, ProfileEditForm
 from .models import Publication, Profile, Comment, Message, Notification
 from django.http import JsonResponse
 from random import sample
@@ -78,6 +78,10 @@ def recover_password_view(request):
     else:
         form = RecoverPasswordForm()
     return render(request, 'recoverpassword.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('funATIAPP:index')
 
 # Páginas principales de la aplicación
 def muro_view(request):
@@ -377,8 +381,20 @@ def friends_view(request):
 def settings_view(request):
     return render(request, 'settings.html')
 
+@login_required
 def edit_profile_view(request):
-    return render(request, 'edit-perfil.html')
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, request.FILES, instance=request.user.profile, user=request.user)
+        if form.is_valid():
+            form.save(user=request.user)
+            return redirect('funATIAPP:profile')
+    else:
+        form = ProfileEditForm(instance=request.user.profile, user=request.user)
+    
+    return render(request, 'edit-perfil.html', {
+        'form': form,
+        'profile': request.user.profile
+    })
 
 def publication_view(request):
     return render(request, 'publication.html')
@@ -428,7 +444,11 @@ def follows_view(request, profile_id=None):
 
 # Componentes auxiliares
 def menu_main_view(request):
-    return render(request, 'menu-main.html')
+    context = {}
+    if request.user.is_authenticated:
+        context['user'] = request.user
+        context['profile'] = request.user.profile
+    return render(request, 'menu-main.html', context)
 
 def container_view(request):
     if not request.user.is_authenticated:

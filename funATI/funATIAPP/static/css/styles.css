@@ -357,6 +357,13 @@ body {
   background-color: #e1e8ed;
 }
 
+.avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .profile-identity {
   display: flex;
   flex-direction: column;
@@ -465,6 +472,7 @@ body {
   border-radius: 50%;
   background-color: #e1e8ed;
   flex-shrink: 0;
+  object-fit: cover;
 }
 
 .post-username {

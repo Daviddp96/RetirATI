@@ -15,7 +15,11 @@
 <form method="post" enctype="multipart/form-data" class="funar" id="funar-form" data-container-url="{% url 'funATIAPP:container' %}">
     {% csrf_token %}
     <div class="funar-flex">
-        <div class="post-avatar"></div>
+        {% if user.is_authenticated and user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
+        {% else %}
+            <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ user.username }}" class="post-avatar" />
+        {% endif %}
         <span class="span-funar" id="funar-content" contenteditable="true">¿A quién quieres Funar?</span>
         <input type="hidden" name="content" id="hidden-content" />
     </div>

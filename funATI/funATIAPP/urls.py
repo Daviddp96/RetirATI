@@ -11,6 +11,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('recover-password/', views.recover_password_view, name='recover_password'),
+    path('logout/', views.logout_view, name='logout'),
     
     # Páginas principales de la aplicación
     path('app/', views.muro_view, name='app'),  # Página principal (muro)

@@ -12,6 +12,8 @@ class Profile(models.Model):
     favorite_books = models.CharField(max_length=200, blank=True, null=True)
     favorite_music = models.CharField(max_length=200, blank=True, null=True)
     programming_languages = models.CharField(max_length=200, blank=True, null=True)
+    friends = models.ManyToManyField('self', symmetrical=True, blank=True, related_name='friends_with')
+    following = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='followers')
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

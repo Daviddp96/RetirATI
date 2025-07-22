@@ -29,7 +29,7 @@
                     {% if item.friend.avatar %}
                         <img src="{{ item.friend.avatar.url }}" alt="{{ item.friend.user.username }}" class="profile-pic">
                     {% else %}
-                        <img src="{% static 'assets/chat-picture.png' %}" alt="{{ item.friend.user.username }}" class="profile-pic">
+                        <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ item.friend.user.username }}" class="profile-pic">
                     {% endif %}
                     <div class="contact-info">
                         <div class="contact-name">{{ item.friend.user.first_name|default:item.friend.user.username }}</div>
@@ -125,7 +125,7 @@ function updateContactsList(friends, searchQuery = '') {
 
     contactsList.innerHTML = friends.map(friend => `
         <li class="contact-item" data-friend-id="${friend.id}" onclick="loadChat(${friend.id})">
-            <img src="${friend.avatar_url || '{% static "assets/chat-picture.png" %}'}" alt="${friend.username}" class="profile-pic">
+            <img src="${friend.avatar_url || '{% static "assets/user-placeholder.png" %}'}" alt="${friend.username}" class="profile-pic">
             <div class="contact-info">
                 <div class="contact-name">${friend.first_name || friend.username}</div>
                 <div class="contact-username">@${friend.username}</div>
@@ -182,12 +182,13 @@ function loadChat(friendId) {
 function displayMessages(messages, friendId) {
     const friend = document.querySelector(`[data-friend-id="${friendId}"] .contact-name`).textContent;
     const username = document.querySelector(`[data-friend-id="${friendId}"] .contact-username`).textContent;
+    const profilePicSrc = document.querySelector(`[data-friend-id="${friendId}"] .profile-pic`).src;
     
     const chatContainer = document.getElementById('chat-container');
     chatContainer.innerHTML = `
         <!-- Chat Header -->
         <div class="chat-header">
-            <img src="{% static 'assets/chat-picture.png' %}" alt="${friend}" class="profile-pic">
+            <img src="${profilePicSrc}" alt="${friend}" class="profile-pic">
             <div class="contact-info">
                 <div class="contact-name">${friend}</div>
                 <div class="contact-username">${username}</div>
@@ -198,7 +199,7 @@ function displayMessages(messages, friendId) {
         <div class="chat-messages" id="chat-messages">
             ${messages.map(msg => `
                 <div class="message ${msg.is_sent ? 'sent' : 'received'}">
-                    ${!msg.is_sent ? `<img src="{% static 'assets/chat-picture.png' %}" alt="${msg.sender_username}" class="profile-pic" style="width: 30px; height: 30px;">` : ''}
+                    ${!msg.is_sent ? `<img src="${profilePicSrc}" alt="${msg.sender_username}" class="profile-pic" style="width: 30px; height: 30px;">` : ''}
                     <div>
                         <div class="message-bubble">
                             ${msg.media_url ? `
@@ -348,10 +349,15 @@ function addMessageToChat(messageData) {
     const currentUserId = {{ user.id }};
     const isSent = messageData.sender_id === currentUserId;
     
+    // Get the profile picture from the current active contact
+    const activeProfilePicSrc = currentFriendId ? 
+        document.querySelector(`[data-friend-id="${currentFriendId}"] .profile-pic`).src : 
+        "{% static 'assets/user-placeholder.png' %}";
+    
     const messageElement = document.createElement('div');
     messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
     messageElement.innerHTML = `
-        ${!isSent ? `<img src="{% static 'assets/chat-picture.png' %}" alt="${messageData.sender_username}" class="profile-pic" style="width: 30px; height: 30px;">` : ''}
+        ${!isSent ? `<img src="${activeProfilePicSrc}" alt="${messageData.sender_username}" class="profile-pic" style="width: 30px; height: 30px;">` : ''}
         <div>
             <div class="message-bubble">
                 ${messageData.media_url ? `

@@ -16,7 +16,11 @@
 <div class="post">
     <div class="post-header">
         <a href="{% url 'funATIAPP:profile_detail' publication.profile.id %}" class="profile-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
-            <div class="post-avatar"></div>
+            {% if publication.profile.avatar %}
+                <img src="{{ publication.profile.avatar.url }}" alt="{{ publication.profile.user.username }}" class="post-avatar" />
+            {% else %}
+                <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ publication.profile.user.username }}" class="post-avatar" />
+            {% endif %}
             <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
             <span class="post-handle">@{{ publication.profile.user.username }}</span>
         </a>
@@ -58,7 +62,11 @@
     <form method="post" class="funar comment-form" style="margin-bottom: 24px;">
         {% csrf_token %}
         <div class="funar-flex">
-            <div class="post-avatar"></div>
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
+            {% else %}
+                <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ user.username }}" class="post-avatar" />
+            {% endif %}
             <span class="span-funar comment-contenteditable" id="comment-content" contenteditable="true">Escribe un comentario...</span>
             <input type="hidden" name="content" id="hidden-comment-content" />
             <input type="hidden" name="parent" id="comment-parent-id" value="">
@@ -75,7 +83,11 @@
     <div class="post" style="margin-bottom: 16px;" id="comment-{{ comment.id }}">
         <div class="post-header">
             <a href="{% url 'funATIAPP:profile_detail' comment.user.profile.id %}" class="profile-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
-                <div class="post-avatar"></div>
+                {% if comment.user.profile.avatar %}
+                    <img src="{{ comment.user.profile.avatar.url }}" alt="{{ comment.user.username }}" class="post-avatar" />
+                {% else %}
+                    <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ comment.user.username }}" class="post-avatar" />
+                {% endif %}
                 <span class="post-username">{{ comment.user.username }}</span>
             </a>
             <span class="post-time">{{ comment.created_at|timesince }} atrás</span>
@@ -88,7 +100,11 @@
             <form method="post" class="funar reply-form" style="margin-bottom: 16px;">
                 {% csrf_token %}
                 <div class="funar-flex">
-                    <div class="post-avatar"></div>
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
+                    {% else %}
+                        <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ user.username }}" class="post-avatar" />
+                    {% endif %}
                     <span class="span-funar reply-contenteditable" contenteditable="true">Escribe una respuesta...</span>
                     <input type="hidden" name="content" class="hidden-reply-content" />
                     <input type="hidden" name="parent" value="{{ comment.id }}">

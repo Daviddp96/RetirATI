@@ -13,7 +13,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm
-from .models import Publication, Profile, Comment, Message
+from .models import Publication, Profile, Comment, Message, Notification
 from django.http import JsonResponse
 from random import sample
 from django.db.models import Q
@@ -104,7 +104,16 @@ def muro_view(request):
     return render(request, 'muro.html', {'form': form, 'publications': publications})
 
 def notifications_view(request):
-    return render(request, 'notifications.html')
+    if not request.user.is_authenticated:
+        return redirect('funATIAPP:login')
+    
+    # Get all notifications for the current user
+    notifications = request.user.notifications.all()[:20]  # Limit to 20 most recent
+    
+    # Mark notifications as read when viewed
+    request.user.notifications.filter(is_read=False).update(is_read=True)
+    
+    return render(request, 'notifications.html', {'notifications': notifications})
 
 def chats_view(request):
     if not request.user.is_authenticated:

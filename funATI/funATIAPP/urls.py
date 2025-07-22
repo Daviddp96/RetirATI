@@ -17,6 +17,7 @@ urlpatterns = [
     path('muro/', views.muro_view, name='muro'),  # Alias para el muro
     path('notifications/', views.notifications_view, name='notifications'),
     path('chats/', views.chats_view, name='chats'),
+    path('chat/<int:friend_id>/', views.chat_room_view, name='chat_room'),
     path('friends/', views.friends_view, name='friends'),
     path('settings/', views.settings_view, name='settings'),
     path('edit-profile/', views.edit_profile_view, name='edit_profile'),
@@ -32,4 +33,8 @@ path('followers/<int:profile_id>/', views.followers_view, name='followers_profil
     # Componentes auxiliares (para AJAX)
     path('menu-main/', views.menu_main_view, name='menu_main'),
     path('container/', views.container_view, name='container'),
+    
+    # APIs para chat
+    path('api/messages/<int:friend_id>/', views.get_messages_api, name='get_messages_api'),
+    path('api/search-friends/', views.search_friends_api, name='search_friends_api'),
 ]

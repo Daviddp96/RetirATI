@@ -13,7 +13,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm
-from .models import Publication, Profile, Comment
+from .models import Publication, Profile, Comment, Message
 from django.http import JsonResponse
 from random import sample
 from django.db.models import Q
@@ -107,7 +107,128 @@ def notifications_view(request):
     return render(request, 'notifications.html')
 
 def chats_view(request):
-    return render(request, 'chats-main.html')
+    if not request.user.is_authenticated:
+        return redirect('funATIAPP:login')
+    
+    profile = request.user.profile
+    friends = profile.friends.all()
+    
+    # Get search query if provided
+    search_query = request.GET.get('search', '')
+    if search_query:
+        friends = friends.filter(
+            Q(user__username__icontains=search_query) |
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query)
+        )
+    
+    # Add recent messages for each friend
+    friends_with_messages = []
+    for friend in friends:
+        # Get last message between current user and this friend
+        last_message = Message.objects.filter(
+            Q(sender=request.user, receiver=friend.user) |
+            Q(sender=friend.user, receiver=request.user)
+        ).first()
+        
+        friends_with_messages.append({
+            'friend': friend,
+            'last_message': last_message
+        })
+    
+    return render(request, 'chats-main.html', {
+        'friends_with_messages': friends_with_messages,
+        'search_query': search_query,
+    })
+
+def chat_room_view(request, friend_id):
+    """View for specific chat room with a friend"""
+    if not request.user.is_authenticated:
+        return redirect('funATIAPP:login')
+    
+    try:
+        friend_profile = Profile.objects.get(id=friend_id)
+        # Check if they are friends
+        if friend_profile not in request.user.profile.friends.all():
+            return redirect('funATIAPP:chats')
+    except Profile.DoesNotExist:
+        return redirect('funATIAPP:chats')
+    
+    # Get chat messages between the two users
+    messages = Message.objects.filter(
+        Q(sender=request.user, receiver=friend_profile.user) |
+        Q(sender=friend_profile.user, receiver=request.user)
+    ).order_by('timestamp')[:50]  # Last 50 messages
+    
+    # Mark messages from friend as read
+    Message.objects.filter(
+        sender=friend_profile.user,
+        receiver=request.user,
+        is_read=False
+    ).update(is_read=True)
+    
+    # Generate room name for WebSocket (consistent naming)
+    room_name = f"{min(request.user.id, friend_profile.user.id)}_{max(request.user.id, friend_profile.user.id)}"
+    
+    return render(request, 'chat-room.html', {
+        'friend': friend_profile,
+        'messages': messages,
+        'room_name': room_name,
+    })
+
+def get_messages_api(request, friend_id):
+    """API endpoint to get messages with a specific friend"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Not authenticated'}, status=401)
+    
+    try:
+        friend_profile = Profile.objects.get(id=friend_id)
+        friend_user = friend_profile.user
+    except Profile.DoesNotExist:
+        return JsonResponse({'error': 'Friend not found'}, status=404)
+    
+    # Get messages
+    messages = Message.objects.filter(
+        Q(sender=request.user, receiver=friend_user) |
+        Q(sender=friend_user, receiver=request.user)
+    ).order_by('timestamp')[:50]
+    
+    messages_data = [{
+        'id': msg.id,
+        'content': msg.content,
+        'sender_id': msg.sender.id,
+        'sender_username': msg.sender.username,
+        'timestamp': msg.timestamp.isoformat(),
+        'is_sent': msg.sender == request.user,
+    } for msg in messages]
+    
+    return JsonResponse({'messages': messages_data})
+
+def search_friends_api(request):
+    """API endpoint to search friends"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Not authenticated'}, status=401)
+    
+    search_query = request.GET.get('q', '')
+    if not search_query:
+        return JsonResponse({'friends': []})
+    
+    profile = request.user.profile
+    friends = profile.friends.filter(
+        Q(user__username__icontains=search_query) |
+        Q(user__first_name__icontains=search_query) |
+        Q(user__last_name__icontains=search_query)
+    )
+    
+    friends_data = [{
+        'id': friend.id,
+        'username': friend.user.username,
+        'first_name': friend.user.first_name,
+        'last_name': friend.user.last_name,
+        'avatar_url': friend.avatar.url if friend.avatar else None,
+    } for friend in friends]
+    
+    return JsonResponse({'friends': friends_data})
 
 def friends_view(request):
     if not request.user.is_authenticated:

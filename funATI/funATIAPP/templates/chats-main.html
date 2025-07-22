@@ -14,170 +14,56 @@
     <div class="container">
         <div class="search-container">
             <div class="search-icon"></div>
-            <input type="text" class="search-bar" placeholder="Buscar personas">
+            <input type="text" class="search-bar" placeholder="Buscar amigos" id="search-friends" value="{{ search_query }}">
             <div class="message-icon"></div>
         </div>
 
-        <ul class="contacts-list">
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Local Taiwo" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name">Local Taiwo</div>
-                    <div class="contact-username">@localtaiwo</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Jan 20</div>
-                    <div class="notification-badge">1</div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Mama saraki" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name">Mama saraki</div>
-                    <div class="contact-username">@mama34567</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Dec 12</div>
-                    <div class="status-indicator checkmark"></div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Omoiyala1" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name">Omoiyala1</div>
-                    <div class="contact-username">@lifeboyancy</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Dec 13</div>
-                    <div class="status-indicator checkmark"></div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Tarashy" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name">Tarashy</div>
-                    <div class="contact-username">@buildingnaija</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Dec 14</div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Designstyles" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name">Designstyles</div>
-                    <div class="contact-username">@designstyles</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Nov 4</div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Omoiyala1" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name"><span class="heart-emoji">😍</span> Omoiyala1 <span class="heart-emoji">😍</span></div>
-                    <div class="contact-username">@lifeboyancy</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Nov 10</div>
-                    <div class="status-indicator checkmark"></div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Omoiyala1" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name"><span class="heart-emoji">😍</span> Omoiyala1 <span class="heart-emoji">😍</span></div>
-                    <div class="contact-username">@lifeboyancy</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Nov 10</div>
-                    <div class="status-indicator checkmark"></div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Ana Lisa M." class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name"><span class="heart-emoji">😍</span> Ana Lisa M. <span class="heart-emoji">😍</span></div>
-                    <div class="contact-username">@MeItrozo</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Nov 10</div>
-                    <div class="status-indicator checkmark"></div>
-                </div>
-            </li>
-
-            <li class="contact-item">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Ana Lisa M." class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name"><span class="heart-emoji">😍</span> Ana Lisa M. <span class="heart-emoji">😍</span></div>
-                    <div class="contact-username">@MeItrozo</div>
-                </div>
-                <div class="contact-meta">
-                    <div class="contact-date">Nov 10</div>
-                    <div class="status-indicator checkmark"></div>
-                </div>
-            </li>
+        <ul class="contacts-list" id="contacts-list">
+            {% if friends_with_messages %}
+                {% for item in friends_with_messages %}
+                <li class="contact-item" data-friend-id="{{ item.friend.id }}" onclick="loadChat({{ item.friend.id }})">
+                    {% if item.friend.avatar %}
+                        <img src="{{ item.friend.avatar.url }}" alt="{{ item.friend.user.username }}" class="profile-pic">
+                    {% else %}
+                        <img src="{% static 'assets/chat-picture.png' %}" alt="{{ item.friend.user.username }}" class="profile-pic">
+                    {% endif %}
+                    <div class="contact-info">
+                        <div class="contact-name">{{ item.friend.user.first_name|default:item.friend.user.username }}</div>
+                        <div class="contact-username">@{{ item.friend.user.username }}</div>
+                    </div>
+                    <div class="contact-meta">
+                        {% if item.last_message %}
+                            <div class="contact-date">{{ item.last_message.timestamp|date:"M d" }}</div>
+                            {% if item.last_message.sender != user and not item.last_message.is_read %}
+                                <div class="notification-badge">1</div>
+                            {% else %}
+                                <div class="status-indicator checkmark"></div>
+                            {% endif %}
+                        {% else %}
+                            <div class="contact-date">Nueva</div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li class="contact-item">
+                    <div class="contact-info" style="text-align: center; width: 100%;">
+                        <div class="contact-name">No tienes amigos aún</div>
+                        <div class="contact-username">
+                            <a href="{% url 'funATIAPP:friends' %}" style="color: #e91e63;">¡Encuentra amigos aquí!</a>
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
         </ul>
     </div>
     <div class="chat">
-        <div class="chat-container">
-            <!-- Chat Header -->
-            <div class="chat-header">
-                <img src="{% static 'assets/chat-picture.png' %}" alt="Mama saraki" class="profile-pic">
-                <div class="contact-info">
-                    <div class="contact-name">Mama saraki</div>
-                    <div class="contact-username">@mama34567</div>
-                </div>
-            </div>
-
-            <!-- Chat Messages -->
-            <div class="chat-messages">
-                <div class="message sent">
-                    <div>
-                        <div class="message-bubble">
-                            ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ZZZZZ
-                        </div>
-                        <div class="message-time">
-                            Tue 7:08 AM <span class="checkmark"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="message received">
-                    <img src="{% static 'assets/chat-picture.png' %}" alt="Mama saraki" class="profile-pic" style="width: 30px; height: 30px;">
-                    <div>
-                        <div class="message-bubble">
-                            Okay
-                        </div>
-                        <div class="message-bubble" style="margin-top: 5px;">
-                            ZZZZZZZZZZZZZZZZZZZZZ
-                        </div>
-                        <div class="message-time">
-                            Tue 7:09 AM
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Message Input -->
-            <div class="message-input-container">
-                <div class="message-input-wrapper">
-                    <div class="input-icons">
-                        <span class="icon-attachment"></span>
-                        <span class="icon-gif"></span>
-                    </div>
-                    <input type="text" class="message-input" placeholder="Comienza tu mensaje">
-                    <div class="input-icons">
-                        <span class="icon-emoji"></span>
-                        <span class="send-button icon-send"></span>
-                    </div>
+        <div class="chat-container" id="chat-container">
+            <!-- Initial message when no chat is selected -->
+            <div class="chat-placeholder" id="chat-placeholder">
+                <div style="text-align: center; padding: 50px; color: #9ca3af;">
+                    <h3>Selecciona un amigo para comenzar a chatear</h3>
+                    <p>Haz clic en cualquier contacto de la lista para iniciar una conversación</p>
                 </div>
             </div>
         </div>
@@ -187,19 +73,230 @@
 
 {% block extra_js %}
 <script>
-    // Función para cargar un archivo HTML en un elemento
-    function loadHTML(selector, filePath) {
-        fetch(filePath)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector(selector).innerHTML = html;
-            })
-            .catch(error => console.error('Error al cargar el archivo:', error));
+let currentSocket = null;
+let currentFriendId = null;
+
+// Search functionality
+document.getElementById('search-friends').addEventListener('input', function() {
+    const searchQuery = this.value;
+    if (searchQuery.length >= 2 || searchQuery.length === 0) {
+        searchFriends(searchQuery);
+    }
+});
+
+function searchFriends(query) {
+    const url = `{% url 'funATIAPP:search_friends_api' %}?q=${encodeURIComponent(query)}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            updateContactsList(data.friends);
+        })
+        .catch(error => console.error('Error searching friends:', error));
+}
+
+function updateContactsList(friends) {
+    const contactsList = document.getElementById('contacts-list');
+    if (friends.length === 0) {
+        contactsList.innerHTML = `
+            <li class="contact-item">
+                <div class="contact-info" style="text-align: center; width: 100%;">
+                    <div class="contact-name">No se encontraron amigos</div>
+                </div>
+            </li>
+        `;
+        return;
     }
 
-    // Cargar el footer cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', () => {
-        loadHTML('#container-main', '{% url "funATIAPP:container" %}');
+    contactsList.innerHTML = friends.map(friend => `
+        <li class="contact-item" data-friend-id="${friend.id}" onclick="loadChat(${friend.id})">
+            <img src="${friend.avatar_url || '{% static "assets/chat-picture.png" %}'}" alt="${friend.username}" class="profile-pic">
+            <div class="contact-info">
+                <div class="contact-name">${friend.first_name || friend.username}</div>
+                <div class="contact-username">@${friend.username}</div>
+            </div>
+            <div class="contact-meta">
+                <div class="contact-date">Activo</div>
+            </div>
+        </li>
+    `).join('');
+}
+
+function loadChat(friendId) {
+    if (currentSocket) {
+        currentSocket.close();
+    }
+    
+    currentFriendId = friendId;
+    
+    // Update active contact
+    document.querySelectorAll('.contact-item').forEach(item => {
+        item.classList.remove('active');
     });
+    document.querySelector(`[data-friend-id="${friendId}"]`).classList.add('active');
+    
+    // Load chat messages
+    fetch(`{% url 'funATIAPP:get_messages_api' friend_id=0 %}`.replace('0', friendId))
+        .then(response => response.json())
+        .then(data => {
+            displayMessages(data.messages, friendId);
+            connectWebSocket(friendId);
+        })
+        .catch(error => console.error('Error loading chat:', error));
+}
+
+function displayMessages(messages, friendId) {
+    const friend = document.querySelector(`[data-friend-id="${friendId}"] .contact-name`).textContent;
+    const username = document.querySelector(`[data-friend-id="${friendId}"] .contact-username`).textContent;
+    
+    const chatContainer = document.getElementById('chat-container');
+    chatContainer.innerHTML = `
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <img src="{% static 'assets/chat-picture.png' %}" alt="${friend}" class="profile-pic">
+            <div class="contact-info">
+                <div class="contact-name">${friend}</div>
+                <div class="contact-username">${username}</div>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chat-messages">
+            ${messages.map(msg => `
+                <div class="message ${msg.is_sent ? 'sent' : 'received'}">
+                    ${!msg.is_sent ? `<img src="{% static 'assets/chat-picture.png' %}" alt="${msg.sender_username}" class="profile-pic" style="width: 30px; height: 30px;">` : ''}
+                    <div>
+                        <div class="message-bubble">
+                            ${msg.content}
+                        </div>
+                        <div class="message-time">
+                            ${formatTimestamp(msg.timestamp)} ${msg.is_sent ? '<span class="checkmark"></span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+
+        <!-- Message Input -->
+        <div class="message-input-container">
+            <div class="message-input-wrapper">
+                <div class="input-icons">
+                    <span class="icon-attachment"></span>
+                    <span class="icon-gif"></span>
+                </div>
+                <input type="text" class="message-input" id="message-input" placeholder="Comienza tu mensaje">
+                <div class="input-icons">
+                    <span class="icon-emoji"></span>
+                    <span class="send-button icon-send" onclick="sendMessage()"></span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Scroll to bottom
+    const messagesContainer = document.getElementById('chat-messages');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // Add enter key listener
+    document.getElementById('message-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+}
+
+function connectWebSocket(friendId) {
+    const currentUserId = {{ user.id }};
+    const roomName = `${Math.min(currentUserId, friendId)}_${Math.max(currentUserId, friendId)}`;
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const socketUrl = `${wsProtocol}//${window.location.host}/ws/chat/${roomName}/`;
+    
+    currentSocket = new WebSocket(socketUrl);
+    
+    currentSocket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        addMessageToChat(data);
+    };
+    
+    currentSocket.onclose = function() {
+        console.log('WebSocket connection closed');
+    };
+    
+    currentSocket.onerror = function(error) {
+        console.error('WebSocket error:', error);
+    };
+}
+
+function sendMessage() {
+    const messageInput = document.getElementById('message-input');
+    const message = messageInput.value.trim();
+    
+    if (message && currentSocket && currentFriendId) {
+        currentSocket.send(JSON.stringify({
+            'message': message,
+            'receiver_id': currentFriendId
+        }));
+        
+        messageInput.value = '';
+    }
+}
+
+function addMessageToChat(messageData) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const currentUserId = {{ user.id }};
+    const isSent = messageData.sender_id === currentUserId;
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
+    messageElement.innerHTML = `
+        ${!isSent ? `<img src="{% static 'assets/chat-picture.png' %}" alt="${messageData.sender_username}" class="profile-pic" style="width: 30px; height: 30px;">` : ''}
+        <div>
+            <div class="message-bubble">
+                ${messageData.message}
+            </div>
+            <div class="message-time">
+                ${formatTimestamp(messageData.timestamp)} ${isSent ? '<span class="checkmark"></span>' : ''}
+            </div>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function formatTimestamp(isoString) {
+    const date = new Date(isoString);
+    const now = new Date();
+    
+    if (date.toDateString() === now.toDateString()) {
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+        return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+}
+
+// CSS for active contact
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+.contact-item.active {
+    background-color: rgba(233, 30, 99, 0.1);
+    border-left: 3px solid #e91e63;
+}
+
+.contact-item {
+    cursor: pointer;
+}
+
+.contact-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.chat-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+`);
 </script>
 {% endblock %}

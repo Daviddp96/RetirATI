@@ -1,15 +1,15 @@
 .post-content {
-    padding: 0;
+    padding-left: 50px;
     margin-top: 8px;
 }
 
 .post-media-placeholder {
-    padding: 0;
+    padding-left: 50px;
     margin-top: 12px;
 }
 
 .post-actions {
-    padding: 0;
+    padding-left: 50px;
     padding-top: 12px;
     padding-bottom: 8px;
 }
@@ -102,17 +102,17 @@
     }
     
     .post-content {
-        padding: 0;
+        padding-left: 50px;
         margin-top: 8px;
     }
     
     .post-media-placeholder {
-        padding: 0;
+        padding-left: 50px;
         margin-top: 12px;
     }
     
     .post-actions {
-        padding: 0;
+        padding-left: 50px;
         padding-top: 12px;
         flex-direction: column;
         align-items: flex-start;
@@ -124,7 +124,7 @@
     }
     
     .ver-comentarios {
-        padding: 0;
+        padding-left: 50px;
         margin-left: 0;
         align-self: flex-start;
         font-size: 13px;

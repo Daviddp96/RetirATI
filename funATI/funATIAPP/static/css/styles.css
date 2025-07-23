@@ -632,6 +632,7 @@ form .media-preview-img {
   transition: opacity 0.2s;
   margin-top: 8px;
   display: block;
+  padding-left: 50px;
 }
 
 .ver-comentarios:hover {

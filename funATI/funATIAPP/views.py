@@ -541,6 +541,33 @@ def followers_view(request, profile_id=None):
             profile = request.user.profile
     else:
         profile = request.user.profile
+    
+    # Manejar acciones POST de seguir/dejar de seguir
+    if request.method == 'POST' and request.user.is_authenticated:
+        follow_id = request.POST.get('follow')
+        unfollow_id = request.POST.get('unfollow')
+        user_profile = request.user.profile
+        
+        if follow_id:
+            try:
+                follow_profile = Profile.objects.get(id=follow_id)
+                user_profile.following.add(follow_profile)
+            except Profile.DoesNotExist:
+                pass
+        
+        if unfollow_id:
+            try:
+                unfollow_profile = Profile.objects.get(id=unfollow_id)
+                user_profile.following.remove(unfollow_profile)
+            except Profile.DoesNotExist:
+                pass
+        
+        # Redirect para evitar reenvío de formulario
+        redirect_url = request.path_info
+        if profile_id:
+            redirect_url += f'?profile_id={profile_id}'
+        return redirect(redirect_url)
+    
     followers = profile.followers.all()
     return render(request, 'followers.html', {'profile': profile, 'followers': followers})
 
@@ -556,15 +583,29 @@ def follows_view(request, profile_id=None):
         profile = request.user.profile
 
     if request.method == 'POST' and request.user.is_authenticated:
+        follow_id = request.POST.get('follow')
         unfollow_id = request.POST.get('unfollow')
         user_profile = request.user.profile
-        if unfollow_id:
+        
+        if follow_id:
             try:
-                to_unfollow = Profile.objects.get(id=unfollow_id)
-                user_profile.following.remove(to_unfollow)
+                follow_profile = Profile.objects.get(id=follow_id)
+                user_profile.following.add(follow_profile)
             except Profile.DoesNotExist:
                 pass
-        return redirect(request.path_info)
+        
+        if unfollow_id:
+            try:
+                unfollow_profile = Profile.objects.get(id=unfollow_id)
+                user_profile.following.remove(unfollow_profile)
+            except Profile.DoesNotExist:
+                pass
+        
+        # Redirect para evitar reenvío de formulario
+        redirect_url = request.path_info
+        if profile_id:
+            redirect_url += f'?profile_id={profile_id}'
+        return redirect(redirect_url)
 
     following = profile.following.all()
     return render(request, 'follows.html', {'profile': profile, 'following': following})

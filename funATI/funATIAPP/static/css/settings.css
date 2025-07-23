@@ -19,12 +19,12 @@
 
 .header h1 {
     font-size: 28px;
-    color: #333;
+    color: var(--text-primary);
     font-weight: 600;
 }
 
 .settings-container {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--bg-container);
     border-radius: 20px;
     padding: 30px;
 }
@@ -35,7 +35,7 @@
 
 .section h2 {
     font-size: 20px;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 20px;
     font-weight: 600;
 }
@@ -54,7 +54,7 @@
 
 .form-group label {
     font-size: 14px;
-    color: #555;
+    color: var(--text-secondary);
     margin-bottom: 8px;
     font-weight: 500;
 }
@@ -63,9 +63,9 @@
     padding: 14px 16px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--bg-container);
     font-size: 16px;
-    color: #333;
+    color: var(--text-primary);
     appearance: none;
     cursor: pointer;
     min-height: 48px;
@@ -88,7 +88,7 @@
 .notification-text {
     flex: 1;
     font-size: 15px;
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
@@ -158,8 +158,9 @@
     padding: 14px 16px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--bg-container);
     font-size: 16px;
+    color: var(--text-primary);
     min-height: 48px;
 }
 

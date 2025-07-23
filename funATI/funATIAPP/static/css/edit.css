@@ -127,7 +127,7 @@ text-overflow: ellipsis;
 }
 
 .user-username {
-color: #657786;
+color: var(--text-secondary);
 font-size: 14px;
 white-space: nowrap;
 overflow: hidden;
@@ -214,7 +214,7 @@ margin-bottom: 5px;
 }
 
 .profile-edit-username {
-color: #657786;
+color: var(--text-secondary);
 font-size: 16px;
 }
 
@@ -244,7 +244,7 @@ margin-bottom: 15px;
 display: block;
 margin-bottom: 5px;
 font-weight: bold;
-color: #657786;
+color: var(--text-secondary);
 font-size: 14px;
 }
 
@@ -289,7 +289,7 @@ background-color: #e130c1;
 .counter {
 text-align: right;
 font-size: 14px;
-color: #657786;
+color: var(--text-secondary);
 margin-top: 5px;
 }
 
@@ -314,7 +314,7 @@ right: 10px;
 top: 50%;
 transform: translateY(-50%);
 pointer-events: none; 
-color: #657786;
+color: var(--text-secondary);
 }
 
 .edit-field {

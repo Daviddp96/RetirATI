@@ -55,6 +55,7 @@
   --bg-primary: white;
   --bg-sidebar: white;
   --bg-topbar: white;
+  --bg-container: rgba(255, 255, 255, 0.8);
   --text-primary: #333;
   --text-secondary: #657786;
   --border-light: #e1e8ed;
@@ -65,6 +66,7 @@ body.dark-theme {
   --bg-primary: #15202b;
   --bg-sidebar: #192734;
   --bg-topbar: #192734;
+  --bg-container: rgba(25, 39, 52, 0.8);
   --text-primary: white;
   --text-secondary: #8b98a5;
   --border-light: #38444d;
@@ -90,7 +92,7 @@ body {
 .container {
   width: 100%;
 
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-container);
   border-radius: 25px;
   padding: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -199,7 +201,7 @@ body {
 .profile-nav {
   margin: 0px 20px;
   display: flex;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-container);
   border-radius: 25px;
   border-bottom: 1px solid var(--border-color);
 }
@@ -215,7 +217,7 @@ body {
   border: none;
   background: none;
   font-weight: bold;
-  color: #657786;
+  color: var(--text-secondary);
   cursor: pointer;
   position: relative;
   transition: color 0.2s;
@@ -353,7 +355,7 @@ body {
 }
 
 .profile-username {
-  color: #657786;
+  color: var(--text-secondary);
   font-size: 16px;
 }
 
@@ -412,7 +414,7 @@ body {
 
 .stat-label {
   font-size: 14px;
-  color: #657786;
+  color: var(--text-secondary);
 }
 
 /* Sección de detalles */
@@ -472,7 +474,7 @@ body {
 
 .post {
   margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-container);
   border-radius: 25px;
   padding: 20px;
 }
@@ -499,12 +501,12 @@ body {
 }
 
 .post-handle {
-  color: #657786;
+  color: var(--text-secondary);
   margin-right: 10px;
 }
 
 .post-time {
-  color: #657786;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
@@ -567,7 +569,7 @@ body {
   gap: 5px;
   background: none;
   border: none;
-  color: #657786;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 4px;
@@ -596,7 +598,7 @@ body {
   background-color: #e1e8ed;
   align-items: center;
   justify-content: center;
-  color: #657786;
+  color: var(--text-secondary);
   font-size: 14px;
   min-height: 200px;
 }
@@ -623,8 +625,8 @@ body {
 
 
 .followers-container_ {
-  background-color: rgba(255, 255, 255, 0.8);
-  /* fondo blanco translúcido */
+  background-color: var(--bg-container);
+  /* fondo translúcido adaptable al tema */
   padding: 1rem 2rem 1rem 2rem;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

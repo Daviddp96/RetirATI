@@ -8,7 +8,7 @@
 .container {
     width: 100%;
     max-width: 375px;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--bg-container);
     border-radius: 25px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
@@ -155,7 +155,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-container);
     border-radius: 25px 25px 0 0;
     flex-shrink: 0; /* No se encoge */
 }
@@ -169,7 +169,7 @@
 }
 
 .chat-messages {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--bg-container);
     flex: 1;
     padding: 20px;
     overflow-y: auto;
@@ -230,7 +230,7 @@
 .message-input-container {
     padding: 20px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-container);
     border-radius: 0 0 25px 25px;
     flex-shrink: 0; /* No se encoge */
 }
@@ -282,7 +282,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--bg-container);
     border-radius: 25px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);

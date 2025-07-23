@@ -120,6 +120,33 @@
     transition: transform 0.3s;
 }
 
+.toggle-switch.inactive {
+    background-color: #ccc;
+}
+
+.toggle-switch.inactive::before {
+    right: auto;
+    left: 3px;
+}
+
+/* Styles for messages */
+.messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
 .password-row {
     display: grid;
     grid-template-columns: 1fr 1fr;

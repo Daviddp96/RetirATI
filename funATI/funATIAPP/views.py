@@ -5,7 +5,7 @@ def profile_detail_view(request, profile_id):
         return redirect('funATIAPP:profile')
     publications = profile.publications.order_by('-created_at')
     return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -13,10 +13,11 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm, ProfileEditForm
-from .models import Publication, Profile, Comment, Message, Notification
+from .models import Publication, Profile, Comment, Message, Notification, UserSettings
 from django.http import JsonResponse
 from random import sample
 from django.db.models import Q
+from django.contrib import messages
 
 # Create your views here.
 
@@ -378,8 +379,32 @@ def friends_view(request):
             'recommendations': recommendations
         })
 
+@login_required
 def settings_view(request):
-    return render(request, 'settings.html')
+    user_settings = UserSettings.get_user_settings(request.user)
+    
+    if request.method == 'POST':
+        # Procesar el formulario de configuración
+        privacy = request.POST.get('privacy', user_settings.privacy)
+        language = request.POST.get('language', user_settings.language)
+        color_theme = request.POST.get('color', user_settings.color_theme)
+        theme_mode = request.POST.get('theme', user_settings.theme_mode)
+        email_notifications = request.POST.get('notifications') == 'on'
+        
+        # Actualizar configuraciones
+        user_settings.privacy = privacy
+        user_settings.language = language
+        user_settings.color_theme = color_theme
+        user_settings.theme_mode = theme_mode
+        user_settings.email_notifications = email_notifications
+        user_settings.save()
+        
+        messages.success(request, 'Configuración guardada exitosamente.')
+        return redirect('funATIAPP:settings')
+    
+    return render(request, 'settings.html', {
+        'user_settings': user_settings
+    })
 
 @login_required
 def edit_profile_view(request):

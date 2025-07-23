@@ -25,5 +25,30 @@
     </div>
     
     {% block extra_js %}{% endblock %}
+    
+    <!-- Script global para aplicar tema de color -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        {% if user_settings %}
+        const themeColor = '{{ user_settings.color_theme }}';
+        const mainContent = document.querySelector('.main-content');
+        
+        if (mainContent) {
+            switch(themeColor) {
+                case 'azul':
+                    mainContent.style.background = 'linear-gradient(to right, #1DA9EF, #103A7B)';
+                    break;
+                case 'verde':
+                    mainContent.style.background = 'linear-gradient(to right, #32C479, #125B1F)';
+                    break;
+                case 'rosado':
+                default:
+                    mainContent.style.background = 'linear-gradient(to right, #f0c6e0, #dc50c9)';
+                    break;
+            }
+        }
+        {% endif %}
+    });
+    </script>
 </body>
 </html> 

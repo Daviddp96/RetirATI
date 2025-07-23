@@ -10,98 +10,157 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 <div class="settings-container">
-    <div class="section">
-        <h2>Ajustes Generales</h2>
-        <div class="form-row">
-            <div class="form-group">
-                <label>Privacidad</label>
-                <select class="form-control">
-                    <option>Privado</option>
-                    <option>Público</option>
-                    <option>Solo amigos</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Idioma</label>
-                <select class="form-control">
-                    <option>Español</option>
-                    <option>English</option>
-                    <option>Français</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label>Color</label>
-                <select class="form-control">
-                    <option>Rosado</option>
-                    <option>Azul</option>
-                    <option>Verde</option>
-                    <option>Morado</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Tema</label>
-                <select class="form-control">
-                    <option>Modo Claro</option>
-                    <option>Modo Oscuro</option>
-                    <option>Automático</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Notificaciones</h2>
-        <div class="notification-item">
-            <div class="notification-text">
-                Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. Puedes desactivarlos en cualquier momento. Más información en <a href="#">hola@funati.com</a>
-            </div>
-            <div class="toggle-switch" id="notificationToggle"></div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Seguridad</h2>
-        <div class="password-row">
-            <div class="form-group">
-                <label>Contraseña vieja</label>
-                <input type="password" class="password-input" placeholder="Ingresa tu contraseña actual">
-            </div>
-            <div class="form-group">
-                <label>Contraseña nueva</label>
-                <input type="password" class="password-input" placeholder="Ingresa tu nueva contraseña">
-            </div>
-        </div>
+    <form method="post" action="{% url 'funATIAPP:settings' %}">
+        {% csrf_token %}
         
-        <div class="button-group">
-            <div class="button-left">
-                <button class="btn btn-primary">Cambiar contraseña</button>
-                <button class="btn btn-secondary">Cerrar sesión</button>
+        <div class="section">
+            <h2>Ajustes Generales</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Privacidad</label>
+                    <select class="form-control" name="privacy">
+                        <option value="privado" {% if user_settings.privacy == 'privado' %}selected{% endif %}>Privado</option>
+                        <option value="publico" {% if user_settings.privacy == 'publico' %}selected{% endif %}>Público</option>
+                        <option value="solo_amigos" {% if user_settings.privacy == 'solo_amigos' %}selected{% endif %}>Solo amigos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Idioma</label>
+                    <select class="form-control" name="language">
+                        <option value="es" {% if user_settings.language == 'es' %}selected{% endif %}>Español</option>
+                        <option value="en" {% if user_settings.language == 'en' %}selected{% endif %}>English</option>
+                        <option value="fr" {% if user_settings.language == 'fr' %}selected{% endif %}>Français</option>
+                    </select>
+                </div>
             </div>
-            <button class="btn btn-save">Guardar</button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Color</label>
+                    <select class="form-control" name="color" id="colorSelector">
+                        <option value="rosado" {% if user_settings.color_theme == 'rosado' %}selected{% endif %}>Rosado</option>
+                        <option value="azul" {% if user_settings.color_theme == 'azul' %}selected{% endif %}>Azul</option>
+                        <option value="verde" {% if user_settings.color_theme == 'verde' %}selected{% endif %}>Verde</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tema</label>
+                    <select class="form-control" name="theme">
+                        <option value="claro" {% if user_settings.theme_mode == 'claro' %}selected{% endif %}>Modo Claro</option>
+                        <option value="oscuro" {% if user_settings.theme_mode == 'oscuro' %}selected{% endif %}>Modo Oscuro</option>
+                        <option value="automatico" {% if user_settings.theme_mode == 'automatico' %}selected{% endif %}>Automático</option>
+                    </select>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="section">
+            <h2>Notificaciones</h2>
+            <div class="notification-item">
+                <div class="notification-text">
+                    Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. Puedes desactivarlos en cualquier momento. Más información en <a href="#">hola@funati.com</a>
+                </div>
+                <div class="toggle-switch" id="notificationToggle">
+                    <input type="checkbox" name="notifications" id="notifications" {% if user_settings.email_notifications %}checked{% endif %} style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Seguridad</h2>
+            <div class="password-row">
+                <div class="form-group">
+                    <label>Contraseña vieja</label>
+                    <input type="password" class="password-input" name="old_password" placeholder="Ingresa tu contraseña actual">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña nueva</label>
+                    <input type="password" class="password-input" name="new_password" placeholder="Ingresa tu nueva contraseña">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <div class="button-left">
+                    <button type="button" class="btn btn-secondary" onclick="changePassword()">Cambiar contraseña</button>
+                    <a href="{% url 'funATIAPP:logout' %}" class="btn btn-secondary">Cerrar sesión</a>
+                </div>
+                <button type="submit" class="btn btn-save">Guardar</button>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // Función para cargar un archivo HTML en un elemento
-    function loadHTML(selector, filePath) {
-        fetch(filePath)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector(selector).innerHTML = html;
-            })
-            .catch(error => console.error('Error al cargar el archivo:', error));
+// Función para aplicar el color de tema
+function applyThemeColor(color) {
+    const mainContent = document.querySelector('.main-content');
+    switch(color) {
+        case 'azul':
+            mainContent.style.background = 'linear-gradient(to right, #1DA9EF, #103A7B)';
+            break;
+        case 'verde':
+            mainContent.style.background = 'linear-gradient(to right, #32C479, #125B1F)';
+            break;
+        case 'rosado':
+        default:
+            mainContent.style.background = 'linear-gradient(to right, #f0c6e0, #dc50c9)';
+            break;
     }
+}
 
-    // Cargar el footer cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', () => {
-        // Puedes cargar también un header si tuvieras:
-        // loadHTML('#header-placeholder', 'header.html');
+// Función para el toggle de notificaciones
+document.addEventListener('DOMContentLoaded', () => {
+    // Aplicar color de tema actual al cargar la página
+    const currentTheme = '{{ user_settings.color_theme }}';
+    applyThemeColor(currentTheme);
+    
+    const toggleSwitch = document.getElementById('notificationToggle');
+    const checkbox = document.getElementById('notifications');
+    
+    toggleSwitch.addEventListener('click', () => {
+        checkbox.checked = !checkbox.checked;
+        updateToggleAppearance();
     });
+    
+    function updateToggleAppearance() {
+        if (checkbox.checked) {
+            toggleSwitch.classList.remove('inactive');
+        } else {
+            toggleSwitch.classList.add('inactive');
+        }
+    }
+    
+    // Inicializar apariencia
+    updateToggleAppearance();
+    
+    // Cambiar color dinámicamente
+    const colorSelector = document.getElementById('colorSelector');
+    colorSelector.addEventListener('change', (e) => {
+        applyThemeColor(e.target.value);
+    });
+});
+
+function changePassword() {
+    const oldPassword = document.querySelector('input[name="old_password"]').value;
+    const newPassword = document.querySelector('input[name="new_password"]').value;
+    
+    if (!oldPassword || !newPassword) {
+        alert('Por favor, completa ambos campos de contraseña.');
+        return;
+    }
+    
+    // Aquí podrías implementar la lógica de cambio de contraseña
+    alert('Funcionalidad de cambio de contraseña pendiente de implementar.');
+}
 </script>
 {% endblock %}

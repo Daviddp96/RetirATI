@@ -72,3 +72,44 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notificación para {self.recipient.username} de {self.sender.username} - {self.get_notification_type_display()}"
+
+class UserSettings(models.Model):
+    COLOR_CHOICES = [
+        ('rosado', 'Rosado'),
+        ('azul', 'Azul'),
+        ('verde', 'Verde'),
+    ]
+    
+    PRIVACY_CHOICES = [
+        ('privado', 'Privado'),
+        ('publico', 'Público'),
+        ('solo_amigos', 'Solo amigos'),
+    ]
+    
+    LANGUAGE_CHOICES = [
+        ('es', 'Español'),
+        ('en', 'English'),
+        ('fr', 'Français'),
+    ]
+    
+    THEME_CHOICES = [
+        ('claro', 'Modo Claro'),
+        ('oscuro', 'Modo Oscuro'),
+        ('automatico', 'Automático'),
+    ]
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='settings')
+    privacy = models.CharField(max_length=20, choices=PRIVACY_CHOICES, default='publico')
+    language = models.CharField(max_length=10, choices=LANGUAGE_CHOICES, default='es')
+    color_theme = models.CharField(max_length=20, choices=COLOR_CHOICES, default='rosado')
+    theme_mode = models.CharField(max_length=20, choices=THEME_CHOICES, default='claro')
+    email_notifications = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"Configuración de {self.user.username}"
+    
+    @classmethod
+    def get_user_settings(cls, user):
+        """Obtiene o crea las configuraciones del usuario"""
+        settings, created = cls.objects.get_or_create(user=user)
+        return settings

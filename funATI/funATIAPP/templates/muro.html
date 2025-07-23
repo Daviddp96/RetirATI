@@ -32,6 +32,12 @@
                 <input type="hidden" name="content" id="hidden-content" />
             </div>
             
+            <!-- Preview de imagen -->
+            <div class="media-preview-container" id="media-preview-container">
+                <img id="media-preview-img" class="media-preview-img" alt="Preview" />
+                <button type="button" class="media-preview-remove" id="media-preview-remove" onclick="removeMediaPreview()">×</button>
+            </div>
+            
             <!-- Botones en flex -->
             <div class="buton-flex">
                 <div class="multimedia-btn-bottom">
@@ -41,7 +47,7 @@
                             <path d="M6.86799 7.851C7.71961 7.851 8.40999 7.16062 8.40999 6.309C8.40999 5.45738 7.71961 4.767 6.86799 4.767C6.01637 4.767 5.32599 5.45738 5.32599 6.309C5.32599 7.16062 6.01637 7.851 6.86799 7.851Z" fill="#F344EA"/>
                         </svg>
                     </label>
-                    <input type="file" name="media" id="media-input" class="input-media" />
+                    <input type="file" name="media" id="media-input" class="input-media" accept="image/*" />
                 </div>
                 <div class="funar-submit-container">
                     <button type="submit" class="button-funar" id="funar-btn" disabled>Funar</button>

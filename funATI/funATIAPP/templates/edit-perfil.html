@@ -5,9 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Perfil</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
   </head>
-  <body>
+  <body {% if user_settings %}data-theme-mode="{{ user_settings.theme_mode }}" data-color-theme="{{ user_settings.color_theme }}"{% endif %}{% if user_settings and user_settings.theme_mode == 'oscuro' %} class="dark-theme"{% endif %}>
     <!-- Barra lateral -->
     <div id="menu-main"></div>
 
@@ -28,7 +29,7 @@
               {% if profile.avatar %}
                 <img src="{{ profile.avatar.url }}" alt="Avatar" class="avatar-img" id="avatar-preview" />
               {% else %}
-                <div class="avatar-placeholder" id="avatar-preview"></div>
+                <img src="{% static 'assets/user-placeholder.png' %}" alt="Avatar" class="avatar-img" id="avatar-preview" />
               {% endif %}
               <button type="button" class="change-avatar-btn" onclick="document.getElementById('id_avatar').click();" title="Cambiar foto de perfil">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -260,5 +261,8 @@
         padding-right: 40px;
       }
     </style>
+    
+    <!-- JavaScript del tema -->
+    <script src="{% static 'js/theme.js' %}"></script>
   </body>
 </html>

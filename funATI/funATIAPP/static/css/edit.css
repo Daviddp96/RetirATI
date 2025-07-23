@@ -1,12 +1,4 @@
-:root {
-        --primary-color: #f344ea;
-        --text-color: #333;
-        --light-gray: #f5f5f5;
-        --border-color: #e1e8ed;
-        --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
-        --sidebar-width: 250px;
-      }
+/* Las variables CSS se definen en styles.css para mantener consistencia con el tema oscuro */
 
 * {
 margin: 0;
@@ -16,9 +8,9 @@ box-sizing: border-box;
 
 body {
 font-family: var(--font-main);
-color: var(--text-color);
+color: var(--text-primary);
 line-height: 1.5;
-background-color: #fff;
+background-color: var(--bg-primary);
 display: grid;
 grid-template-columns: var(--sidebar-width) 1fr;
 min-height: 100vh;
@@ -31,8 +23,8 @@ top: 0;
 min-height: 100vh;
 width: var(--sidebar-width);
 padding: 20px;
-border-right: 1px solid var(--border-color);
-background-color: var(--light-gray);
+border-right: 1px solid var(--border-light);
+background-color: var(--bg-sidebar);
 display: flex;
 flex-direction: column;
 overflow: hidden;
@@ -60,13 +52,13 @@ gap: 10px;
 padding: 10px;
 border-radius: 20px;
 text-decoration: none;
-color: var(--text-color);
+color: var(--text-primary);
 transition: background-color 0.2s;
 }
 
 .sidebar-nav a:hover,
 .sidebar-nav a:focus {
-background-color: #e1e8ed;
+background-color: var(--border-light);
 outline: none;
 }
 
@@ -94,7 +86,7 @@ min-width: 0;
 padding: 8px 12px;
 border-radius: 20px;
 text-decoration: none;
-color: var(--text-color);
+color: var(--text-primary);
 transition: background-color 0.2s;
 }
 
@@ -102,13 +94,13 @@ transition: background-color 0.2s;
 width: 40px;
 height: 40px;
 border-radius: 50%;
-background-color: #e1e8ed;
+background-color: var(--border-light);
 flex-shrink: 0;
 display: block;
 }
 
 .profile-btn:hover {
-background-color: #e1e8ed;
+background-color: var(--border-light);
 }
 
 .user-info {
@@ -127,7 +119,7 @@ text-overflow: ellipsis;
 }
 
 .user-username {
-color: #657786;
+color: var(--text-secondary);
 font-size: 14px;
 white-space: nowrap;
 overflow: hidden;
@@ -145,16 +137,16 @@ flex-shrink: 0;
 }
 
 .logout-btn:hover {
-background-color: #e1e8ed;
+background-color: var(--border-light);
 }
 
 /* Barra superior */
 .top-bar {
 position: sticky;
 top: 0;
-background-color: white;
+background-color: var(--bg-topbar);
 padding: 15px 20px;
-border-bottom: 1px solid var(--border-color);
+border-bottom: 1px solid var(--border-light);
 z-index: 10;
 }
 
@@ -176,12 +168,12 @@ display: grid;
 grid-template-columns: 1fr 1fr;
 gap: 30px;
 padding: 20px;
-border-bottom: 1px solid var(--border-color);
+border-bottom: 1px solid var(--border-light);
 }
 
 /* Nuevos estilos específicos para editar perfil */
 .edit-profile-container {
-  background-color: white;
+  background-color: var(--bg-container);
   border-radius: 20px;
   padding: 20px;
   margin: 20px;
@@ -199,7 +191,7 @@ margin-bottom: 30px;
 width: 80px;
 height: 80px;
 border-radius: 50%;
-background-color: #e1e8ed;
+background-color: var(--border-light);
 flex-shrink: 0;
 }
 
@@ -214,7 +206,7 @@ margin-bottom: 5px;
 }
 
 .profile-edit-username {
-color: #657786;
+color: var(--text-secondary);
 font-size: 16px;
 }
 
@@ -233,7 +225,7 @@ font-weight: bold;
 font-size: 18px;
 margin-bottom: 15px;
 padding-bottom: 10px;
-border-bottom: 1px solid var(--border-color);
+border-bottom: 1px solid var(--border-light);
 }
 
 .edit-field {
@@ -244,28 +236,32 @@ margin-bottom: 15px;
 display: block;
 margin-bottom: 5px;
 font-weight: bold;
-color: #657786;
+color: var(--text-secondary);
 font-size: 14px;
 }
 
 .edit-input {
 width: 100%;
 padding: 10px;
-border: 1px solid var(--border-color);
+border: 1px solid var(--border-light);
 border-radius: 4px;
 font-family: var(--font-main);
 font-size: 16px;
+background-color: var(--bg-primary);
+color: var(--text-primary);
 }
 
 .edit-textarea {
 width: 100%;
 padding: 10px;
-border: 1px solid var(--border-color);
+border: 1px solid var(--border-light);
 border-radius: 4px;
 font-family: var(--font-main);
 font-size: 16px;
 min-height: 100px;
 resize: vertical;
+background-color: var(--bg-primary);
+color: var(--text-primary);
 }
 
 .save-btn {
@@ -289,7 +285,7 @@ background-color: #e130c1;
 .counter {
 text-align: right;
 font-size: 14px;
-color: #657786;
+color: var(--text-secondary);
 margin-top: 5px;
 }
 
@@ -301,10 +297,12 @@ width: 100%;
 .date-input {
 width: 100%;
 padding: 10px 35px 10px 10px; /* Espacio para el ícono */
-border: 1px solid var(--border-color);
+border: 1px solid var(--border-light);
 border-radius: 4px;
 font-family: var(--font-main);
 font-size: 16px;
+background-color: var(--bg-primary);
+color: var(--text-primary);
 }
 
 /* Estilo para el ícono de calendario */
@@ -314,23 +312,24 @@ right: 10px;
 top: 50%;
 transform: translateY(-50%);
 pointer-events: none; 
-color: #657786;
+color: var(--text-secondary);
 }
 
 .edit-field {
   margin-bottom: 20px;
   padding: 15px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-container);
   border-radius: 10px;
 }
 
 .edit-input, .edit-textarea, .date-input {
   width: 100%;
-  border: 1px solid #1f1d1d;
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-family: var(--font-main);
   font-size: 16px;
-  background-color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .edit-input:focus, .edit-textarea:focus, .date-input:focus {
@@ -443,7 +442,7 @@ body {
     width: 100%;
     flex-direction: row;
     padding: 8px 5px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-light);
     border-right: none;
     z-index: 1000;
 }

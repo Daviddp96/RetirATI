@@ -10,7 +10,7 @@
     
     {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body {% if user_settings %}data-theme-mode="{{ user_settings.theme_mode }}" data-color-theme="{{ user_settings.color_theme }}"{% endif %}{% if user_settings and user_settings.theme_mode == 'oscuro' %} class="dark-theme"{% endif %}>
     {% include 'menu-main.html' %}
     
     <div class="main-content">
@@ -25,5 +25,7 @@
     </div>
     
     {% block extra_js %}{% endblock %}
+    
+    <script src="{% static 'js/theme.js' %}"></script>
 </body>
 </html> 

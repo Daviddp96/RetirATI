@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm, ProfileEditForm
+from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm, ProfileEditForm, ChangePasswordForm
 from .models import Publication, Profile, Comment, Message, Notification, UserSettings
 from django.http import JsonResponse
 from random import sample
@@ -504,3 +504,31 @@ def publication_detail_view(request, id):
         'publication': publication,
         'comments': comments
     })
+
+@login_required
+def change_password_view(request):
+    """View para cambiar la contraseña del usuario mediante AJAX"""
+    if request.method == 'POST':
+        form = ChangePasswordForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            # Re-autenticar al usuario después de cambiar la contraseña
+            from django.contrib.auth import update_session_auth_hash
+            update_session_auth_hash(request, request.user)
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Contraseña cambiada exitosamente.'
+            })
+        else:
+            # Devolver errores de validación
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = error_list[0]  # Tomar solo el primer error por campo
+            
+            return JsonResponse({
+                'success': False,
+                'errors': errors
+            })
+    
+    return JsonResponse({'success': False, 'message': 'Método no permitido.'})

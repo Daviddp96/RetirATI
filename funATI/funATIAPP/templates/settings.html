@@ -150,8 +150,41 @@ function changePassword() {
         return;
     }
     
-    // Aquí podrías implementar la lógica de cambio de contraseña
-    alert('Funcionalidad de cambio de contraseña pendiente de implementar.');
+    // Obtener el token CSRF
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Enviar petición AJAX
+    fetch('{% url "funATIAPP:change_password" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken,
+        },
+        body: `old_password=${encodeURIComponent(oldPassword)}&new_password=${encodeURIComponent(newPassword)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Contraseña cambiada exitosamente.');
+            // Limpiar los campos
+            document.querySelector('input[name="old_password"]').value = '';
+            document.querySelector('input[name="new_password"]').value = '';
+        } else {
+            let errorMessage = 'Error al cambiar la contraseña:\n';
+            if (data.errors) {
+                for (const [field, error] of Object.entries(data.errors)) {
+                    errorMessage += `• ${error}\n`;
+                }
+            } else if (data.message) {
+                errorMessage += data.message;
+            }
+            alert(errorMessage);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error de conexión. Por favor, inténtalo de nuevo.');
+    });
 }
 </script>
 {% endblock %}

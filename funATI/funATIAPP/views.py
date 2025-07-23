@@ -1,24 +1,90 @@
-def profile_detail_view(request, profile_id):
-    try:
-        profile = Profile.objects.get(id=profile_id)
-    except Profile.DoesNotExist:
-        return redirect('funATIAPP:profile')
-    publications = profile.publications.order_by('-created_at')
-    return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm, ProfileEditForm
-from .models import Publication, Profile, Comment, Message, Notification
+from .forms import PublicationForm, RegisterForm, LoginForm, RecoverPasswordForm, ProfileEditForm, ChangePasswordForm
+from .models import Publication, Profile, Comment, Message, Notification, UserSettings
 from django.http import JsonResponse
 from random import sample
 from django.db.models import Q
+from django.contrib import messages
 
 # Create your views here.
+
+def can_view_publications(viewer_user, profile_owner):
+    """
+    Determina si un usuario puede ver las publicaciones de otro usuario
+    basado en la configuración de privacidad del dueño del perfil.
+    
+    Args:
+        viewer_user: Usuario que quiere ver las publicaciones (puede ser None si no está autenticado)
+        profile_owner: Profile del dueño de las publicaciones
+    
+    Returns:
+        bool: True si puede ver las publicaciones, False en caso contrario
+    """
+    # Si es el propio usuario, siempre puede ver sus publicaciones
+    if viewer_user and viewer_user.is_authenticated and viewer_user == profile_owner.user:
+        return True
+    
+    # Obtener configuración de privacidad del dueño del perfil
+    owner_settings = UserSettings.get_user_settings(profile_owner.user)
+    
+    # Si las publicaciones son públicas, cualquiera puede verlas
+    if owner_settings.privacy == 'publico':
+        return True
+    
+    # Si las publicaciones son privadas, solo los amigos pueden verlas
+    if owner_settings.privacy == 'privado':
+        # Si el viewer no está autenticado, no puede ver
+        if not viewer_user or not viewer_user.is_authenticated:
+            return False
+        
+        # Verificar si son amigos
+        return profile_owner in viewer_user.profile.friends.all()
+    
+    # Por defecto, no permitir acceso
+    return False
+
+def get_viewable_publications_for_feed(viewer_user):
+    """
+    Obtiene todas las publicaciones que un usuario puede ver en su feed,
+    respetando las configuraciones de privacidad de cada autor.
+    
+    Args:
+        viewer_user: Usuario autenticado que quiere ver el feed
+    
+    Returns:
+        QuerySet de publicaciones que puede ver
+    """
+    if not viewer_user.is_authenticated:
+        return Publication.objects.none()
+    
+    profile = viewer_user.profile
+    
+    # Obtener IDs de perfiles amigos, seguidos y propios
+    friends_ids = profile.friends.values_list('id', flat=True)
+    following_ids = profile.following.values_list('id', flat=True)
+    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
+    
+    # Obtener todas las publicaciones de estos perfiles
+    all_publications = Publication.objects.select_related('profile__user').filter(
+        profile_id__in=allowed_profiles
+    ).order_by('-created_at')
+    
+    # Filtrar las publicaciones basándose en la privacidad
+    viewable_publications = []
+    for publication in all_publications:
+        if can_view_publications(viewer_user, publication.profile):
+            viewable_publications.append(publication.id)
+    
+    # Retornar las publicaciones filtradas
+    return Publication.objects.select_related('profile__user').filter(
+        id__in=viewable_publications
+    ).order_by('-created_at')
 
 # Página de inicio (landing page)
 def index(request):
@@ -84,21 +150,15 @@ def logout_view(request):
     return redirect('funATIAPP:index')
 
 # Páginas principales de la aplicación
+@login_required
 def muro_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    profile = request.user.profile
-    # IDs de perfiles amigos y seguidos
-    friends_ids = profile.friends.values_list('id', flat=True)
-    following_ids = profile.following.values_list('id', flat=True)
-    # Incluye tus propias publicaciones
-    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
-    publications = Publication.objects.select_related('profile__user').filter(profile_id__in=allowed_profiles).order_by('-created_at')
+    # Obtener publicaciones que respeten la privacidad
+    publications = get_viewable_publications_for_feed(request.user)
     if request.method == 'POST':
         form = PublicationForm(request.POST, request.FILES)
         if form.is_valid():
             publication = form.save(commit=False)
-            publication.profile = profile
+            publication.profile = request.user.profile
             publication.save()
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': True})
@@ -107,10 +167,8 @@ def muro_view(request):
         form = PublicationForm()
     return render(request, 'muro.html', {'form': form, 'publications': publications})
 
+@login_required
 def notifications_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     # Get all notifications for the current user
     notifications = request.user.notifications.all()[:20]  # Limit to 20 most recent
     
@@ -119,10 +177,8 @@ def notifications_view(request):
     
     return render(request, 'notifications.html', {'notifications': notifications})
 
+@login_required
 def chats_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     profile = request.user.profile
     friends = profile.friends.all()
     
@@ -154,11 +210,9 @@ def chats_view(request):
         'search_query': search_query,
     })
 
+@login_required
 def chat_room_view(request, friend_id):
     """View for specific chat room with a friend"""
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     try:
         friend_profile = Profile.objects.get(id=friend_id)
         # Check if they are friends
@@ -189,10 +243,9 @@ def chat_room_view(request, friend_id):
         'room_name': room_name,
     })
 
+@login_required
 def get_messages_api(request, friend_id):
     """API endpoint to get messages with a specific friend"""
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     try:
         friend_profile = Profile.objects.get(id=friend_id)
@@ -218,10 +271,9 @@ def get_messages_api(request, friend_id):
     
     return JsonResponse({'messages': messages_data})
 
+@login_required
 def search_friends_api(request):
     """API endpoint to search friends"""
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     search_query = request.GET.get('q', '')
     profile = request.user.profile
@@ -267,10 +319,9 @@ def search_friends_api(request):
     
     return JsonResponse({'friends': friends_data})
 
+@login_required
 def send_message_api(request):
     """API endpoint to send a message with optional media"""
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
@@ -320,9 +371,8 @@ def send_message_api(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+@login_required
 def friends_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
     profile = request.user.profile
     if request.method == 'POST':
         add_friend_id = request.POST.get('add_friend')
@@ -378,8 +428,32 @@ def friends_view(request):
             'recommendations': recommendations
         })
 
+@login_required
 def settings_view(request):
-    return render(request, 'settings.html')
+    user_settings = UserSettings.get_user_settings(request.user)
+    
+    if request.method == 'POST':
+        # Procesar el formulario de configuración
+        privacy = request.POST.get('privacy', user_settings.privacy)
+        language = request.POST.get('language', user_settings.language)
+        color_theme = request.POST.get('color', user_settings.color_theme)
+        theme_mode = request.POST.get('theme', user_settings.theme_mode)
+        email_notifications = request.POST.get('notifications') == 'on'
+        
+        # Actualizar configuraciones
+        user_settings.privacy = privacy
+        user_settings.language = language
+        user_settings.color_theme = color_theme
+        user_settings.theme_mode = theme_mode
+        user_settings.email_notifications = email_notifications
+        user_settings.save()
+        
+        messages.success(request, 'Configuración guardada exitosamente.')
+        return redirect('funATIAPP:settings')
+    
+    return render(request, 'settings.html', {
+        'user_settings': user_settings
+    })
 
 @login_required
 def edit_profile_view(request):
@@ -396,14 +470,58 @@ def edit_profile_view(request):
         'profile': request.user.profile
     })
 
+@login_required
 def publication_view(request):
     return render(request, 'publication.html')
 
+@login_required
+def profile_detail_view(request, profile_id):
+    try:
+        profile = Profile.objects.get(id=profile_id)
+    except Profile.DoesNotExist:
+        return redirect('funATIAPP:profile')
+    
+    # Verificar si el usuario actual puede ver las publicaciones del perfil
+    can_view = can_view_publications(request.user, profile)
+    if can_view:
+        publications = profile.publications.order_by('-created_at')
+    else:
+        publications = []
+    
+    # Obtener configuración de privacidad del perfil
+    profile_settings = UserSettings.get_user_settings(profile.user)
+    is_own_profile = request.user.is_authenticated and request.user == profile.user
+    
+    context = {
+        'profile': profile,
+        'publications': publications,
+        'can_view_publications': can_view,
+        'profile_privacy': profile_settings.privacy,
+        'is_own_profile': is_own_profile
+    }
+    
+    return render(request, 'perfil-main.html', context)
+
+@login_required
 def profile_view(request):
     profile = request.user.profile
+    # El usuario siempre puede ver sus propias publicaciones
     publications = profile.publications.order_by('-created_at')
-    return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
+    
+    # Obtener configuración de privacidad del perfil
+    profile_settings = UserSettings.get_user_settings(profile.user)
+    
+    context = {
+        'profile': profile,
+        'publications': publications,
+        'can_view_publications': True,  # Siempre puede ver sus propias publicaciones
+        'profile_privacy': profile_settings.privacy,
+        'is_own_profile': True
+    }
+    
+    return render(request, 'perfil-main.html', context)
 
+@login_required
 def followers_view(request, profile_id=None):
     # Permite ver los seguidores de cualquier perfil
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
@@ -414,9 +532,37 @@ def followers_view(request, profile_id=None):
             profile = request.user.profile
     else:
         profile = request.user.profile
+    
+    # Manejar acciones POST de seguir/dejar de seguir
+    if request.method == 'POST' and request.user.is_authenticated:
+        follow_id = request.POST.get('follow')
+        unfollow_id = request.POST.get('unfollow')
+        user_profile = request.user.profile
+        
+        if follow_id:
+            try:
+                follow_profile = Profile.objects.get(id=follow_id)
+                user_profile.following.add(follow_profile)
+            except Profile.DoesNotExist:
+                pass
+        
+        if unfollow_id:
+            try:
+                unfollow_profile = Profile.objects.get(id=unfollow_id)
+                user_profile.following.remove(unfollow_profile)
+            except Profile.DoesNotExist:
+                pass
+        
+        # Redirect para evitar reenvío de formulario
+        redirect_url = request.path_info
+        if profile_id:
+            redirect_url += f'?profile_id={profile_id}'
+        return redirect(redirect_url)
+    
     followers = profile.followers.all()
     return render(request, 'followers.html', {'profile': profile, 'followers': followers})
 
+@login_required
 def follows_view(request, profile_id=None):
     # Permite ver los seguidos de cualquier perfil y dejar de seguir
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
@@ -429,40 +575,52 @@ def follows_view(request, profile_id=None):
         profile = request.user.profile
 
     if request.method == 'POST' and request.user.is_authenticated:
+        follow_id = request.POST.get('follow')
         unfollow_id = request.POST.get('unfollow')
         user_profile = request.user.profile
-        if unfollow_id:
+        
+        if follow_id:
             try:
-                to_unfollow = Profile.objects.get(id=unfollow_id)
-                user_profile.following.remove(to_unfollow)
+                follow_profile = Profile.objects.get(id=follow_id)
+                user_profile.following.add(follow_profile)
             except Profile.DoesNotExist:
                 pass
-        return redirect(request.path_info)
+        
+        if unfollow_id:
+            try:
+                unfollow_profile = Profile.objects.get(id=unfollow_id)
+                user_profile.following.remove(unfollow_profile)
+            except Profile.DoesNotExist:
+                pass
+        
+        # Redirect para evitar reenvío de formulario
+        redirect_url = request.path_info
+        if profile_id:
+            redirect_url += f'?profile_id={profile_id}'
+        return redirect(redirect_url)
 
     following = profile.following.all()
     return render(request, 'follows.html', {'profile': profile, 'following': following})
 
 # Componentes auxiliares
+@login_required
 def menu_main_view(request):
-    context = {}
-    if request.user.is_authenticated:
-        context['user'] = request.user
-        context['profile'] = request.user.profile
+    context = {
+        'user': request.user,
+        'profile': request.user.profile
+    }
     return render(request, 'menu-main.html', context)
 
+@login_required
 def container_view(request):
-    if not request.user.is_authenticated:
-        return render(request, 'container.html', {'publications': []})
-    profile = request.user.profile
-    friends_ids = profile.friends.values_list('id', flat=True)
-    following_ids = profile.following.values_list('id', flat=True)
-    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
-    publications = Publication.objects.select_related('profile__user').filter(profile_id__in=allowed_profiles).order_by('-created_at')
+    # Obtener publicaciones que respeten la privacidad
+    publications = get_viewable_publications_for_feed(request.user)
     return render(request, 'container.html', {'publications': publications})
 
+@login_required
 def publication_detail_view(request, id):
     publication = Publication.objects.select_related('profile__user').get(id=id)
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST':
         content = request.POST.get('content')
         parent_id = request.POST.get('parent')
         parent = Comment.objects.filter(id=parent_id).first() if parent_id else None
@@ -479,3 +637,31 @@ def publication_detail_view(request, id):
         'publication': publication,
         'comments': comments
     })
+
+@login_required
+def change_password_view(request):
+    """View para cambiar la contraseña del usuario mediante AJAX"""
+    if request.method == 'POST':
+        form = ChangePasswordForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            # Re-autenticar al usuario después de cambiar la contraseña
+            from django.contrib.auth import update_session_auth_hash
+            update_session_auth_hash(request, request.user)
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Contraseña cambiada exitosamente.'
+            })
+        else:
+            # Devolver errores de validación
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = error_list[0]  # Tomar solo el primer error por campo
+            
+            return JsonResponse({
+                'success': False,
+                'errors': errors
+            })
+    
+    return JsonResponse({'success': False, 'message': 'Método no permitido.'})

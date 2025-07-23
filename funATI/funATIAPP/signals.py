@@ -3,6 +3,7 @@ from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import Profile, Notification, Comment
+from .utils import send_notification_email
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -17,12 +18,14 @@ def create_follow_notification(sender, instance, action, pk_set, **kwargs):
             followed_profile = Profile.objects.get(pk=profile_id)
             # Don't create notification if user follows themselves
             if instance.user != followed_profile.user:
-                Notification.objects.create(
+                notification = Notification.objects.create(
                     recipient=followed_profile.user,
                     sender=instance.user,
                     notification_type='follow',
                     message=f'{instance.user.username} te está siguiendo'
                 )
+                # Enviar correo de notificación
+                send_notification_email(notification)
 
 @receiver(m2m_changed, sender=Profile.friends.through)
 def create_friend_notification(sender, instance, action, pk_set, **kwargs):
@@ -38,12 +41,14 @@ def create_friend_notification(sender, instance, action, pk_set, **kwargs):
                     sender=instance.user,
                     notification_type='friend'
                 ).exists():
-                    Notification.objects.create(
+                    notification = Notification.objects.create(
                         recipient=friend_profile.user,
                         sender=instance.user,
                         notification_type='friend',
                         message=f'{instance.user.username} es ahora tu amigo'
                     )
+                    # Enviar correo de notificación
+                    send_notification_email(notification)
 
 @receiver(post_save, sender=Comment)
 def create_comment_notification(sender, instance, created, **kwargs):
@@ -52,7 +57,7 @@ def create_comment_notification(sender, instance, created, **kwargs):
         publication_owner = instance.publication.profile.user
         # Don't create notification if user comments on their own publication
         if instance.user != publication_owner:
-            Notification.objects.create(
+            notification = Notification.objects.create(
                 recipient=publication_owner,
                 sender=instance.user,
                 notification_type='comment',
@@ -60,3 +65,5 @@ def create_comment_notification(sender, instance, created, **kwargs):
                 comment=instance,
                 message=f'{instance.user.username} respondió a tu publicación: "{instance.content[:50]}{"..." if len(instance.content) > 50 else ""}"'
             )
+            # Enviar correo de notificación
+            send_notification_email(notification)

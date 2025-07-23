@@ -127,3 +127,46 @@ class ProfileEditForm(forms.ModelForm):
             profile.save()
             
         return profile
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(
+        label='Contraseña actual',
+        widget=forms.PasswordInput(attrs={
+            'class': 'password-input',
+            'placeholder': 'Ingresa tu contraseña actual'
+        })
+    )
+    new_password = forms.CharField(
+        label='Nueva contraseña',
+        min_length=8,
+        widget=forms.PasswordInput(attrs={
+            'class': 'password-input',
+            'placeholder': 'Ingresa tu nueva contraseña'
+        })
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get('old_password')
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError('La contraseña actual no es correcta.')
+        return old_password
+
+    def clean_new_password(self):
+        new_password = self.cleaned_data.get('new_password')
+        old_password = self.cleaned_data.get('old_password')
+        
+        if new_password and old_password and new_password == old_password:
+            raise forms.ValidationError('La nueva contraseña debe ser diferente a la actual.')
+        
+        return new_password
+
+    def save(self):
+        """Cambiar la contraseña del usuario"""
+        new_password = self.cleaned_data['new_password']
+        self.user.set_password(new_password)
+        self.user.save()
+        return self.user

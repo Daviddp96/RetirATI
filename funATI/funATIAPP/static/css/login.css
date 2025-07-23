@@ -47,10 +47,10 @@ body {
   border: none;
   border-radius: 12px;
   font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.8); /* blanco translúcido */
+  background-color: var(--bg-container); /* fondo adaptable al tema */
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
   outline: none;
-  color: #333;
+  color: var(--text-primary);
 }
 
 /* Botón de enviar */

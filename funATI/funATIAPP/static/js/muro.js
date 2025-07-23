@@ -45,6 +45,8 @@ if (funarForm) {
                 document.getElementById('hidden-content').value = '';
                 document.getElementById('media-input').value = '';
                 document.getElementById('funar-btn').disabled = true;
+                // Limpiar preview de imagen
+                removeMediaPreview();
             } else {
                 alert('Error al publicar.');
             }
@@ -72,4 +74,45 @@ document.addEventListener('DOMContentLoaded', () => {
     if (funarForm) {
         loadHTML('#publicaciones', funarForm.getAttribute('data-container-url'));
     }
+
+    // Funcionalidad de preview de imagen
+    const mediaInput = document.getElementById('media-input');
+    const mediaPreviewContainer = document.getElementById('media-preview-container');
+    const mediaPreviewImg = document.getElementById('media-preview-img');
+
+    if (mediaInput && mediaPreviewContainer && mediaPreviewImg) {
+        mediaInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Verificar que sea una imagen
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        mediaPreviewImg.src = e.target.result;
+                        mediaPreviewContainer.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Si no es una imagen, limpiar el preview
+                    removeMediaPreview();
+                }
+            } else {
+                // Si no hay archivo, limpiar el preview
+                removeMediaPreview();
+            }
+        });
+    }
 });
+
+// Función para remover el preview de imagen
+function removeMediaPreview() {
+    const mediaPreviewContainer = document.getElementById('media-preview-container');
+    const mediaInput = document.getElementById('media-input');
+    const mediaPreviewImg = document.getElementById('media-preview-img');
+    
+    if (mediaPreviewContainer && mediaInput && mediaPreviewImg) {
+        mediaPreviewContainer.style.display = 'none';
+        mediaInput.value = '';
+        mediaPreviewImg.src = '';
+    }
+}

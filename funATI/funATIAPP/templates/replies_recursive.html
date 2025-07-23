@@ -1,4 +1,5 @@
 {# replies_recursive.html - template recursivo para respuestas anidadas #}
+{% load static %}
 {% for reply in replies %}
 <div class="post reply" style="margin-left: {{ parent_margin }}px; margin-top: 8px;" id="comment-{{ reply.id }}">
     <div class="post-header">
@@ -20,14 +21,20 @@
         <form method="post" class="funar reply-form" style="margin-bottom: 16px;">
             {% csrf_token %}
             <div class="funar-flex">
-                {% if user.profile.avatar %}
-                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
-                {% else %}
-                    <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ user.username }}" class="post-avatar" />
-                {% endif %}
-                <span class="span-funar reply-contenteditable" contenteditable="true">Escribe una respuesta...</span>
-                <input type="hidden" name="content" class="hidden-reply-content" />
-                <input type="hidden" name="parent" value="{{ reply.id }}">
+                <div class="funar-avatar-column">
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
+                    {% else %}
+                        <img src="{% static 'assets/user-placeholder.png' %}" alt="{{ user.username }}" class="post-avatar" />
+                    {% endif %}
+                </div>
+                <div class="funar-content-column">
+                    <div class="funar-input-container">
+                        <span class="span-funar reply-contenteditable" contenteditable="true">Escribe una respuesta...</span>
+                        <input type="hidden" name="content" class="hidden-reply-content" />
+                        <input type="hidden" name="parent" value="{{ reply.id }}">
+                    </div>
+                </div>
             </div>
             <div class="buton-flex" style="position: relative; min-height: 50px;">
                 <div style="margin-left: auto;">

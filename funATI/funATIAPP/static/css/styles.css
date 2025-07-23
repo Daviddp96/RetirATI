@@ -47,10 +47,27 @@
   --light-gray: #f5f5f5;
   --border-color: #e1e8ed;
   --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-
     /* ...existing code... */
     Helvetica, Arial, sans-serif;
   --sidebar-width: 250px;
+  
+  /* Variables para modo claro (por defecto) */
+  --bg-primary: white;
+  --bg-sidebar: white;
+  --bg-topbar: white;
+  --text-primary: #333;
+  --text-secondary: #657786;
+  --border-light: #e1e8ed;
+}
+
+/* Variables para modo oscuro */
+body.dark-theme {
+  --bg-primary: #15202b;
+  --bg-sidebar: #192734;
+  --bg-topbar: #192734;
+  --text-primary: white;
+  --text-secondary: #8b98a5;
+  --border-light: #38444d;
 }
 
 * {
@@ -61,9 +78,9 @@
 
 body {
   font-family: var(--font-main);
-  color: var(--text-color);
+  color: var(--text-primary);
   line-height: 1.5;
-  background-color: #fff;
+  background-color: var(--bg-primary);
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
   height: 100vh;
@@ -104,8 +121,8 @@ body {
   width: var(--sidebar-width);
   padding: 20px;
   padding-top: 10px;
-  border-right: 1px solid var(--border-color);
-  background-color: white;
+  border-right: 1px solid var(--border-light);
+  background-color: var(--bg-sidebar);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -133,7 +150,7 @@ body {
   padding: 10px;
   border-radius: 20px;
   text-decoration: none;
-  color: var(--text-color);
+  color: var(--text-primary);
   font-weight: bold;
   transition: all 0.2s;
 }
@@ -175,7 +192,7 @@ body {
   padding: 8px 12px;
   border-radius: 20px;
   text-decoration: none;
-  color: var(--text-color);
+  color: var(--text-primary);
   transition: background-color 0.2s;
 }
 
@@ -253,7 +270,7 @@ body {
 }
 
 .user-username {
-  color: #657786;
+  color: var(--text-secondary);
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
@@ -281,18 +298,19 @@ body {
   left: 0;
   width: 100%;
   height: 3rem;
-  background-color: white;
+  background-color: var(--bg-topbar);
   z-index: 1002;
   display: flex;
   align-items: center;
   padding: 0 24px;
   box-sizing: border-box;
-  border-bottom: 1px solid #EBEEF0;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .top-bar h1 {
   font-size: 20px;
   font-weight: bold;
+  color: var(--text-primary);
 }
 
 /* Contenido principal */

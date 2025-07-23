@@ -101,29 +101,8 @@
 
 {% block extra_js %}
 <script>
-// Función para aplicar el color de tema
-function applyThemeColor(color) {
-    const mainContent = document.querySelector('.main-content');
-    switch(color) {
-        case 'azul':
-            mainContent.style.background = 'linear-gradient(to right, #1DA9EF, #103A7B)';
-            break;
-        case 'verde':
-            mainContent.style.background = 'linear-gradient(to right, #32C479, #125B1F)';
-            break;
-        case 'rosado':
-        default:
-            mainContent.style.background = 'linear-gradient(to right, #f0c6e0, #dc50c9)';
-            break;
-    }
-}
-
 // Función para el toggle de notificaciones
 document.addEventListener('DOMContentLoaded', () => {
-    // Aplicar color de tema actual al cargar la página
-    const currentTheme = '{{ user_settings.color_theme }}';
-    applyThemeColor(currentTheme);
-    
     const toggleSwitch = document.getElementById('notificationToggle');
     const checkbox = document.getElementById('notifications');
     
@@ -146,8 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cambiar color dinámicamente
     const colorSelector = document.getElementById('colorSelector');
     colorSelector.addEventListener('change', (e) => {
-        applyThemeColor(e.target.value);
+        if (window.ThemeManager) {
+            window.ThemeManager.applyColorTheme(e.target.value);
+        }
     });
+    
+    // Cambiar tema dinámicamente
+    const themeSelector = document.querySelector('select[name="theme"]');
+    if (themeSelector) {
+        themeSelector.addEventListener('change', (e) => {
+            if (window.ThemeManager) {
+                window.ThemeManager.applyTheme(e.target.value);
+            }
+        });
+    }
 });
 
 function changePassword() {

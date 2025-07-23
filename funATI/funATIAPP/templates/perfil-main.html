@@ -14,7 +14,7 @@
                 {% if profile.avatar %}
                     <img src="{{ profile.avatar.url }}" alt="Avatar" class="avatar-img" />
                 {% else %}
-                    <div class="avatar-placeholder"></div>
+                    <img src="{% static 'assets/user-placeholder.png' %}" alt="Avatar" class="avatar-img" />
                 {% endif %}
             </div>
             <div class="profile-identity">

@@ -1,18 +1,17 @@
-.post {
-    padding: 1rem 48px;
-}
-.post-content{
-    padding: 0px 50px;
-    margin-top: -8px;
-}
-.post-media-placeholder{
-    padding: 0px 50px;
+.post-content {
+    padding: 0;
     margin-top: 8px;
 }
-.post-actions{
-    padding: 0px 50px;
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
+
+.post-media-placeholder {
+    padding: 0;
+    margin-top: 12px;
+}
+
+.post-actions {
+    padding: 0;
+    padding-top: 12px;
+    padding-bottom: 8px;
 }
 .funar{
     background: var(--bg-container);
@@ -97,7 +96,56 @@
     background: rgba(0, 0, 0, 0.9);
 }
 @media (max-width: 600px) {
-    .post{
-        padding: 0px;
+    .post {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .post-content {
+        padding: 0;
+        margin-top: 8px;
+    }
+    
+    .post-media-placeholder {
+        padding: 0;
+        margin-top: 12px;
+    }
+    
+    .post-actions {
+        padding: 0;
+        padding-top: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .post-action {
+        align-self: flex-start;
+    }
+    
+    .ver-comentarios {
+        padding: 0;
+        margin-left: 0;
+        align-self: flex-start;
+        font-size: 13px;
+    }
+    
+    .funar {
+        margin: 15px;
+        padding: 15px;
+    }
+    
+    .funar-avatar-column {
+        flex-shrink: 0;
+    }
+    
+    .funar-content-column {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    .buton-flex {
+        padding-left: 0;
+        padding-top: 8px;
     }
 }

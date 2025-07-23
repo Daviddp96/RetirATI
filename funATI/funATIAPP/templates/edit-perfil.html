@@ -5,9 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Perfil</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
   </head>
-  <body>
+  <body {% if user_settings %}data-theme-mode="{{ user_settings.theme_mode }}" data-color-theme="{{ user_settings.color_theme }}"{% endif %}{% if user_settings and user_settings.theme_mode == 'oscuro' %} class="dark-theme"{% endif %}>
     <!-- Barra lateral -->
     <div id="menu-main"></div>
 
@@ -260,5 +261,8 @@
         padding-right: 40px;
       }
     </style>
+    
+    <!-- JavaScript del tema -->
+    <script src="{% static 'js/theme.js' %}"></script>
   </body>
 </html>

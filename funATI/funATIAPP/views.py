@@ -150,10 +150,8 @@ def logout_view(request):
     return redirect('funATIAPP:index')
 
 # Páginas principales de la aplicación
+@login_required
 def muro_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     # Obtener publicaciones que respeten la privacidad
     publications = get_viewable_publications_for_feed(request.user)
     if request.method == 'POST':
@@ -169,10 +167,8 @@ def muro_view(request):
         form = PublicationForm()
     return render(request, 'muro.html', {'form': form, 'publications': publications})
 
+@login_required
 def notifications_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     # Get all notifications for the current user
     notifications = request.user.notifications.all()[:20]  # Limit to 20 most recent
     
@@ -181,10 +177,8 @@ def notifications_view(request):
     
     return render(request, 'notifications.html', {'notifications': notifications})
 
+@login_required
 def chats_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     profile = request.user.profile
     friends = profile.friends.all()
     
@@ -216,11 +210,9 @@ def chats_view(request):
         'search_query': search_query,
     })
 
+@login_required
 def chat_room_view(request, friend_id):
     """View for specific chat room with a friend"""
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
-    
     try:
         friend_profile = Profile.objects.get(id=friend_id)
         # Check if they are friends
@@ -251,10 +243,9 @@ def chat_room_view(request, friend_id):
         'room_name': room_name,
     })
 
+@login_required
 def get_messages_api(request, friend_id):
     """API endpoint to get messages with a specific friend"""
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     try:
         friend_profile = Profile.objects.get(id=friend_id)
@@ -280,10 +271,9 @@ def get_messages_api(request, friend_id):
     
     return JsonResponse({'messages': messages_data})
 
+@login_required
 def search_friends_api(request):
     """API endpoint to search friends"""
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     search_query = request.GET.get('q', '')
     profile = request.user.profile
@@ -329,10 +319,9 @@ def search_friends_api(request):
     
     return JsonResponse({'friends': friends_data})
 
+@login_required
 def send_message_api(request):
     """API endpoint to send a message with optional media"""
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
     
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
@@ -382,9 +371,8 @@ def send_message_api(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+@login_required
 def friends_view(request):
-    if not request.user.is_authenticated:
-        return redirect('funATIAPP:login')
     profile = request.user.profile
     if request.method == 'POST':
         add_friend_id = request.POST.get('add_friend')
@@ -482,9 +470,11 @@ def edit_profile_view(request):
         'profile': request.user.profile
     })
 
+@login_required
 def publication_view(request):
     return render(request, 'publication.html')
 
+@login_required
 def profile_detail_view(request, profile_id):
     try:
         profile = Profile.objects.get(id=profile_id)
@@ -531,6 +521,7 @@ def profile_view(request):
     
     return render(request, 'perfil-main.html', context)
 
+@login_required
 def followers_view(request, profile_id=None):
     # Permite ver los seguidores de cualquier perfil
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
@@ -571,6 +562,7 @@ def followers_view(request, profile_id=None):
     followers = profile.followers.all()
     return render(request, 'followers.html', {'profile': profile, 'followers': followers})
 
+@login_required
 def follows_view(request, profile_id=None):
     # Permite ver los seguidos de cualquier perfil y dejar de seguir
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
@@ -611,24 +603,24 @@ def follows_view(request, profile_id=None):
     return render(request, 'follows.html', {'profile': profile, 'following': following})
 
 # Componentes auxiliares
+@login_required
 def menu_main_view(request):
-    context = {}
-    if request.user.is_authenticated:
-        context['user'] = request.user
-        context['profile'] = request.user.profile
+    context = {
+        'user': request.user,
+        'profile': request.user.profile
+    }
     return render(request, 'menu-main.html', context)
 
+@login_required
 def container_view(request):
-    if not request.user.is_authenticated:
-        return render(request, 'container.html', {'publications': []})
-    
     # Obtener publicaciones que respeten la privacidad
     publications = get_viewable_publications_for_feed(request.user)
     return render(request, 'container.html', {'publications': publications})
 
+@login_required
 def publication_detail_view(request, id):
     publication = Publication.objects.select_related('profile__user').get(id=id)
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST':
         content = request.POST.get('content')
         parent_id = request.POST.get('parent')
         parent = Comment.objects.filter(id=parent_id).first() if parent_id else None

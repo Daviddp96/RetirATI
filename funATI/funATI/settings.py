@@ -150,6 +150,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Configuración de autenticación
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/muro/'
+
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Para desarrollo/testing
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Para producción

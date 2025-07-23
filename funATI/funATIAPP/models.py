@@ -82,9 +82,8 @@ class UserSettings(models.Model):
     ]
     
     PRIVACY_CHOICES = [
-        ('privado', 'Privado'),
         ('publico', 'Público'),
-        ('solo_amigos', 'Solo amigos'),
+        ('privado', 'Privado'),
     ]
     
     LANGUAGE_CHOICES = [

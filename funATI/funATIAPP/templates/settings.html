@@ -26,12 +26,14 @@
             <h2>Ajustes Generales</h2>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Privacidad</label>
+                    <label>Privacidad de publicaciones</label>
                     <select class="form-control" name="privacy">
-                        <option value="privado" {% if user_settings.privacy == 'privado' %}selected{% endif %}>Privado</option>
-                        <option value="publico" {% if user_settings.privacy == 'publico' %}selected{% endif %}>Público</option>
-                        <option value="solo_amigos" {% if user_settings.privacy == 'solo_amigos' %}selected{% endif %}>Solo amigos</option>
+                        <option value="publico" {% if user_settings.privacy == 'publico' %}selected{% endif %}>🌐 Público - Cualquiera puede ver mis publicaciones</option>
+                        <option value="privado" {% if user_settings.privacy == 'privado' %}selected{% endif %}>🔒 Privado - Solo mis amigos pueden ver mis publicaciones</option>
                     </select>
+                    <small style="color: var(--text-secondary); font-size: 12px; margin-top: 4px; display: block;">
+                        Esta configuración controla quién puede ver las publicaciones en tu perfil.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label>Idioma</label>

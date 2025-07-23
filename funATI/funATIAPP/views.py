@@ -1,10 +1,3 @@
-def profile_detail_view(request, profile_id):
-    try:
-        profile = Profile.objects.get(id=profile_id)
-    except Profile.DoesNotExist:
-        return redirect('funATIAPP:profile')
-    publications = profile.publications.order_by('-created_at')
-    return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -20,6 +13,78 @@ from django.db.models import Q
 from django.contrib import messages
 
 # Create your views here.
+
+def can_view_publications(viewer_user, profile_owner):
+    """
+    Determina si un usuario puede ver las publicaciones de otro usuario
+    basado en la configuración de privacidad del dueño del perfil.
+    
+    Args:
+        viewer_user: Usuario que quiere ver las publicaciones (puede ser None si no está autenticado)
+        profile_owner: Profile del dueño de las publicaciones
+    
+    Returns:
+        bool: True si puede ver las publicaciones, False en caso contrario
+    """
+    # Si es el propio usuario, siempre puede ver sus publicaciones
+    if viewer_user and viewer_user.is_authenticated and viewer_user == profile_owner.user:
+        return True
+    
+    # Obtener configuración de privacidad del dueño del perfil
+    owner_settings = UserSettings.get_user_settings(profile_owner.user)
+    
+    # Si las publicaciones son públicas, cualquiera puede verlas
+    if owner_settings.privacy == 'publico':
+        return True
+    
+    # Si las publicaciones son privadas, solo los amigos pueden verlas
+    if owner_settings.privacy == 'privado':
+        # Si el viewer no está autenticado, no puede ver
+        if not viewer_user or not viewer_user.is_authenticated:
+            return False
+        
+        # Verificar si son amigos
+        return profile_owner in viewer_user.profile.friends.all()
+    
+    # Por defecto, no permitir acceso
+    return False
+
+def get_viewable_publications_for_feed(viewer_user):
+    """
+    Obtiene todas las publicaciones que un usuario puede ver en su feed,
+    respetando las configuraciones de privacidad de cada autor.
+    
+    Args:
+        viewer_user: Usuario autenticado que quiere ver el feed
+    
+    Returns:
+        QuerySet de publicaciones que puede ver
+    """
+    if not viewer_user.is_authenticated:
+        return Publication.objects.none()
+    
+    profile = viewer_user.profile
+    
+    # Obtener IDs de perfiles amigos, seguidos y propios
+    friends_ids = profile.friends.values_list('id', flat=True)
+    following_ids = profile.following.values_list('id', flat=True)
+    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
+    
+    # Obtener todas las publicaciones de estos perfiles
+    all_publications = Publication.objects.select_related('profile__user').filter(
+        profile_id__in=allowed_profiles
+    ).order_by('-created_at')
+    
+    # Filtrar las publicaciones basándose en la privacidad
+    viewable_publications = []
+    for publication in all_publications:
+        if can_view_publications(viewer_user, publication.profile):
+            viewable_publications.append(publication.id)
+    
+    # Retornar las publicaciones filtradas
+    return Publication.objects.select_related('profile__user').filter(
+        id__in=viewable_publications
+    ).order_by('-created_at')
 
 # Página de inicio (landing page)
 def index(request):
@@ -88,18 +153,14 @@ def logout_view(request):
 def muro_view(request):
     if not request.user.is_authenticated:
         return redirect('funATIAPP:login')
-    profile = request.user.profile
-    # IDs de perfiles amigos y seguidos
-    friends_ids = profile.friends.values_list('id', flat=True)
-    following_ids = profile.following.values_list('id', flat=True)
-    # Incluye tus propias publicaciones
-    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
-    publications = Publication.objects.select_related('profile__user').filter(profile_id__in=allowed_profiles).order_by('-created_at')
+    
+    # Obtener publicaciones que respeten la privacidad
+    publications = get_viewable_publications_for_feed(request.user)
     if request.method == 'POST':
         form = PublicationForm(request.POST, request.FILES)
         if form.is_valid():
             publication = form.save(commit=False)
-            publication.profile = profile
+            publication.profile = request.user.profile
             publication.save()
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': True})
@@ -424,10 +485,51 @@ def edit_profile_view(request):
 def publication_view(request):
     return render(request, 'publication.html')
 
+def profile_detail_view(request, profile_id):
+    try:
+        profile = Profile.objects.get(id=profile_id)
+    except Profile.DoesNotExist:
+        return redirect('funATIAPP:profile')
+    
+    # Verificar si el usuario actual puede ver las publicaciones del perfil
+    can_view = can_view_publications(request.user, profile)
+    if can_view:
+        publications = profile.publications.order_by('-created_at')
+    else:
+        publications = []
+    
+    # Obtener configuración de privacidad del perfil
+    profile_settings = UserSettings.get_user_settings(profile.user)
+    is_own_profile = request.user.is_authenticated and request.user == profile.user
+    
+    context = {
+        'profile': profile,
+        'publications': publications,
+        'can_view_publications': can_view,
+        'profile_privacy': profile_settings.privacy,
+        'is_own_profile': is_own_profile
+    }
+    
+    return render(request, 'perfil-main.html', context)
+
+@login_required
 def profile_view(request):
     profile = request.user.profile
+    # El usuario siempre puede ver sus propias publicaciones
     publications = profile.publications.order_by('-created_at')
-    return render(request, 'perfil-main.html', {'profile': profile, 'publications': publications})
+    
+    # Obtener configuración de privacidad del perfil
+    profile_settings = UserSettings.get_user_settings(profile.user)
+    
+    context = {
+        'profile': profile,
+        'publications': publications,
+        'can_view_publications': True,  # Siempre puede ver sus propias publicaciones
+        'profile_privacy': profile_settings.privacy,
+        'is_own_profile': True
+    }
+    
+    return render(request, 'perfil-main.html', context)
 
 def followers_view(request, profile_id=None):
     # Permite ver los seguidores de cualquier perfil
@@ -478,11 +580,9 @@ def menu_main_view(request):
 def container_view(request):
     if not request.user.is_authenticated:
         return render(request, 'container.html', {'publications': []})
-    profile = request.user.profile
-    friends_ids = profile.friends.values_list('id', flat=True)
-    following_ids = profile.following.values_list('id', flat=True)
-    allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
-    publications = Publication.objects.select_related('profile__user').filter(profile_id__in=allowed_profiles).order_by('-created_at')
+    
+    # Obtener publicaciones que respeten la privacidad
+    publications = get_viewable_publications_for_feed(request.user)
     return render(request, 'container.html', {'publications': publications})
 
 def publication_detail_view(request, id):

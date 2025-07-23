@@ -20,6 +20,29 @@
             <div class="profile-identity">
                 <h1 class="profile-name">{{ profile.user.username }}</h1>
                 <span class="profile-username">@{{ profile.user.username }}</span>
+                {% if not is_own_profile %}
+                    <div class="privacy-indicator" style="margin-top: 8px;">
+                        {% if profile_privacy == 'publico' %}
+                            <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text-secondary);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 6v6l4 2"></path>
+                                </svg>
+                                Perfil público
+                            </span>
+                        {% elif profile_privacy == 'privado' %}
+                            <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text-secondary);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                Solo amigos
+                            </span>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
         <p class="profile-bio">{{ profile.biography }}</p>
@@ -104,7 +127,23 @@
     </div>
     </a>
     {% empty %}
-        <p>No hay publicaciones aún.</p>
+        {% if not can_view_publications %}
+            <div class="privacy-message" style="text-align: center; padding: 40px 20px; background: var(--bg-container); border-radius: 20px; margin: 20px 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-bottom: 16px;">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <circle cx="12" cy="16" r="1"></circle>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <h3 style="color: var(--text-primary); margin-bottom: 8px;">Este perfil es privado</h3>
+                {% if profile_privacy == 'privado' %}
+                    <p style="color: var(--text-secondary);">Solo los amigos de {{ profile.user.get_full_name|default:profile.user.username }} pueden ver sus publicaciones.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-secondary);">
+                <p>No hay publicaciones aún.</p>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

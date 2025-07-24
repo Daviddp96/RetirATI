@@ -1,51 +1,68 @@
+# Use Ubuntu 22.04 as base image
 FROM ubuntu:22.04
 
-# Update and install dependencies
-RUN apt-get update && \
-    apt-get install -y apache2 libapache2-mod-wsgi-py3 python3 python3-pip python3-dev python3-venv && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Set work directory
 WORKDIR /app
 
-# Create virtual environment
-RUN python3 -m venv env
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    apache2 \
+    apache2-dev \
+    libapache2-mod-wsgi-py3 \
+    pkg-config \
+    default-libmysqlclient-dev \
+    build-essential \
+    redis-server \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install dependencies
+# Copy requirements and install Python dependencies
 COPY requirements.txt /app/
-RUN /app/env/bin/pip install -r /app/requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Install mod_wsgi for Python 3
+RUN pip3 install mod_wsgi
 
 # Copy project files
-COPY . /app/funATIAPP/
+COPY funATI/ /app/funATI/
 
-# Verify Django installation
-RUN /app/env/bin/python3 -c "import django; print('Django version:', django.get_version())"
+# Create directories for static and media files
+RUN mkdir -p /app/funATI/staticfiles
+RUN mkdir -p /app/funATI/media
 
-# Add ServerName to Apache configuration
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Set permissions
+RUN chown -R www-data:www-data /app/funATI/
+RUN chmod -R 755 /app/funATI/
 
 # Copy Apache configuration
-COPY apache-funati.conf /etc/apache2/sites-available/000-default.conf
+COPY apache-funati.conf /etc/apache2/sites-available/funati.conf
 
-# Enable mod_wsgi
+# Enable Apache modules and site
 RUN a2enmod wsgi
+RUN a2enmod rewrite
+RUN a2enmod headers
+RUN a2enmod mime
+RUN a2enmod expires
+RUN a2dissite 000-default
+RUN a2ensite funati
 
-# Create necessary directories
-RUN mkdir -p /app/funATIAPP/funATI/staticfiles && \
-    mkdir -p /app/funATIAPP/funATI/media
+# Collect static files
+WORKDIR /app/funATI
+RUN python3 manage.py collectstatic --noinput
 
-# Change to Django project directory and run setup commands
-WORKDIR /app/funATIAPP/funATI
-RUN /app/env/bin/python manage.py migrate && \
-    /app/env/bin/python manage.py collectstatic --noinput
+# Create startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 
-# Set proper permissions
-RUN chown -R www-data:www-data /app/funATIAPP/ && \
-    chmod -R 755 /app/funATIAPP/
-
-# Expose port
+# Expose port 80
 EXPOSE 80
 
-# Start Apache in foreground
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+# Start services
+CMD ["/app/start.sh"] 

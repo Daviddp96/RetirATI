@@ -139,7 +139,7 @@ STATICFILES_DIRS = [
 ]
 
 # Static files root for production
-STATIC_ROOT = '/app/funATIAPP/funATI/staticfiles/'
+STATIC_ROOT = '/app/funATI/staticfiles/'
 
 # Archivos multimedia
 MEDIA_URL = '/media/'

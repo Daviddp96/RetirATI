@@ -1,5 +1,21 @@
+version: '3.8'
+
 services:
   web:
     build: .
     ports:
-      - "8080:80"
+      - "8000:80"
+    volumes:
+      - ./funATI/media:/app/funATI/media
+      - ./funATI/db.sqlite3:/app/funATI/db.sqlite3
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+    restart: unless-stopped
+    
+  # Optional: separate Redis service if you want to use external Redis
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   restart: unless-stopped 

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   web:
     build: .
@@ -12,6 +10,12 @@ services:
       - DEBUG=False
       - ALLOWED_HOSTS=localhost,127.0.0.1
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "/app/healthcheck.sh || exit 0"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 120s
     
   # Optional: separate Redis service if you want to use external Redis
   # redis:

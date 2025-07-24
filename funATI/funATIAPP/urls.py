@@ -40,4 +40,7 @@ urlpatterns = [
     path('api/messages/<int:friend_id>/', views.get_messages_api, name='get_messages_api'),
     path('api/search-friends/', views.search_friends_api, name='search_friends_api'),
     path('api/send-message/', views.send_message_api, name='send_message_api'),
+    
+    # Test/Debug
+    path('test-chat/<str:room_name>/', views.test_chat, name='test_chat'),
 ]

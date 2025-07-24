@@ -9,6 +9,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set work directory
 WORKDIR /app
 
+# Set environment variables for Django
+ENV DJANGO_SETTINGS_MODULE=funATI.settings
+ENV PYTHONPATH=/app/funATI
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -21,7 +25,15 @@ RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     build-essential \
     redis-server \
+    curl \
+    netcat-openbsd \
+    tzdata \
+    locales \
     && rm -rf /var/lib/apt/lists/*
+
+# Set timezone
+ENV TZ=America/Caracas
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt /app/
@@ -50,6 +62,9 @@ RUN a2enmod rewrite
 RUN a2enmod headers
 RUN a2enmod mime
 RUN a2enmod expires
+RUN a2enmod proxy
+RUN a2enmod proxy_http
+RUN a2enmod proxy_wstunnel
 RUN a2dissite 000-default
 RUN a2ensite funati
 
@@ -57,9 +72,10 @@ RUN a2ensite funati
 WORKDIR /app/funATI
 RUN python3 manage.py collectstatic --noinput
 
-# Create startup script
+# Create startup and health check scripts
 COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
+COPY healthcheck.sh /app/healthcheck.sh
+RUN chmod +x /app/start.sh /app/healthcheck.sh
 
 # Expose port 80
 EXPOSE 80

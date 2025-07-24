@@ -665,3 +665,11 @@ def change_password_view(request):
             })
     
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
+
+@login_required
+def test_chat(request, room_name):
+    """Vista de prueba para WebSocket del chat"""
+    return render(request, 'test_chat.html', {
+        'room_name': room_name,
+        'user': request.user
+    })

@@ -1,8 +1,11 @@
 # Create your tests here.
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Publication
+from django.urls import reverse
 from django.utils import timezone
+import tempfile
+from PIL import Image
 
 class UsuarioBasicoTest(TestCase):
     def test_creacion_usuario_basico(self):
@@ -77,3 +80,53 @@ class UsuarioBasicoTest(TestCase):
         # Verificar nombres para mayor claridad
         self.assertEqual(perfil1.friends.first().user.username, 'usuario2')
         self.assertEqual(perfil2.friends.first().user.username, 'usuario1')
+
+class PublicacionesIntegrationTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+        self.profile = Profile.objects.get(user=self.user)
+        self.client.login(username='testuser', password='testpass123')
+
+    def test_flujo_completo_publicacion(self):
+        """
+        Prueba de integración que verifica:
+        1. El usuario puede acceder al muro (muro/)
+        2. Puede crear una publicación
+        3. La publicación aparece en su perfil
+        4. La vista de detalle muestra correctamente la publicación
+        """
+        # Verificar acceso al muro principal
+        response = self.client.get(reverse('funATIAPP:muro'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Muro')
+        
+        # Obtener CSRF token
+        csrf_token = self.client.cookies['csrftoken'].value
+        
+        # Crear una publicación
+        response = self.client.post(reverse('funATIAPP:muro'), {
+            'content': 'Mi primera publicación de prueba',
+            'csrfmiddlewaretoken': csrf_token
+        }, follow=True)
+        
+        self.assertEqual(response.status_code, 200)
+        
+        # Verificar que la publicación existe en la base de datos
+        publication = Publication.objects.first()
+        self.assertIsNotNone(publication)
+        self.assertEqual(publication.content, 'Mi primera publicación de prueba')
+        self.assertEqual(publication.profile, self.profile)
+        
+        # Verificar que la publicación aparece en el perfil
+        response = self.client.get(reverse('funATIAPP:profile'))
+        self.assertContains(response, 'Mi primera publicación de prueba')
+        
+        # Verificar vista de detalle de publicación
+        response = self.client.get(reverse('funATIAPP:publication_detail', args=[publication.id]))
+        self.assertContains(response, 'Mi primera publicación de prueba')
+        self.assertContains(response, 'testuser') # Verificar que el nombre de usuario aparece en la publicación

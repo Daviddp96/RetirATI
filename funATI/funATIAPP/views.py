@@ -152,6 +152,27 @@ def logout_view(request):
 # Páginas principales de la aplicación
 @login_required
 def muro_view(request):
+    if request.method == 'POST':
+        form = PublicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            publication = form.save(commit=False)
+            publication.profile = request.user.profile
+            publication.save()
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
+            return redirect('funATIAPP:muro')
+    
+    # Obtener publicaciones que respeten la privacidad
+    publications = get_viewable_publications_for_feed(request.user)
+    form = PublicationForm()
+    
+    return render(request, 'muro.html', {
+        'form': form,
+        'publications': publications
+    })
+""" 
+@login_required
+def muro_view(request):
     # Obtener publicaciones que respeten la privacidad
     publications = get_viewable_publications_for_feed(request.user)
     if request.method == 'POST':
@@ -166,6 +187,7 @@ def muro_view(request):
     else:
         form = PublicationForm()
     return render(request, 'muro.html', {'form': form, 'publications': publications})
+"""
 
 @login_required
 def notifications_view(request):
@@ -472,8 +494,12 @@ def edit_profile_view(request):
 
 @login_required
 def publication_view(request):
+    return redirect('funATIAPP:muro')
+"""
+@login_required
+def publication_view(request):
     return render(request, 'publication.html')
-
+"""
 @login_required
 def profile_detail_view(request, profile_id):
     try:

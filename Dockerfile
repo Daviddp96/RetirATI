@@ -1,46 +1,84 @@
-FROM python:3.12.4
+# Use Ubuntu 22.04 as base image
+FROM ubuntu:22.04
 
-# Instalar Apache, mod_wsgi y dependencias necesarias
-RUN apt-get update && apt-get install -y \
-    apache2 \
-    libapache2-mod-wsgi-py3 \
-    apache2-dev \
-    lsb-release \
-    && apt-get clean
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Establecer el directorio de trabajo
+# Set work directory
 WORKDIR /app
 
-# Copiar el archivo requirements.txt y instalar las dependencias
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Set environment variables for Django
+ENV DJANGO_SETTINGS_MODULE=funATI.settings
+ENV PYTHONPATH=/app/funATI
 
-# Crear el proyecto Django (si no existe)
-RUN django-admin startproject retirati .
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    apache2 \
+    apache2-dev \
+    libapache2-mod-wsgi-py3 \
+    pkg-config \
+    default-libmysqlclient-dev \
+    build-essential \
+    redis-server \
+    curl \
+    netcat-openbsd \
+    tzdata \
+    locales \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copiar el contenido del repositorio al contenedor
-COPY . .
+# Set timezone
+ENV TZ=America/Caracas
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Cambiar la configuración de Apache para que escuche en el puerto 8080
-RUN echo "Listen 8080" >> /etc/apache2/ports.conf
+# Copy requirements and install Python dependencies
+COPY requirements.txt /app/
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Configurar el archivo de configuración de Apache para servir Django en el puerto 8080
-RUN echo "<VirtualHost *:8080>\n\
-    WSGIScriptAlias / /app/retirati/wsgi.py\n\
-    <Directory /app/retirati>\n\
-        <Files wsgi.py>\n\
-            Require all granted\n\
-        </Files>\n\
-    </Directory>\n\
-    ErrorLog ${APACHE_LOG_DIR}/error.log\n\
-    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
-</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
+# Install mod_wsgi for Python 3
+RUN pip3 install mod_wsgi
 
-# Habilitar mod_wsgi en Apache
+# Copy project files
+COPY funATI/ /app/funATI/
+
+# Create directories for static and media files
+RUN mkdir -p /app/funATI/staticfiles
+RUN mkdir -p /app/funATI/media
+
+# Set permissions
+RUN chown -R www-data:www-data /app/funATI/
+RUN chmod -R 755 /app/funATI/
+
+# Copy Apache configuration
+COPY apache-funati.conf /etc/apache2/sites-available/funati.conf
+
+# Enable Apache modules and site
 RUN a2enmod wsgi
+RUN a2enmod rewrite
+RUN a2enmod headers
+RUN a2enmod mime
+RUN a2enmod expires
+RUN a2enmod proxy
+RUN a2enmod proxy_http
+RUN a2enmod proxy_wstunnel
+RUN a2dissite 000-default
+RUN a2ensite funati
 
-# Exponer el puerto 8080 para acceder a Apache
-EXPOSE 8080
+# Collect static files
+WORKDIR /app/funATI
+RUN python3 manage.py collectstatic --noinput
 
-# Comando para iniciar Apache con mod_wsgi
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+# Create startup and health check scripts
+COPY start.sh /app/start.sh
+COPY healthcheck.sh /app/healthcheck.sh
+RUN chmod +x /app/start.sh /app/healthcheck.sh
+
+# Expose port 80
+EXPOSE 80
+
+# Start services
+CMD ["/app/start.sh"] 

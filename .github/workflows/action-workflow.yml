@@ -51,11 +51,11 @@ jobs:
 
       - name: Run Django migrations
         run: |
-          docker-compose exec -T web python manage.py migrate --noinput
+          docker-compose exec -T web python3 /app/funATI/manage.py migrate --noinput
 
       - name: Run Django tests
         run: |
-          docker-compose exec -T web python manage.py test
+          docker-compose exec -T web python3 /app/funATI/manage.py test
 
       - name: Shut down Docker containers
         run: |

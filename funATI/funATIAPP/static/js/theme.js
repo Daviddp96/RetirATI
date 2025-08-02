@@ -19,7 +19,7 @@ function applyColorTheme(colorTheme) {
                 break;
             case 'rosado':
             default:
-                mainContent.style.background = 'linear-gradient(to right, #f0c6e0, #dc50c9)';
+                mainContent.style.background = 'linear-gradient(to right, #f4c4f3, #fc67fa)';
                 break;
         }
     }

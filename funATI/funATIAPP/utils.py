@@ -83,9 +83,7 @@ def send_notification_email(notification):
             fail_silently=False,
         )
         
-        logger.info(f"Correo de notificación enviado a {notification.recipient.email}")
         return True
         
     except Exception as e:
-        logger.error(f"Error enviando correo de notificación: {str(e)}")
         return False 

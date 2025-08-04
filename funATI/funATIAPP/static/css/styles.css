@@ -668,7 +668,7 @@ form .media-preview-img {
 
   .flex-wrapper {
     flex-direction: column;
-    padding: 0;
+    padding: 0 15px;
   }
 
   /* Sidebar adjustments */
@@ -726,6 +726,7 @@ form .media-preview-img {
     padding: 8px;
     min-width: 40px;
     justify-content: center;
+    margin-left: 15px;
   }
 
   .user-info,
@@ -736,6 +737,15 @@ form .media-preview-img {
   .profile-btn::after {
     content: "👤";
     font-size: 24px;
+    visibility: hidden ;
+  }
+  
+  .user-info2{
+    visibility: hidden;
+  }
+  
+  .sidebar-footer{
+    display: block;
   }
 
   .logout-btn {
@@ -933,9 +943,13 @@ form .media-preview-img {
   }
 
   .muro {
-    padding-bottom: 2rem;
+    padding: 15px;
   }
 
+}
+
+.info2{
+  visibility: visible;
 }
 
 .span-funar {

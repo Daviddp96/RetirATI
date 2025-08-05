@@ -202,7 +202,6 @@ body {
 
 .edit-profile-container {
   display: flex;
-  justify-content: flex-end;
 }
 
 .responder_publi {
@@ -668,7 +667,7 @@ form .media-preview-img {
 
   .flex-wrapper {
     flex-direction: column;
-    padding: 0 15px;
+    padding: 0;
   }
 
   /* Sidebar adjustments */
@@ -726,7 +725,6 @@ form .media-preview-img {
     padding: 8px;
     min-width: 40px;
     justify-content: center;
-    margin-left: 15px;
   }
 
   .user-info,
@@ -737,15 +735,6 @@ form .media-preview-img {
   .profile-btn::after {
     content: "👤";
     font-size: 24px;
-    visibility: hidden ;
-  }
-  
-  .user-info2{
-    visibility: hidden;
-  }
-  
-  .sidebar-footer{
-    display: block;
   }
 
   .logout-btn {
@@ -943,13 +932,9 @@ form .media-preview-img {
   }
 
   .muro {
-    padding: 15px;
+    padding-bottom: 2rem;
   }
 
-}
-
-.info2{
-  visibility: visible;
 }
 
 .span-funar {

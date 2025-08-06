@@ -363,7 +363,7 @@ body {
     height: 40px;
 }
 
-.sidebar-logo::after {
+/*.sidebar-logo::after {
     content: "HG";
     font-size: 16px;
     position: absolute;
@@ -378,7 +378,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+}*/
 
 .sidebar-nav {
     gap: 10px;

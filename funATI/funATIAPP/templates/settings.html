@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Configuración - FunATI{% endblock %}
+{% block title %}{% trans "Configuración" %} - FunATI{% endblock %}
 
-{% block page_title %}Configuración{% endblock %}
+{% block page_title %}{% trans "Configuración" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/settings.css' %}">
@@ -23,52 +24,51 @@
         {% csrf_token %}
         
         <div class="section">
-            <h2>Ajustes Generales</h2>
+            <h2>{% trans "Ajustes Generales" %}</h2>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Privacidad de publicaciones</label>
+                    <label>{% trans "Privacidad de publicaciones" %}</label>
                     <select class="form-control" name="privacy">
-                        <option value="publico" {% if user_settings.privacy == 'publico' %}selected{% endif %}>🌐 Público - Cualquiera puede ver mis publicaciones</option>
-                        <option value="privado" {% if user_settings.privacy == 'privado' %}selected{% endif %}>🔒 Privado - Solo mis amigos pueden ver mis publicaciones</option>
+                        <option value="publico" {% if user_settings.privacy == 'publico' %}selected{% endif %}>🌐 {% trans "Público - Cualquiera puede ver mis publicaciones" %}</option>
+                        <option value="privado" {% if user_settings.privacy == 'privado' %}selected{% endif %}>🔒 {% trans "Privado - Solo mis amigos pueden ver mis publicaciones" %}</option>
                     </select>
                     <small style="color: var(--text-secondary); font-size: 12px; margin-top: 4px; display: block;">
-                        Esta configuración controla quién puede ver las publicaciones en tu perfil.
+                        {% trans "Esta configuración controla quién puede ver las publicaciones en tu perfil." %}
                     </small>
                 </div>
                 <div class="form-group">
-                    <label>Idioma</label>
-                    <select class="form-control" name="language">
+                    <label>{% trans "Idioma" %}</label>
+                    <select class="form-control" name="language" onchange="changeLanguage(this.value)">
                         <option value="es" {% if user_settings.language == 'es' %}selected{% endif %}>Español</option>
                         <option value="en" {% if user_settings.language == 'en' %}selected{% endif %}>English</option>
-                        <option value="fr" {% if user_settings.language == 'fr' %}selected{% endif %}>Français</option>
                     </select>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Color</label>
+                    <label>{% trans "Color" %}</label>
                     <select class="form-control" name="color" id="colorSelector">
-                        <option value="rosado" {% if user_settings.color_theme == 'rosado' %}selected{% endif %}>Rosado</option>
-                        <option value="azul" {% if user_settings.color_theme == 'azul' %}selected{% endif %}>Azul</option>
-                        <option value="verde" {% if user_settings.color_theme == 'verde' %}selected{% endif %}>Verde</option>
+                        <option value="rosado" {% if user_settings.color_theme == 'rosado' %}selected{% endif %}>{% trans "Rosado" %}</option>
+                        <option value="azul" {% if user_settings.color_theme == 'azul' %}selected{% endif %}>{% trans "Azul" %}</option>
+                        <option value="verde" {% if user_settings.color_theme == 'verde' %}selected{% endif %}>{% trans "Verde" %}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Tema</label>
+                    <label>{% trans "Tema" %}</label>
                     <select class="form-control" name="theme">
-                        <option value="claro" {% if user_settings.theme_mode == 'claro' %}selected{% endif %}>Modo Claro</option>
-                        <option value="oscuro" {% if user_settings.theme_mode == 'oscuro' %}selected{% endif %}>Modo Oscuro</option>
-                        <option value="automatico" {% if user_settings.theme_mode == 'automatico' %}selected{% endif %}>Automático</option>
+                        <option value="claro" {% if user_settings.theme_mode == 'claro' %}selected{% endif %}>{% trans "Modo Claro" %}</option>
+                        <option value="oscuro" {% if user_settings.theme_mode == 'oscuro' %}selected{% endif %}>{% trans "Modo Oscuro" %}</option>
+                        <option value="automatico" {% if user_settings.theme_mode == 'automatico' %}selected{% endif %}>{% trans "Automático" %}</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <h2>Notificaciones</h2>
+            <h2>{% trans "Notificaciones" %}</h2>
             <div class="notification-item">
                 <div class="notification-text">
-                    Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. Puedes desactivarlos en cualquier momento. Más información en <a href="#">hola@funati.com</a>
+                    {% trans "Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. Puedes desactivarlos en cualquier momento." %} {% trans "Más información en" %} <a href="#">hola@funati.com</a>
                 </div>
                 <div class="toggle-switch" id="notificationToggle">
                     <input type="checkbox" name="notifications" id="notifications" {% if user_settings.email_notifications %}checked{% endif %} style="display: none;">
@@ -77,24 +77,24 @@
         </div>
 
         <div class="section">
-            <h2>Seguridad</h2>
+            <h2>{% trans "Seguridad" %}</h2>
             <div class="password-row">
                 <div class="form-group">
-                    <label>Contraseña vieja</label>
-                    <input type="password" class="password-input" name="old_password" placeholder="Ingresa tu contraseña actual">
+                    <label>{% trans "Contraseña vieja" %}</label>
+                    <input type="password" class="password-input" name="old_password" placeholder="{% trans 'Ingresa tu contraseña actual' %}">
                 </div>
                 <div class="form-group">
-                    <label>Contraseña nueva</label>
-                    <input type="password" class="password-input" name="new_password" placeholder="Ingresa tu nueva contraseña">
+                    <label>{% trans "Contraseña nueva" %}</label>
+                    <input type="password" class="password-input" name="new_password" placeholder="{% trans 'Ingresa tu nueva contraseña' %}">
                 </div>
             </div>
             
             <div class="button-group">
                 <div class="button-left">
-                    <button type="button" class="btn btn-secondary" onclick="changePassword()">Cambiar contraseña</button>
-                    <a href="{% url 'funATIAPP:logout' %}" class="btn btn-secondary close">Cerrar sesión</a>
+                    <button type="button" class="btn btn-secondary" onclick="changePassword()">{% trans "Cambiar contraseña" %}</button>
+                    <a href="{% url 'funATIAPP:logout' %}" class="btn btn-secondary close">{% trans "Cerrar sesión" %}</a>
                 </div>
-                <button type="submit" class="btn btn-save">Guardar</button>
+                <button type="submit" class="btn btn-save">{% trans "Guardar" %}</button>
             </div>
         </div>
     </form>
@@ -139,12 +139,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function changeLanguage(language) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    fetch('{% url "funATIAPP:change_language" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken,
+        },
+        body: `language=${encodeURIComponent(language)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Reload to apply new language
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 function changePassword() {
     const oldPassword = document.querySelector('input[name="old_password"]').value;
     const newPassword = document.querySelector('input[name="new_password"]').value;
     
     if (!oldPassword || !newPassword) {
-        alert('Por favor, completa ambos campos de contraseña.');
+        alert('{% trans "Por favor, completa ambos campos de contraseña." %}');
         return;
     }
     
@@ -161,11 +183,11 @@ function changePassword() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('Contraseña cambiada exitosamente.');
+            alert('{% trans "Contraseña cambiada exitosamente." %}');
             document.querySelector('input[name="old_password"]').value = '';
             document.querySelector('input[name="new_password"]').value = '';
         } else {
-            let errorMessage = 'Error al cambiar la contraseña:\n';
+            let errorMessage = '{% trans "Error al cambiar la contraseña:" %}\n';
             if (data.errors) {
                 for (const [field, error] of Object.entries(data.errors)) {
                     errorMessage += `• ${error}\n`;
@@ -178,7 +200,7 @@ function changePassword() {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error de conexión. Por favor, inténtalo de nuevo.');
+        alert('{% trans "Error de conexión. Por favor, inténtalo de nuevo." %}');
     });
 }
 </script>

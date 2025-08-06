@@ -19,6 +19,7 @@ urlpatterns = [
     path('friends/', views.friends_view, name='friends'),
     path('settings/', views.settings_view, name='settings'),
     path('change-password/', views.change_password_view, name='change_password'),
+    path('change-language/', views.change_language_view, name='change_language'),
     path('edit-profile/', views.edit_profile_view, name='edit_profile'),
     path('publication/', views.publication_view, name='publication'),
     path('publication/<int:id>/', views.publication_detail_view, name='publication_detail'),

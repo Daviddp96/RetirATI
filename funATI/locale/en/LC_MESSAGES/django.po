@@ -1,0 +1,158 @@
+# FunATI English translation
+# Copyright (C) 2025 FunATI
+# This file is distributed under the same license as the FunATI package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FunATI 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-06 18:26-0400\n"
+"PO-Revision-Date: 2025-08-06 18:30-0400\n"
+"Last-Translator: FunATI Team\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\funATIAPP\templates\settings.html:5 .\funATIAPP\templates\settings.html:7
+msgid "Configuración"
+msgstr "Settings"
+
+#: .\funATIAPP\templates\settings.html:27
+msgid "Ajustes Generales"
+msgstr "General Settings"
+
+#: .\funATIAPP\templates\settings.html:30
+msgid "Privacidad de publicaciones"
+msgstr "Post Privacy"
+
+#: .\funATIAPP\templates\settings.html:32
+msgid "Público - Cualquiera puede ver mis publicaciones"
+msgstr "Public - Anyone can see my posts"
+
+#: .\funATIAPP\templates\settings.html:33
+msgid "Privado - Solo mis amigos pueden ver mis publicaciones"
+msgstr "Private - Only my friends can see my posts"
+
+#: .\funATIAPP\templates\settings.html:36
+msgid ""
+"Esta configuración controla quién puede ver las publicaciones en tu perfil."
+msgstr "This setting controls who can see the posts on your profile."
+
+#: .\funATIAPP\templates\settings.html:40
+msgid "Idioma"
+msgstr "Language"
+
+#: .\funATIAPP\templates\settings.html:49
+msgid "Color"
+msgstr "Color"
+
+#: .\funATIAPP\templates\settings.html:51
+msgid "Rosado"
+msgstr "Pink"
+
+#: .\funATIAPP\templates\settings.html:52
+msgid "Azul"
+msgstr "Blue"
+
+#: .\funATIAPP\templates\settings.html:53
+msgid "Verde"
+msgstr "Green"
+
+#: .\funATIAPP\templates\settings.html:57
+msgid "Tema"
+msgstr "Theme"
+
+#: .\funATIAPP\templates\settings.html:59
+msgid "Modo Claro"
+msgstr "Light Mode"
+
+#: .\funATIAPP\templates\settings.html:60
+msgid "Modo Oscuro"
+msgstr "Dark Mode"
+
+#: .\funATIAPP\templates\settings.html:61
+msgid "Automático"
+msgstr "Automatic"
+
+#: .\funATIAPP\templates\settings.html:68
+msgid "Notificaciones"
+msgstr "Notifications"
+
+#: .\funATIAPP\templates\settings.html:71
+msgid ""
+"Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. "
+"Puedes desactivarlos en cualquier momento."
+msgstr ""
+"Receive emails to know what's happening when you're not on FunATI. You can "
+"turn them off at any time."
+
+#: .\funATIAPP\templates\settings.html:71
+msgid "Más información en"
+msgstr "More information at"
+
+#: .\funATIAPP\templates\settings.html:80
+msgid "Seguridad"
+msgstr "Security"
+
+#: .\funATIAPP\templates\settings.html:83
+msgid "Contraseña vieja"
+msgstr "Old Password"
+
+#: .\funATIAPP\templates\settings.html:84
+msgid "Ingresa tu contraseña actual"
+msgstr "Enter your current password"
+
+#: .\funATIAPP\templates\settings.html:87
+msgid "Contraseña nueva"
+msgstr "New Password"
+
+#: .\funATIAPP\templates\settings.html:88
+msgid "Ingresa tu nueva contraseña"
+msgstr "Enter your new password"
+
+#: .\funATIAPP\templates\settings.html:94
+msgid "Cambiar contraseña"
+msgstr "Change Password"
+
+#: .\funATIAPP\templates\settings.html:95
+msgid "Cerrar sesión"
+msgstr "Log Out"
+
+#: .\funATIAPP\templates\settings.html:97
+msgid "Guardar"
+msgstr "Save"
+
+#: .\funATIAPP\templates\settings.html:169
+msgid "Por favor, completa ambos campos de contraseña."
+msgstr "Please complete both password fields."
+
+#: .\funATIAPP\templates\settings.html:186
+msgid "Contraseña cambiada exitosamente."
+msgstr "Password changed successfully."
+
+#: .\funATIAPP\templates\settings.html:190
+msgid "Error al cambiar la contraseña:"
+msgstr "Error changing password:"
+
+#: .\funATIAPP\templates\settings.html:203
+msgid "Error de conexión. Por favor, inténtalo de nuevo."
+msgstr "Connection error. Please try again."
+
+#: .\funATIAPP\views.py:444
+msgid "Configuración guardada exitosamente."
+msgstr "Settings saved successfully."
+
+#: .\funATIAPP\views.py:670
+msgid "Idioma cambiado exitosamente."
+msgstr "Language changed successfully."
+
+#: .\funATIAPP\views.py:675
+msgid "Idioma no válido."
+msgstr "Invalid language."
+
+#: .\funATIAPP\views.py:678
+msgid "Método no permitido."
+msgstr "Method not allowed."

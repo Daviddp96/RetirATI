@@ -11,6 +11,8 @@ from django.http import JsonResponse
 from random import sample
 from django.db.models import Q
 from django.contrib import messages
+from django.utils import translation
+from django.utils.translation import gettext as _
 
 
 def can_view_publications(viewer_user, profile_owner):
@@ -427,6 +429,11 @@ def settings_view(request):
         theme_mode = request.POST.get('theme', user_settings.theme_mode)
         email_notifications = request.POST.get('notifications') == 'on'
         
+        # Si el idioma cambió, activarlo en la sesión
+        if language != user_settings.language and language in ['es', 'en']:
+            translation.activate(language)
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
+        
         user_settings.privacy = privacy
         user_settings.language = language
         user_settings.color_theme = color_theme
@@ -434,7 +441,7 @@ def settings_view(request):
         user_settings.email_notifications = email_notifications
         user_settings.save()
         
-        messages.success(request, 'Configuración guardada exitosamente.')
+        messages.success(request, _('Configuración guardada exitosamente.'))
         return redirect('funATIAPP:settings')
     
     return render(request, 'settings.html', {
@@ -642,6 +649,33 @@ def change_password_view(request):
             })
     
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
+
+@login_required
+def change_language_view(request):
+    """View para cambiar el idioma del usuario mediante AJAX"""
+    if request.method == 'POST':
+        language = request.POST.get('language')
+        if language and language in ['es', 'en']:
+            # Actualizar configuración del usuario
+            user_settings = UserSettings.get_user_settings(request.user)
+            user_settings.language = language
+            user_settings.save()
+            
+            # Activar el idioma en la sesión
+            translation.activate(language)
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
+            
+            return JsonResponse({
+                'success': True,
+                'message': _('Idioma cambiado exitosamente.')
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'message': _('Idioma no válido.')
+            })
+    
+    return JsonResponse({'success': False, 'message': _('Método no permitido.')})
 
 @login_required
 def test_chat(request, room_name):

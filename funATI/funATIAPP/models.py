@@ -89,7 +89,6 @@ class UserSettings(models.Model):
     LANGUAGE_CHOICES = [
         ('es', 'Español'),
         ('en', 'English'),
-        ('fr', 'Français'),
     ]
     
     THEME_CHOICES = [

@@ -25,7 +25,7 @@
         
         <div class="funar-content-column">
             <div class="funar-input-container">
-                <span class="span-funar" id="funar-content" contenteditable="true">{% trans "¿A quién quieres Funar?" %}</span>
+                <span class="span-funar" id="funar-content" contenteditable="true"></span>
                 <input type="hidden" name="content" id="hidden-content" />
             </div>
             
@@ -55,5 +55,11 @@
 {% endblock %}
 
 {% block extra_js %}
+<script>
+    // Pasar traducciones de Django a JavaScript
+    window.TRANSLATIONS = {
+        'placeholder': '{% trans "¿A quién quieres Funar?" %}'
+    };
+</script>
 <script src="{% static 'js/muro.js' %}"></script>
 {% endblock %}

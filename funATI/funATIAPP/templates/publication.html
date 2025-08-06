@@ -58,7 +58,7 @@
             </div>
             <div class="funar-content-column">
                 <div class="funar-input-container">
-                    <span class="span-funar comment-contenteditable" id="comment-content" contenteditable="true">{% trans "Escribe un comentario..." %}</span>
+                    <span class="span-funar comment-contenteditable" id="comment-content" contenteditable="true"></span>
                     <input type="hidden" name="content" id="hidden-comment-content" />
                     <input type="hidden" name="parent" id="comment-parent-id" value="">
                 </div>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="funar-content-column">
                         <div class="funar-input-container">
-                            <span class="span-funar reply-contenteditable" contenteditable="true">{% trans "Escribe una respuesta..." %}</span>
+                            <span class="span-funar reply-contenteditable" contenteditable="true"></span>
                             <input type="hidden" name="content" class="hidden-reply-content" />
                             <input type="hidden" name="parent" value="{{ comment.id }}">
                         </div>
@@ -125,5 +125,12 @@
 {% endblock %}
 
 {% block extra_js %}
+<script>
+    // Pasar traducciones de Django a JavaScript
+    window.TRANSLATIONS = {
+        'commentPlaceholder': '{% trans "Escribe un comentario..." %}',
+        'replyPlaceholder': '{% trans "Escribe una respuesta..." %}'
+    };
+</script>
 <script src="{% static 'assets/publication.js' %}"></script>
 {% endblock %}

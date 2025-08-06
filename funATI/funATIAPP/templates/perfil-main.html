@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Perfil - FunATI{% endblock %}
+{% block title %}{% trans "Perfil" %} - FunATI{% endblock %}
 
-{% block page_title %}Perfil{% endblock %}
+{% block page_title %}{% trans "Perfil" %}{% endblock %}
 
 {% block content %}
 <div class="profile-header">
@@ -27,7 +28,7 @@
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <path d="M12 6v6l4 2"></path>
                                 </svg>
-                                Perfil público
+                                {% trans "Perfil público" %}
                             </span>
                         {% elif profile_privacy == 'privado' %}
                             <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text-secondary);">
@@ -37,7 +38,7 @@
                                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
-                                Solo amigos
+                                {% trans "Solo amigos" %}
                             </span>
                         {% endif %}
                     </div>
@@ -46,8 +47,8 @@
         </div>
         <p class="profile-bio">{{ profile.biography }}</p>
         <div class="seguidos">
-            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="edit-profile">Seguidores</a>
-            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="edit-profile">Seguidos</a>
+            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="edit-profile">{% trans "Seguidores" %}</a>
+            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="edit-profile">{% trans "Seguidos" %}</a>
         </div>
     </div>
     <div class="profile-details container">
@@ -68,14 +69,14 @@
 {% if user.is_authenticated and user.id == profile.user.id %}
 <div class="edit-profile-button-container">
     <a href="{% url 'funATIAPP:edit_profile' %}" class="edit-profile">
-        Editar Perfil
+        {% trans "Editar Perfil" %}
     </a>
 </div>
 {% endif %}
 <div class="profile-nav">
-    <button class="profile-nav-btn active">Publicaciones</button>
-    <button class="profile-nav-btn">Respuestas</button>
-    <button class="profile-nav-btn">Multimedia</button>
+    <button class="profile-nav-btn active">{% trans "Publicaciones" %}</button>
+    <button class="profile-nav-btn">{% trans "Respuestas" %}</button>
+    <button class="profile-nav-btn">{% trans "Multimedia" %}</button>
 </div>
 <div class="publications">
     {% for publication in publications %}
@@ -89,13 +90,13 @@
             {% endif %}
             <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
             <span class="post-handle">@{{ publication.profile.user.username }}</span>
-            <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
+            <span class="post-time">{{ publication.created_at|timesince }} {% trans "atrás" %}</span>
         </div>
         <div class="post-content">{{ publication.content }}</div>
         {% if publication.media %}
         <div class="post-media-placeholder">
             <div class="media-preview">
-                <img src="{{ publication.media.url }}" alt="Imagen publicación" class="publication-img" />
+                <img src="{{ publication.media.url }}" alt="{% trans 'Imagen publicación' %}" class="publication-img" />
             </div>
         </div>
         {% endif %}

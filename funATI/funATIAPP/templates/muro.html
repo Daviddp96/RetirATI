@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Muro - FunATI{% endblock %}
+{% block title %}{% trans "Muro" %} - FunATI{% endblock %}
 
-{% block page_title %}Muro{% endblock %}
+{% block page_title %}{% trans "Muro" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -24,12 +25,12 @@
         
         <div class="funar-content-column">
             <div class="funar-input-container">
-                <span class="span-funar" id="funar-content" contenteditable="true">¿A quién quieres Funar?</span>
+                <span class="span-funar" id="funar-content" contenteditable="true">{% trans "¿A quién quieres Funar?" %}</span>
                 <input type="hidden" name="content" id="hidden-content" />
             </div>
             
             <div class="media-preview-container" id="media-preview-container">
-                <img id="media-preview-img" class="media-preview-img" alt="Preview" />
+                <img id="media-preview-img" class="media-preview-img" alt="{% trans 'Vista previa' %}" />
                 <button type="button" class="media-preview-remove" id="media-preview-remove" onclick="removeMediaPreview()">×</button>
             </div>
             
@@ -44,7 +45,7 @@
                     <input type="file" name="media" id="media-input" class="input-media" accept="image/*" />
                 </div>
                 <div class="funar-submit-container">
-                    <button type="submit" class="button-funar" id="funar-btn" disabled>Funar</button>
+                    <button type="submit" class="button-funar" id="funar-btn" disabled>{% trans "Funar" %}</button>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-06 18:26-0400\n"
+"POT-Creation-Date: 2025-08-06 18:34-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,8 +19,81 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
+#: .\funATIAPP\templates\friends.html:5 .\funATIAPP\templates\friends.html:7
+#: .\funATIAPP\templates\menu-main.html:27
+msgid "Amigos"
+msgstr ""
+
+#: .\funATIAPP\templates\login.html:5 .\funATIAPP\templates\login.html:15
+msgid "Iniciar Sesión"
+msgstr ""
+
+#: .\funATIAPP\templates\login.html:13 .\funATIAPP\templates\register.html:13
+msgid "Ingrese el correo"
+msgstr ""
+
+#: .\funATIAPP\templates\login.html:14 .\funATIAPP\templates\register.html:14
+msgid "Ingrese la clave"
+msgstr ""
+
+#: .\funATIAPP\templates\login.html:23
+msgid "Recuperar Clave"
+msgstr ""
+
+#: .\funATIAPP\templates\login.html:24 .\funATIAPP\templates\register.html:5
+#: .\funATIAPP\templates\register.html:16
+msgid "Registrarse"
+msgstr ""
+
+#: .\funATIAPP\templates\menu-main.html:16 .\funATIAPP\templates\muro.html:5
+#: .\funATIAPP\templates\muro.html:7
+msgid "Muro"
+msgstr ""
+
+#: .\funATIAPP\templates\menu-main.html:35
+msgid "Chats"
+msgstr ""
+
+#: .\funATIAPP\templates\menu-main.html:50
+#: .\funATIAPP\templates\notifications.html:5
+#: .\funATIAPP\templates\notifications.html:7
+#: .\funATIAPP\templates\settings.html:68
+msgid "Notificaciones"
+msgstr ""
+
+#: .\funATIAPP\templates\menu-main.html:66
 #: .\funATIAPP\templates\settings.html:5 .\funATIAPP\templates\settings.html:7
 msgid "Configuración"
+msgstr ""
+
+#: .\funATIAPP\templates\menu-main.html:75
+#: .\funATIAPP\templates\menu-main.html:77
+msgid "Avatar"
+msgstr ""
+
+#: .\funATIAPP\templates\menu-main.html:92
+#: .\funATIAPP\templates\settings.html:95
+msgid "Cerrar sesión"
+msgstr ""
+
+#: .\funATIAPP\templates\muro.html:28
+msgid "¿A quién quieres Funar?"
+msgstr ""
+
+#: .\funATIAPP\templates\muro.html:33
+msgid "Vista previa"
+msgstr ""
+
+#: .\funATIAPP\templates\muro.html:48
+msgid "Funar"
+msgstr ""
+
+#: .\funATIAPP\templates\register.html:15
+msgid "Repite la clave ingresada"
+msgstr ""
+
+#: .\funATIAPP\templates\register.html:33
+msgid "¿Ya tienes cuenta? Inicia sesión"
 msgstr ""
 
 #: .\funATIAPP\templates\settings.html:27
@@ -80,10 +153,6 @@ msgstr ""
 msgid "Automático"
 msgstr ""
 
-#: .\funATIAPP\templates\settings.html:68
-msgid "Notificaciones"
-msgstr ""
-
 #: .\funATIAPP\templates\settings.html:71
 msgid ""
 "Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. "
@@ -116,10 +185,6 @@ msgstr ""
 
 #: .\funATIAPP\templates\settings.html:94
 msgid "Cambiar contraseña"
-msgstr ""
-
-#: .\funATIAPP\templates\settings.html:95
-msgid "Cerrar sesión"
 msgstr ""
 
 #: .\funATIAPP\templates\settings.html:97

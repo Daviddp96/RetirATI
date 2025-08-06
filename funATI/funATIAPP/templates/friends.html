@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Amigos - FunATI{% endblock %}
+{% block title %}{% trans "Amigos" %} - FunATI{% endblock %}
 
-{% block page_title %}Amigos{% endblock %}
+{% block page_title %}{% trans "Amigos" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/follows.css' %}">

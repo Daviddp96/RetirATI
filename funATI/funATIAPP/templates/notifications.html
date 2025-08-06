@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Notificaciones - FunATI{% endblock %}
+{% block title %}{% trans "Notificaciones" %} - FunATI{% endblock %}
 
-{% block page_title %}Notificaciones{% endblock %}
+{% block page_title %}{% trans "Notificaciones" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/notifications.css' %}">

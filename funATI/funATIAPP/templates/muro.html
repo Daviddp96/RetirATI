@@ -11,11 +11,9 @@
 {% endblock %}
 
 {% block content %}
-<!-- Formulario de publicación -->
 <form method="post" enctype="multipart/form-data" class="funar" id="funar-form" data-container-url="{% url 'funATIAPP:container' %}">
     {% csrf_token %}
     <div class="funar-flex">
-        <!-- Primera columna: Avatar del usuario -->
         <div class="funar-avatar-column">
             {% if user.is_authenticated and user.profile.avatar %}
                 <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
@@ -24,21 +22,17 @@
             {% endif %}
         </div>
         
-        <!-- Segunda columna: Input y botones -->
         <div class="funar-content-column">
-            <!-- Input de contenido -->
             <div class="funar-input-container">
                 <span class="span-funar" id="funar-content" contenteditable="true">¿A quién quieres Funar?</span>
                 <input type="hidden" name="content" id="hidden-content" />
             </div>
             
-            <!-- Preview de imagen -->
             <div class="media-preview-container" id="media-preview-container">
                 <img id="media-preview-img" class="media-preview-img" alt="Preview" />
                 <button type="button" class="media-preview-remove" id="media-preview-remove" onclick="removeMediaPreview()">×</button>
             </div>
             
-            <!-- Botones en flex -->
             <div class="buton-flex">
                 <div class="multimedia-btn-bottom">
                     <label for="media-input" class="media-input-btn">
@@ -56,7 +50,6 @@
         </div>
     </div>
 </form>
-<!-- Un solo contenedor para publicaciones -->
 <div id="publicaciones" class="section muro"></div>
 {% endblock %}
 

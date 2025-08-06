@@ -103,7 +103,6 @@
 
 {% block extra_js %}
 <script>
-// Función para el toggle de notificaciones
 document.addEventListener('DOMContentLoaded', () => {
     const toggleSwitch = document.getElementById('notificationToggle');
     const checkbox = document.getElementById('notifications');
@@ -121,10 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Inicializar apariencia
     updateToggleAppearance();
     
-    // Cambiar color dinámicamente
     const colorSelector = document.getElementById('colorSelector');
     colorSelector.addEventListener('change', (e) => {
         if (window.ThemeManager) {
@@ -132,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Cambiar tema dinámicamente
     const themeSelector = document.querySelector('select[name="theme"]');
     if (themeSelector) {
         themeSelector.addEventListener('change', (e) => {
@@ -152,10 +148,8 @@ function changePassword() {
         return;
     }
     
-    // Obtener el token CSRF
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     
-    // Enviar petición AJAX
     fetch('{% url "funATIAPP:change_password" %}', {
         method: 'POST',
         headers: {
@@ -168,7 +162,6 @@ function changePassword() {
     .then(data => {
         if (data.success) {
             alert('Contraseña cambiada exitosamente.');
-            // Limpiar los campos
             document.querySelector('input[name="old_password"]').value = '';
             document.querySelector('input[name="new_password"]').value = '';
         } else {

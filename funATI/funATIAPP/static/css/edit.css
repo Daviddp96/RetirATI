@@ -16,7 +16,6 @@ grid-template-columns: var(--sidebar-width) 1fr;
 min-height: 100vh;
 }
 
-/* Barra lateral */
 .sidebar {
 position: sticky;
 top: 0;
@@ -140,7 +139,6 @@ flex-shrink: 0;
 background-color: var(--border-light);
 }
 
-/* Barra superior */
 .top-bar {
 position: sticky;
 top: 0;
@@ -155,14 +153,12 @@ font-size: 20px;
 font-weight: bold;
 }
 
-/* Contenido principal */
 .main-content {
     background: linear-gradient(to right, #f0c6e0, #dc50c9);
     min-height: calc(100vh - 60px);
     padding-top: 1px;
 }
 
-/* Encabezado del perfil */
 .profile-header {
 display: grid;
 grid-template-columns: 1fr 1fr;
@@ -171,7 +167,6 @@ padding: 20px;
 border-bottom: 1px solid var(--border-light);
 }
 
-/* Nuevos estilos específicos para editar perfil */
 .edit-profile-container {
   background-color: var(--bg-container);
   padding: 20px;
@@ -298,7 +293,7 @@ width: 100%;
 
 .date-input {
 width: 100%;
-padding: 10px 35px 10px 10px; /* Espacio para el ícono */
+padding: 10px 35px 10px 10px; 
 border: 1px solid var(--border-light);
 border-radius: 4px;
 font-family: var(--font-main);
@@ -307,7 +302,7 @@ background-color: var(--bg-primary);
 color: var(--text-primary);
 }
 
-/* Estilo para el ícono de calendario */
+
 .date-icon {
 position: absolute;
 right: 10px;
@@ -340,7 +335,6 @@ color: var(--text-secondary);
   box-shadow: 0 0 0 2px rgba(243, 68, 234, 0.2);
 }
 
-/* Media Queries */
 @media (max-width: 900px) {
 body {
     grid-template-columns: 80px 1fr;

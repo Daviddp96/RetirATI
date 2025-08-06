@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- Publicación principal -->
 <div class="post">
     <div class="post-header">
         <a href="{% url 'funATIAPP:profile_detail' publication.profile.id %}" class="profile-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
@@ -43,7 +42,6 @@
           </button>
     </div>
 </div>
-<!-- Sección de comentarios -->
 <div class="comments-section container" style="margin-top: 32px;">
     <h3 style="margin-bottom: 16px;">Comentarios</h3>
     {% if user.is_authenticated %}

@@ -4,18 +4,15 @@ from . import views
 app_name = 'funATIAPP'
 
 urlpatterns = [
-    # Página de inicio
     path('', views.index, name='index'),
     
-    # Páginas de autenticación
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('recover-password/', views.recover_password_view, name='recover_password'),
     path('logout/', views.logout_view, name='logout'),
     
-    # Páginas principales de la aplicación
-    path('app/', views.muro_view, name='app'),  # Página principal (muro)
-    path('muro/', views.muro_view, name='muro'),  # Alias para el muro
+    path('app/', views.muro_view, name='app'),  
+    path('muro/', views.muro_view, name='muro'),  
     path('notifications/', views.notifications_view, name='notifications'),
     path('chats/', views.chats_view, name='chats'),
     path('chat/<int:friend_id>/', views.chat_room_view, name='chat_room'),
@@ -32,15 +29,12 @@ urlpatterns = [
     path('follows/', views.follows_view, name='follows'),
     path('follows/<int:profile_id>/', views.follows_view, name='follows_profile'),
     
-    # Componentes auxiliares (para AJAX)
     path('menu-main/', views.menu_main_view, name='menu_main'),
     path('container/', views.container_view, name='container'),
     
-    # APIs para chat
     path('api/messages/<int:friend_id>/', views.get_messages_api, name='get_messages_api'),
     path('api/search-friends/', views.search_friends_api, name='search_friends_api'),
     path('api/send-message/', views.send_message_api, name='send_message_api'),
     
-    # Test/Debug
     path('test-chat/<str:room_name>/', views.test_chat, name='test_chat'),
 ]

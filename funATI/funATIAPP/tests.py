@@ -1,4 +1,4 @@
-# Create your tests here.
+
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from .models import Profile, Publication, Comment, UserSettings
@@ -7,7 +7,6 @@ from django.utils import timezone
 import tempfile
 from PIL import Image
 
-# Función auxiliar para crear un usuario y perfil de prueba
 def create_test_user(username, email, password):    
     user = User.objects.create_user(username=username, email=email, password=password)
     return user, user.profile
@@ -24,18 +23,15 @@ class UsuarioBasicoTest(TestCase):
         2. Se crea automáticamente un perfil.
         3. Podemos actualizar y verificar los campos del perfil.
         """
-        # Actualizar los campos del perfil
         self.profile1.biography = 'Biografía de prueba actualizada'
         self.profile1.birth_date = timezone.now().date()
         self.profile1.national_id = '12345678'
         self.profile1.favorite_color = 'Azul'
         self.profile1.save()
 
-        # Verificar usuario
-        self.assertEqual(User.objects.count(), 2) # setUp crea 2 usuarios
+        self.assertEqual(User.objects.count(), 2) 
         self.assertEqual(self.user1.username, 'usuario1')
         
-        # Verificar perfil
         self.assertEqual(Profile.objects.count(), 2)
         self.assertEqual(self.profile1.user.username, 'usuario1')
         self.assertEqual(self.profile1.biography, 'Biografía de prueba actualizada')
@@ -71,18 +67,14 @@ class UsuarioBasicoTest(TestCase):
         2. Que la relación no es simétrica.
         3. Que los contadores de 'following' y 'followers' se actualizan.
         """
-        # profile1 sigue a profile2
         self.profile1.following.add(self.profile2)
 
-        # Verificar que profile1 está siguiendo a profile2
         self.assertEqual(self.profile1.following.count(), 1)
         self.assertIn(self.profile2, self.profile1.following.all())
 
-        # Verificar que profile2 tiene un seguidor (profile1)
         self.assertEqual(self.profile2.followers.count(), 1)
         self.assertIn(self.profile1, self.profile2.followers.all())
 
-        # Verificar que la relación no es simétrica (profile2 no sigue a profile1)
         self.assertEqual(self.profile2.following.count(), 0)
 
 class AuthViewsTest(TestCase):
@@ -107,13 +99,11 @@ class AuthViewsTest(TestCase):
 
     def test_login_logout_view(self):
         """Prueba el flujo completo de login y logout."""
-        # Crear usuario para hacer login
         User.objects.create_user(
             username=self.user_data['username'],
             email=self.user_data['email'],
             password=self.user_data['password']
         )
-        # Probar login
         response = self.client.post(reverse('funATIAPP:login'), {
             'email': self.user_data['email'],
             'password': self.user_data['password']
@@ -122,7 +112,6 @@ class AuthViewsTest(TestCase):
         self.assertTemplateUsed(response, 'muro.html')
         self.assertTrue(response.context['user'].is_authenticated)
 
-        # Probar logout
         response = self.client.get(reverse('funATIAPP:logout'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
@@ -142,28 +131,23 @@ class PublicacionesIntegrationTest(TestCase):
         3. La publicación aparece en su perfil.
         4. La vista de detalle muestra correctamente la publicación.
         """
-        # 1. Verificar acceso al muro principal
         response = self.client.get(reverse('funATIAPP:muro'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Muro')
         
-        # 2. Crear una publicación
         response = self.client.post(reverse('funATIAPP:muro'), {
             'content': 'Mi primera publicación de prueba',
         }, follow=True)
         self.assertEqual(response.status_code, 200)
         
-        # Verificar que la publicación existe en la base de datos
         publication = Publication.objects.first()
         self.assertIsNotNone(publication)
         self.assertEqual(publication.content, 'Mi primera publicación de prueba')
         self.assertEqual(publication.profile, self.profile)
         
-        # 3. Verificar que la publicación aparece en el perfil
         response = self.client.get(reverse('funATIAPP:profile'))
         self.assertContains(response, 'Mi primera publicación de prueba')
         
-        # 4. Verificar vista de detalle de publicación
         response = self.client.get(reverse('funATIAPP:publication_detail', args=[publication.id]))
         self.assertContains(response, 'Mi primera publicación de prueba')
         self.assertContains(response, 'testuser')
@@ -172,7 +156,6 @@ class PublicacionesIntegrationTest(TestCase):
         """Prueba que un usuario puede comentar en una publicación."""
         publication = Publication.objects.create(profile=self.profile, content="Publicación para comentar")
         
-        # Postear un comentario
         response = self.client.post(reverse('funATIAPP:publication_detail', args=[publication.id]), {
             'content': 'Este es un comentario de prueba.'
         }, follow=True)
@@ -180,7 +163,6 @@ class PublicacionesIntegrationTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Este es un comentario de prueba.')
         
-        # Verificar que el comentario existe en la DB
         comment = Comment.objects.first()
         self.assertIsNotNone(comment)
         self.assertEqual(comment.user, self.user)
@@ -206,7 +188,6 @@ class PerfilConfigTest(TestCase):
         self.assertTemplateUsed(response, 'perfil-main.html')
         self.assertContains(response, 'Una nueva biografía.')
 
-        # Verificar que los datos se guardaron en la DB
         self.user.refresh_from_db()
         self.profile.refresh_from_db()
         self.assertEqual(self.user.first_name, 'Usuario')

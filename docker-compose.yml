@@ -16,10 +16,4 @@ services:
       timeout: 30s
       retries: 5
       start_period: 120s
-    
-  # Optional: separate Redis service if you want to use external Redis
-  # redis:
-  #   image: redis:7-alpine
-  #   ports:
-  #     - "6379:6379"
-  #   restart: unless-stopped 
+  

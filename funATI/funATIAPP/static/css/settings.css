@@ -129,7 +129,6 @@
     left: 3px;
 }
 
-/* Styles for messages */
 .messages {
     margin-bottom: 20px;
 }
@@ -227,21 +226,15 @@
     box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
 }
 
-/* Tablet Styles */
 @media (max-width: 1024px) {
-    /*.main-content {
-        padding: 20px 30px;
-    }*/
 
     .settings-container {
         padding: 25px;
     }
 }
 
-/* Mobile Styles */
 @media (max-width: 768px) {
     .main-content {
-        /*padding: 80px 20px 20px;*/
         width: 100%;
     }
 
@@ -297,11 +290,7 @@
     }
 }
 
-/* Small Mobile Styles */
 @media (max-width: 480px) {
-/*     .main-content {
-        padding: 70px 15px 15px;
-    } */
 
     .settings-container {
         padding: 15px;
@@ -324,7 +313,6 @@
     }
 }
 
-/* Landscape Mobile */
 @media (max-width: 768px) and (orientation: landscape) {
     .main-content {
         padding: 70px 20px 20px;
@@ -334,6 +322,3 @@
         max-width: none;
     }
 }
-
-/* High DPI Displays */
-/* No clases usadas en settings.html, se elimina este bloque */

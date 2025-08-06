@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Chats - FunATI{% endblock %}
 
@@ -18,7 +19,7 @@
                     <path d="M12.4145 14.0333C13.9506 12.6821 14.9286 10.6452 14.9286 8.36667C14.9286 4.29817 11.8106 1 7.96429 1C4.11802 1 1 4.29817 1 8.36667C1 12.4352 4.11802 15.7333 7.96429 15.7333C9.65651 15.7333 11.2078 15.0949 12.4145 14.0333ZM12.4145 14.0333L16 18" stroke="#6E767D" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </div>
-            <input type="text" class="search-bar" placeholder="Buscar amigos" id="search-friends" value="{{ search_query }}">
+            <input type="text" class="search-bar" placeholder="{% trans 'Buscar amigos' %}" id="search-friends" value="{{ search_query }}">
             <div class="message-icon"></div>
         </div>
 
@@ -44,7 +45,7 @@
                                 <div class="status-indicator checkmark"></div>
                             {% endif %}
                         {% else %}
-                            <div class="contact-date">Nueva</div>
+                            <div class="contact-date">{% trans "Nueva" %}</div>
                         {% endif %}
                     </div>
                 </li>
@@ -52,9 +53,9 @@
             {% else %}
                 <li class="contact-item">
                     <div class="contact-info" style="text-align: center; width: 100%;">
-                        <div class="contact-name">No tienes amigos aún</div>
+                        <div class="contact-name">{% trans "No tienes amigos aún" %}</div>
                         <div class="contact-username">
-                            <a href="{% url 'funATIAPP:friends' %}" style="color: #e91e63;">¡Encuentra amigos aquí!</a>
+                            <a href="{% url 'funATIAPP:friends' %}" style="color: #e91e63;">{% trans "¡Encuentra amigos aquí!" %}</a>
                         </div>
                     </div>
                 </li>
@@ -65,8 +66,8 @@
         <div class="chat-container" id="chat-container">
             <div class="chat-placeholder" id="chat-placeholder">
                 <div>
-                    <h3>Selecciona un amigo para comenzar a chatear</h3>
-                    <p>Haz clic en cualquier contacto de la lista para iniciar una conversación</p>
+                    <h3>{% trans "Selecciona un amigo para comenzar a chatear" %}</h3>
+                    <p>{% trans "Haz clic en cualquier contacto de la lista para iniciar una conversación" %}</p>
                 </div>
             </div>
         </div>
@@ -76,6 +77,19 @@
 
 {% block extra_js %}
 {% csrf_token %}
+<script>
+    // Pasar traducciones de Django a JavaScript
+    window.TRANSLATIONS = {
+        'searchFriends': '{% trans "Buscar amigos" %}',
+        'newChat': '{% trans "Nueva" %}',
+        'noFriendsYet': '{% trans "No tienes amigos aún" %}',
+        'findFriendsHere': '{% trans "¡Encuentra amigos aquí!" %}',
+        'selectFriend': '{% trans "Selecciona un amigo para comenzar a chatear" %}',
+        'clickContact': '{% trans "Haz clic en cualquier contacto de la lista para iniciar una conversación" %}',
+        'noFriendsFound': '{% trans "No se encontraron amigos" %}',
+        'startMessage': '{% trans "Comienza tu mensaje" %}'
+    };
+</script>
 <script>
 let currentSocket = null;
 let currentFriendId = null;
@@ -103,15 +117,15 @@ function updateContactsList(friends, searchQuery = '') {
         const message = searchQuery === '' ? 
             `<li class="contact-item">
                 <div class="contact-info" style="text-align: center; width: 100%;">
-                    <div class="contact-name">No tienes amigos aún</div>
+                    <div class="contact-name">${window.TRANSLATIONS?.noFriendsYet || 'No tienes amigos aún'}</div>
                     <div class="contact-username">
-                        <a href="{% url 'funATIAPP:friends' %}" style="color: #e91e63;">¡Encuentra amigos aquí!</a>
+                        <a href="{% url 'funATIAPP:friends' %}" style="color: #e91e63;">${window.TRANSLATIONS?.findFriendsHere || '¡Encuentra amigos aquí!'}</a>
                     </div>
                 </div>
             </li>` : 
             `<li class="contact-item">
                 <div class="contact-info" style="text-align: center; width: 100%;">
-                    <div class="contact-name">No se encontraron amigos</div>
+                    <div class="contact-name">${window.TRANSLATIONS?.noFriendsFound || 'No se encontraron amigos'}</div>
                 </div>
             </li>`;
         
@@ -133,7 +147,7 @@ function updateContactsList(friends, searchQuery = '') {
                         '<div class="notification-badge">1</div>' : 
                         '<div class="status-indicator checkmark"></div>'
                     }
-                ` : '<div class="contact-date">Nueva</div>'}
+                ` : `<div class="contact-date">${window.TRANSLATIONS?.newChat || 'Nueva'}</div>`}
             </div>
         </li>
     `).join('');
@@ -224,7 +238,7 @@ function displayMessages(messages, friendId) {
                     </label>
                     <input type="file" id="chat-media-input" style="display: none;" accept="image/*,video/*" onchange="handleFileSelect(event)">
                 </div>
-                <input type="text" class="message-input" id="message-input" placeholder="Comienza tu mensaje">
+                <input type="text" class="message-input" id="message-input" placeholder="${window.TRANSLATIONS?.startMessage || 'Comienza tu mensaje'}">
                 <div class="input-icons">
                     <span class="send-button icon-send" onclick="sendMessage()" style="cursor: pointer;" title="Enviar mensaje">➤</span>
                 </div>

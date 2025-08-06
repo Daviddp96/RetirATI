@@ -396,3 +396,35 @@ msgstr ""
 #: .\funATIAPP\views.py:678
 msgid "Método no permitido."
 msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:21
+msgid "Buscar amigos"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:47
+msgid "Nueva"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:55
+msgid "No tienes amigos aún"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:57
+msgid "¡Encuentra amigos aquí!"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:68
+msgid "Selecciona un amigo para comenzar a chatear"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:69
+msgid "Haz clic en cualquier contacto de la lista para iniciar una conversación"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:114
+msgid "No se encontraron amigos"
+msgstr ""
+
+#: .\funATIAPP\templates\chats-main.html:227
+msgid "Comienza tu mensaje"
+msgstr ""

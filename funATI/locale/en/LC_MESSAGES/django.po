@@ -342,6 +342,38 @@ msgstr "Invalid language."
 msgid "Método no permitido."
 msgstr "Method not allowed."
 
+#: .\funATIAPP\templates\chats-main.html:21
+msgid "Buscar amigos"
+msgstr "Search friends"
+
+#: .\funATIAPP\templates\chats-main.html:47
+msgid "Nueva"
+msgstr "New"
+
+#: .\funATIAPP\templates\chats-main.html:55
+msgid "No tienes amigos aún"
+msgstr "You don't have friends yet"
+
+#: .\funATIAPP\templates\chats-main.html:57
+msgid "¡Encuentra amigos aquí!"
+msgstr "Find friends here!"
+
+#: .\funATIAPP\templates\chats-main.html:68
+msgid "Selecciona un amigo para comenzar a chatear"
+msgstr "Select a friend to start chatting"
+
+#: .\funATIAPP\templates\chats-main.html:69
+msgid "Haz clic en cualquier contacto de la lista para iniciar una conversación"
+msgstr "Click on any contact from the list to start a conversation"
+
+#: .\funATIAPP\templates\chats-main.html:114
+msgid "No se encontraron amigos"
+msgstr "No friends found"
+
+#: .\funATIAPP\templates\chats-main.html:227
+msgid "Comienza tu mensaje"
+msgstr "Start your message"
+
 #~ msgid "hace unos segundos"
 #~ msgstr "a few seconds ago"
 

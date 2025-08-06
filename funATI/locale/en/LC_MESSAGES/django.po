@@ -374,6 +374,22 @@ msgstr "No friends found"
 msgid "Comienza tu mensaje"
 msgstr "Start your message"
 
+#: .\funATIAPP\templates\notifications.html:44
+msgid "te está siguiendo"
+msgstr "is following you"
+
+#: .\funATIAPP\templates\notifications.html:46
+msgid "es ahora tu amigo"
+msgstr "is now your friend"
+
+#: .\funATIAPP\templates\notifications.html:48
+msgid "respondió a tu publicación:"
+msgstr "replied to your post:"
+
+#: .\funATIAPP\templates\notifications.html:66
+msgid "No tienes notificaciones aún."
+msgstr "You don't have notifications yet."
+
 #~ msgid "hace unos segundos"
 #~ msgstr "a few seconds ago"
 

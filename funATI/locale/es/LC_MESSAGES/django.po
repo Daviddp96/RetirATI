@@ -428,3 +428,19 @@ msgstr ""
 #: .\funATIAPP\templates\chats-main.html:227
 msgid "Comienza tu mensaje"
 msgstr ""
+
+#: .\funATIAPP\templates\notifications.html:44
+msgid "te está siguiendo"
+msgstr ""
+
+#: .\funATIAPP\templates\notifications.html:46
+msgid "es ahora tu amigo"
+msgstr ""
+
+#: .\funATIAPP\templates\notifications.html:48
+msgid "respondió a tu publicación:"
+msgstr ""
+
+#: .\funATIAPP\templates\notifications.html:66
+msgid "No tienes notificaciones aún."
+msgstr ""

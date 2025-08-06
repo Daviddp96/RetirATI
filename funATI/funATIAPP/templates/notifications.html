@@ -41,17 +41,17 @@
                     </div>
                     <div class="notification-content">
                         {% if notification.notification_type == 'follow' %}
-                            <strong>{{ notification.sender.username }}</strong> te está siguiendo
+                            <strong>{{ notification.sender.username }}</strong> {% trans "te está siguiendo" %}
                         {% elif notification.notification_type == 'friend' %}
-                            <strong>{{ notification.sender.username }}</strong> es ahora tu amigo
+                            <strong>{{ notification.sender.username }}</strong> {% trans "es ahora tu amigo" %}
                         {% elif notification.notification_type == 'comment' %}
-                            <strong>{{ notification.sender.username }}</strong> respondió a tu publicación:<br />
+                            <strong>{{ notification.sender.username }}</strong> {% trans "respondió a tu publicación:" %}<br />
                             {{ notification.comment.content|truncatechars:100 }}
                         {% else %}
                             {{ notification.message }}
                         {% endif %}
                         <div class="notification-time">
-                            {{ notification.created_at|timesince }} atrás
+                            {{ notification.created_at|timesince }} {% trans "atrás" %}
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
         {% endfor %}
     {% else %}
         <div class="no-notifications">
-            <p>No tienes notificaciones aún.</p>
+            <p>{% trans "No tienes notificaciones aún." %}</p>
         </div>
     {% endif %}
 </div>

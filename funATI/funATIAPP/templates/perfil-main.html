@@ -46,8 +46,8 @@
         </div>
         <p class="profile-bio">{{ profile.biography }}</p>
         <div class="seguidos">
-            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="seguidores">Seguidores</a>
-            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="seguidores">Seguidos</a>
+            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="edit-profile">Seguidores</a>
+            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="edit-profile">Seguidos</a>
         </div>
     </div>
     <div class="profile-details container">

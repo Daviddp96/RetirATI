@@ -196,6 +196,7 @@ body {
   display: flex;
   background: var(--bg-container);
   border-radius: 8px;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   height: 4rem;
 }
@@ -515,12 +516,12 @@ body {
   width: 50%;
   max-width: 200px;
   margin-top: 1rem;
-  margin-bottom: 1rem;
   transition: all 0.2s;
 }
 
 .seguidos {
   display: flex;
+  gap: 1rem;
 }
 
 .seguidores {
@@ -891,8 +892,7 @@ form .media-preview-img {
     cursor: pointer;
   }
 
-  .followers-container_,
-  .profile-nav {
+  .followers-container_ {
     margin: 0px;
   }
 

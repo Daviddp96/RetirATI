@@ -1,12 +1,12 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}FunATI{% endblock %}</title>
     
-    <!-- Google Fonts - Lato -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
@@ -20,6 +20,30 @@
     
     <div class="main-content">
         <div class="top-bar">
+            <div class="profile">
+                {% if user.is_authenticated %}
+                <a href="{% url 'funATIAPP:profile' %}" class="profile-btn">
+                <span class="sidebar-avatar">
+                    {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="sidebar-avatar-img" />
+                    {% else %}
+                    <img src="{% static 'assets/user-placeholder.png' %}" alt="Avatar" class="sidebar-avatar-img" />
+                    {% endif %}
+                </span>
+                <span class="user-info user-info2">
+                    <span class="user-name">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+                    </span>
+                    <span class="user-username">@{{ user.username }}</span>
+                </span>
+                </a>
+                {% endif %}
+            
+            </div>
             <h1>{% block page_title %}FunATI{% endblock %}</h1>
         </div>
         

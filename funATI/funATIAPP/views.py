@@ -11,8 +11,9 @@ from django.http import JsonResponse
 from random import sample
 from django.db.models import Q
 from django.contrib import messages
+from django.utils import translation
+from django.utils.translation import gettext as _
 
-# Create your views here.
 
 def can_view_publications(viewer_user, profile_owner):
     """
@@ -26,27 +27,20 @@ def can_view_publications(viewer_user, profile_owner):
     Returns:
         bool: True si puede ver las publicaciones, False en caso contrario
     """
-    # Si es el propio usuario, siempre puede ver sus publicaciones
     if viewer_user and viewer_user.is_authenticated and viewer_user == profile_owner.user:
         return True
     
-    # Obtener configuración de privacidad del dueño del perfil
     owner_settings = UserSettings.get_user_settings(profile_owner.user)
     
-    # Si las publicaciones son públicas, cualquiera puede verlas
     if owner_settings.privacy == 'publico':
         return True
     
-    # Si las publicaciones son privadas, solo los amigos pueden verlas
     if owner_settings.privacy == 'privado':
-        # Si el viewer no está autenticado, no puede ver
         if not viewer_user or not viewer_user.is_authenticated:
             return False
         
-        # Verificar si son amigos
         return profile_owner in viewer_user.profile.friends.all()
     
-    # Por defecto, no permitir acceso
     return False
 
 def get_viewable_publications_for_feed(viewer_user):
@@ -65,32 +59,26 @@ def get_viewable_publications_for_feed(viewer_user):
     
     profile = viewer_user.profile
     
-    # Obtener IDs de perfiles amigos, seguidos y propios
     friends_ids = profile.friends.values_list('id', flat=True)
     following_ids = profile.following.values_list('id', flat=True)
     allowed_profiles = list(friends_ids) + list(following_ids) + [profile.id]
     
-    # Obtener todas las publicaciones de estos perfiles
     all_publications = Publication.objects.select_related('profile__user').filter(
         profile_id__in=allowed_profiles
     ).order_by('-created_at')
     
-    # Filtrar las publicaciones basándose en la privacidad
     viewable_publications = []
     for publication in all_publications:
         if can_view_publications(viewer_user, publication.profile):
             viewable_publications.append(publication.id)
     
-    # Retornar las publicaciones filtradas
     return Publication.objects.select_related('profile__user').filter(
         id__in=viewable_publications
     ).order_by('-created_at')
 
-# Página de inicio (landing page)
 def index(request):
     return render(request, 'index.html')
 
-# Páginas de autenticación
 def login_view(request):
     error = None
     if request.method == 'POST':
@@ -114,7 +102,6 @@ def register_view(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            # Generar un username único basado en el email
             base_username = email.split('@')[0]
             username = base_username
             counter = 1
@@ -149,7 +136,6 @@ def logout_view(request):
     logout(request)
     return redirect('funATIAPP:index')
 
-# Páginas principales de la aplicación
 @login_required
 def muro_view(request):
     if request.method == 'POST':
@@ -162,7 +148,6 @@ def muro_view(request):
                 return JsonResponse({'success': True})
             return redirect('funATIAPP:muro')
     
-    # Obtener publicaciones que respeten la privacidad
     publications = get_viewable_publications_for_feed(request.user)
     form = PublicationForm()
     
@@ -191,10 +176,8 @@ def muro_view(request):
 
 @login_required
 def notifications_view(request):
-    # Get all notifications for the current user
-    notifications = request.user.notifications.all()[:20]  # Limit to 20 most recent
+    notifications = request.user.notifications.all()[:20]  
     
-    # Mark notifications as read when viewed
     request.user.notifications.filter(is_read=False).update(is_read=True)
     
     return render(request, 'notifications.html', {'notifications': notifications})
@@ -204,7 +187,6 @@ def chats_view(request):
     profile = request.user.profile
     friends = profile.friends.all()
     
-    # Get search query if provided
     search_query = request.GET.get('search', '')
     if search_query:
         friends = friends.filter(
@@ -213,10 +195,8 @@ def chats_view(request):
             Q(user__last_name__icontains=search_query)
         )
     
-    # Add recent messages for each friend
     friends_with_messages = []
     for friend in friends:
-        # Get last message between current user and this friend
         last_message = Message.objects.filter(
             Q(sender=request.user, receiver=friend.user) |
             Q(sender=friend.user, receiver=request.user)
@@ -237,26 +217,22 @@ def chat_room_view(request, friend_id):
     """View for specific chat room with a friend"""
     try:
         friend_profile = Profile.objects.get(id=friend_id)
-        # Check if they are friends
         if friend_profile not in request.user.profile.friends.all():
             return redirect('funATIAPP:chats')
     except Profile.DoesNotExist:
         return redirect('funATIAPP:chats')
     
-    # Get chat messages between the two users
     messages = Message.objects.filter(
         Q(sender=request.user, receiver=friend_profile.user) |
         Q(sender=friend_profile.user, receiver=request.user)
-    ).order_by('timestamp')[:50]  # Last 50 messages
+    ).order_by('timestamp')[:50]  
     
-    # Mark messages from friend as read
     Message.objects.filter(
         sender=friend_profile.user,
         receiver=request.user,
         is_read=False
     ).update(is_read=True)
     
-    # Generate room name for WebSocket (consistent naming)
     room_name = f"{min(request.user.id, friend_profile.user.id)}_{max(request.user.id, friend_profile.user.id)}"
     
     return render(request, 'chat-room.html', {
@@ -275,7 +251,6 @@ def get_messages_api(request, friend_id):
     except Profile.DoesNotExist:
         return JsonResponse({'error': 'Friend not found'}, status=404)
     
-    # Get messages
     messages = Message.objects.filter(
         Q(sender=request.user, receiver=friend_user) |
         Q(sender=friend_user, receiver=request.user)
@@ -301,11 +276,9 @@ def search_friends_api(request):
     profile = request.user.profile
     
     if not search_query:
-        # If no search query, return all friends with their last messages
         friends = profile.friends.all()
         friends_data = []
         for friend in friends:
-            # Get last message between current user and this friend
             last_message = Message.objects.filter(
                 Q(sender=request.user, receiver=friend.user) |
                 Q(sender=friend.user, receiver=request.user)
@@ -324,7 +297,6 @@ def search_friends_api(request):
                 } if last_message else None
             })
     else:
-        # Filter friends by search query
         friends = profile.friends.filter(
             Q(user__username__icontains=search_query) |
             Q(user__first_name__icontains=search_query) |
@@ -365,11 +337,9 @@ def send_message_api(request):
         except Profile.DoesNotExist:
             return JsonResponse({'error': 'Receiver not found'}, status=404)
         
-        # Check if they are friends
         if receiver_profile not in request.user.profile.friends.all():
             return JsonResponse({'error': 'You can only send messages to friends'}, status=403)
         
-        # Create the message
         message = Message.objects.create(
             sender=request.user,
             receiver=receiver_user,
@@ -405,7 +375,7 @@ def friends_view(request):
             try:
                 friend_profile = Profile.objects.get(id=add_friend_id)
                 profile.friends.add(friend_profile)
-                friend_profile.friends.add(profile)  # amistad mutua
+                friend_profile.friends.add(profile)  
             except Profile.DoesNotExist:
                 pass
         if follow_id:
@@ -424,17 +394,15 @@ def friends_view(request):
             try:
                 friend_profile = Profile.objects.get(id=remove_friend_id)
                 profile.friends.remove(friend_profile)
-                friend_profile.friends.remove(profile)  # eliminar mutua
+                friend_profile.friends.remove(profile)  
             except Profile.DoesNotExist:
                 pass
         return redirect('funATIAPP:friends')
     all_profiles = Profile.objects.exclude(id=profile.id)
     friends = profile.friends.all()
-    # Excluir amigos y el propio usuario de las recomendaciones
     exclude_ids = list(friends.values_list('id', flat=True)) + [profile.id]
     recommendations_qs = all_profiles.exclude(id__in=exclude_ids)
     recommendations = list(recommendations_qs)
-    # Si hay menos de 15/4 usuarios, ajustar el sample
     if not friends:
         num_recommend = min(15, len(recommendations))
         recommendations = sample(recommendations, num_recommend) if num_recommend > 0 else []
@@ -455,14 +423,17 @@ def settings_view(request):
     user_settings = UserSettings.get_user_settings(request.user)
     
     if request.method == 'POST':
-        # Procesar el formulario de configuración
         privacy = request.POST.get('privacy', user_settings.privacy)
         language = request.POST.get('language', user_settings.language)
         color_theme = request.POST.get('color', user_settings.color_theme)
         theme_mode = request.POST.get('theme', user_settings.theme_mode)
         email_notifications = request.POST.get('notifications') == 'on'
         
-        # Actualizar configuraciones
+        # Si el idioma cambió, activarlo en la sesión
+        if language != user_settings.language and language in ['es', 'en']:
+            translation.activate(language)
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
+        
         user_settings.privacy = privacy
         user_settings.language = language
         user_settings.color_theme = color_theme
@@ -470,7 +441,7 @@ def settings_view(request):
         user_settings.email_notifications = email_notifications
         user_settings.save()
         
-        messages.success(request, 'Configuración guardada exitosamente.')
+        messages.success(request, _('Configuración guardada exitosamente.'))
         return redirect('funATIAPP:settings')
     
     return render(request, 'settings.html', {
@@ -507,14 +478,12 @@ def profile_detail_view(request, profile_id):
     except Profile.DoesNotExist:
         return redirect('funATIAPP:profile')
     
-    # Verificar si el usuario actual puede ver las publicaciones del perfil
     can_view = can_view_publications(request.user, profile)
     if can_view:
         publications = profile.publications.order_by('-created_at')
     else:
         publications = []
     
-    # Obtener configuración de privacidad del perfil
     profile_settings = UserSettings.get_user_settings(profile.user)
     is_own_profile = request.user.is_authenticated and request.user == profile.user
     
@@ -531,16 +500,14 @@ def profile_detail_view(request, profile_id):
 @login_required
 def profile_view(request):
     profile = request.user.profile
-    # El usuario siempre puede ver sus propias publicaciones
     publications = profile.publications.order_by('-created_at')
     
-    # Obtener configuración de privacidad del perfil
     profile_settings = UserSettings.get_user_settings(profile.user)
     
     context = {
         'profile': profile,
         'publications': publications,
-        'can_view_publications': True,  # Siempre puede ver sus propias publicaciones
+        'can_view_publications': True,  
         'profile_privacy': profile_settings.privacy,
         'is_own_profile': True
     }
@@ -549,7 +516,6 @@ def profile_view(request):
 
 @login_required
 def followers_view(request, profile_id=None):
-    # Permite ver los seguidores de cualquier perfil
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
     if profile_id:
         try:
@@ -559,7 +525,6 @@ def followers_view(request, profile_id=None):
     else:
         profile = request.user.profile
     
-    # Manejar acciones POST de seguir/dejar de seguir
     if request.method == 'POST' and request.user.is_authenticated:
         follow_id = request.POST.get('follow')
         unfollow_id = request.POST.get('unfollow')
@@ -579,7 +544,6 @@ def followers_view(request, profile_id=None):
             except Profile.DoesNotExist:
                 pass
         
-        # Redirect para evitar reenvío de formulario
         redirect_url = request.path_info
         if profile_id:
             redirect_url += f'?profile_id={profile_id}'
@@ -590,7 +554,6 @@ def followers_view(request, profile_id=None):
 
 @login_required
 def follows_view(request, profile_id=None):
-    # Permite ver los seguidos de cualquier perfil y dejar de seguir
     profile_id = request.GET.get('profile_id') or request.resolver_match.kwargs.get('profile_id')
     if profile_id:
         try:
@@ -619,7 +582,6 @@ def follows_view(request, profile_id=None):
             except Profile.DoesNotExist:
                 pass
         
-        # Redirect para evitar reenvío de formulario
         redirect_url = request.path_info
         if profile_id:
             redirect_url += f'?profile_id={profile_id}'
@@ -628,7 +590,6 @@ def follows_view(request, profile_id=None):
     following = profile.following.all()
     return render(request, 'follows.html', {'profile': profile, 'following': following})
 
-# Componentes auxiliares
 @login_required
 def menu_main_view(request):
     context = {
@@ -639,7 +600,6 @@ def menu_main_view(request):
 
 @login_required
 def container_view(request):
-    # Obtener publicaciones que respeten la privacidad
     publications = get_viewable_publications_for_feed(request.user)
     return render(request, 'container.html', {'publications': publications})
 
@@ -671,7 +631,6 @@ def change_password_view(request):
         form = ChangePasswordForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
-            # Re-autenticar al usuario después de cambiar la contraseña
             from django.contrib.auth import update_session_auth_hash
             update_session_auth_hash(request, request.user)
             
@@ -680,10 +639,9 @@ def change_password_view(request):
                 'message': 'Contraseña cambiada exitosamente.'
             })
         else:
-            # Devolver errores de validación
             errors = {}
             for field, error_list in form.errors.items():
-                errors[field] = error_list[0]  # Tomar solo el primer error por campo
+                errors[field] = error_list[0]  
             
             return JsonResponse({
                 'success': False,
@@ -691,6 +649,33 @@ def change_password_view(request):
             })
     
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
+
+@login_required
+def change_language_view(request):
+    """View para cambiar el idioma del usuario mediante AJAX"""
+    if request.method == 'POST':
+        language = request.POST.get('language')
+        if language and language in ['es', 'en']:
+            # Actualizar configuración del usuario
+            user_settings = UserSettings.get_user_settings(request.user)
+            user_settings.language = language
+            user_settings.save()
+            
+            # Activar el idioma en la sesión
+            translation.activate(language)
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
+            
+            return JsonResponse({
+                'success': True,
+                'message': _('Idioma cambiado exitosamente.')
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'message': _('Idioma no válido.')
+            })
+    
+    return JsonResponse({'success': False, 'message': _('Método no permitido.')})
 
 @login_required
 def test_chat(request, room_name):

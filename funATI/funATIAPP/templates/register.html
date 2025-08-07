@@ -1,7 +1,8 @@
 {% extends 'auth_base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Registrarse - FunATI{% endblock %}
+{% block title %}{% trans "Registrarse" %} - FunATI{% endblock %}
 
 {% block content %}
 <div class="login-container">
@@ -9,10 +10,10 @@
 
     <form class="login-form" method="post">
         {% csrf_token %}
-        <input type="email" name="email" placeholder="Ingrese el correo" required />
-        <input type="password" name="password" placeholder="Ingrese la clave" required />
-        <input type="password" name="password_confirm" placeholder="Repite la clave ingresada" required />
-        <button type="submit">Registrarse</button>
+        <input type="email" name="email" placeholder="{% trans 'Ingrese el correo' %}" required />
+        <input type="password" name="password" placeholder="{% trans 'Ingrese la clave' %}" required />
+        <input type="password" name="password_confirm" placeholder="{% trans 'Repite la clave ingresada' %}" required />
+        <button type="submit">{% trans "Registrarse" %}</button>
     </form>
 
     {% if form.errors %}
@@ -29,7 +30,7 @@
     {% endif %}
 
     <div class="login-links">
-        <a href="{% url 'funATIAPP:login' %}">¿Ya tienes cuenta? Inicia sesión</a>
+        <a href="{% url 'funATIAPP:login' %}">{% trans "¿Ya tienes cuenta? Inicia sesión" %}</a>
     </div>
 </div>
 {% endblock %}

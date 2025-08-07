@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Publicación - FunATI{% endblock %}
+{% block title %}{% trans "Publicación" %} - FunATI{% endblock %}
 
-{% block page_title %}Publicación{% endblock %}
+{% block page_title %}{% trans "Publicación" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -12,7 +13,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- Publicación principal -->
 <div class="post">
     <div class="post-header">
         <a href="{% url 'funATIAPP:profile_detail' publication.profile.id %}" class="profile-link" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
@@ -24,13 +24,13 @@
             <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
             <span class="post-handle">@{{ publication.profile.user.username }}</span>
         </a>
-        <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
+        <span class="post-time">{{ publication.created_at|timesince }} {% trans "atrás" %}</span>
     </div>
     <div class="post-content">{{ publication.content }}</div>
     {% if publication.media %}
     <div class="post-media-placeholder">
         <div class="media-preview">
-            <img src="{{ publication.media.url }}" alt="Imagen publicación" class="publication-img" />
+            <img src="{{ publication.media.url }}" alt="{% trans 'Imagen publicación' %}" class="publication-img" />
         </div>
     </div>
     {% endif %}
@@ -43,9 +43,8 @@
           </button>
     </div>
 </div>
-<!-- Sección de comentarios -->
 <div class="comments-section container" style="margin-top: 32px;">
-    <h3 style="margin-bottom: 16px;">Comentarios</h3>
+    <h3 style="margin-bottom: 16px;">{% trans "Comentarios" %}</h3>
     {% if user.is_authenticated %}
     <form method="post" class="funar comment-form" style="margin-bottom: 24px;">
         {% csrf_token %}
@@ -59,7 +58,7 @@
             </div>
             <div class="funar-content-column">
                 <div class="funar-input-container">
-                    <span class="span-funar comment-contenteditable" id="comment-content" contenteditable="true">Escribe un comentario...</span>
+                    <span class="span-funar comment-contenteditable" id="comment-content" contenteditable="true"></span>
                     <input type="hidden" name="content" id="hidden-comment-content" />
                     <input type="hidden" name="parent" id="comment-parent-id" value="">
                 </div>
@@ -67,7 +66,7 @@
         </div>
         <div class="buton-flex" style="position: relative; min-height: 50px;">
             <div style="margin-left: auto;">
-                <button type="submit" class="button-funar" id="funar-btn">Comentar</button>
+                <button type="submit" class="button-funar" id="funar-btn">{% trans "Comentar" %}</button>
             </div>
         </div>
     </form>
@@ -84,11 +83,11 @@
                 {% endif %}
                 <span class="post-username">{{ comment.user.username }}</span>
             </a>
-            <span class="post-time">{{ comment.created_at|timesince }} atrás</span>
+            <span class="post-time">{{ comment.created_at|timesince }} {% trans "atrás" %}</span>
         </div>
         <div class="post-content">{{ comment.content }}</div>
         <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 8px;">
-            <button class="reply-btn button-funar" onclick="showReplyForm('{{ comment.id }}')">Responder</button>
+            <button class="reply-btn button-funar" onclick="showReplyForm('{{ comment.id }}')">{% trans "Responder" %}</button>
         </div>
         <div class="reply-form-container" id="reply-form-{{ comment.id }}" style="display:none;">
             <form method="post" class="funar reply-form" style="margin-bottom: 16px;">
@@ -103,7 +102,7 @@
                     </div>
                     <div class="funar-content-column">
                         <div class="funar-input-container">
-                            <span class="span-funar reply-contenteditable" contenteditable="true">Escribe una respuesta...</span>
+                            <span class="span-funar reply-contenteditable" contenteditable="true"></span>
                             <input type="hidden" name="content" class="hidden-reply-content" />
                             <input type="hidden" name="parent" value="{{ comment.id }}">
                         </div>
@@ -111,7 +110,7 @@
                 </div>
                 <div class="buton-flex" style="position: relative; min-height: 50px;">
                     <div style="margin-left: auto;">
-                        <button type="submit" class="button-funar" id="funar-btn-reply-{{ comment.id }}">Responder</button>
+                        <button type="submit" class="button-funar" id="funar-btn-reply-{{ comment.id }}">{% trans "Responder" %}</button>
                     </div>
                 </div>
             </form>
@@ -120,11 +119,18 @@
     </div>
     {% endif %}
     {% empty %}
-        <p>No hay comentarios aún.</p>
+        <p>{% trans "No hay comentarios aún." %}</p>
     {% endfor %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
+<script>
+    // Pasar traducciones de Django a JavaScript
+    window.TRANSLATIONS = {
+        'commentPlaceholder': '{% trans "Escribe un comentario..." %}',
+        'replyPlaceholder': '{% trans "Escribe una respuesta..." %}'
+    };
+</script>
 <script src="{% static 'assets/publication.js' %}"></script>
 {% endblock %}

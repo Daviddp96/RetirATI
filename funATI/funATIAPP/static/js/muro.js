@@ -1,4 +1,4 @@
-const PLACEHOLDER = '¿A quién quieres Funar?';
+const PLACEHOLDER = window.TRANSLATIONS?.placeholder || '¿A quién quieres Funar?';
 var contentSpan = document.getElementById('funar-content');
 // Inicializar el placeholder si está vacío
 if (!contentSpan.innerText.trim()) {

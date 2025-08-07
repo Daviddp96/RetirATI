@@ -101,12 +101,10 @@ class ProfileEditForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         
         if user:
-            # Set initial values for user fields
             self.fields['first_name'].initial = user.first_name
             self.fields['last_name'].initial = user.last_name  
             self.fields['email'].initial = user.email
             
-            # If we have initial data from instance, make sure user fields are populated
             if hasattr(self, 'instance') and self.instance:
                 self.initial.update({
                     'first_name': user.first_name,
@@ -118,7 +116,7 @@ class ProfileEditForm(forms.ModelForm):
         profile = super().save(commit=False)
         
         if user and commit:
-            # Update user fields
+            
             user.first_name = self.cleaned_data['first_name']
             user.last_name = self.cleaned_data['last_name']
             user.email = self.cleaned_data['email']

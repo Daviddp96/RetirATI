@@ -1,0 +1,480 @@
+# FunATI English translation
+# Copyright (C) 2025 FunATI
+# This file is distributed under the same license as the FunATI package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FunATI 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-06 18:58-0400\n"
+"PO-Revision-Date: 2025-08-06 18:30-0400\n"
+"Last-Translator: FunATI Team\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\funATIAPP\templates\friends.html:5 .\funATIAPP\templates\friends.html:7
+#: .\funATIAPP\templates\friends.html:33
+#: .\funATIAPP\templates\menu-main.html:27
+msgid "Amigos"
+msgstr "Friends"
+
+#: .\funATIAPP\templates\friends.html:16
+msgid "Tus amigos"
+msgstr "Your friends"
+
+#: .\funATIAPP\templates\friends.html:21 .\funATIAPP\templates\friends.html:23
+#: .\funATIAPP\templates\friends.html:47 .\funATIAPP\templates\friends.html:49
+msgid "Foto de perfil"
+msgstr "Profile picture"
+
+#: .\funATIAPP\templates\friends.html:38
+msgid "Quizá te interese"
+msgstr "You might be interested"
+
+#: .\funATIAPP\templates\friends.html:41
+msgid "Recomendaciones de personas"
+msgstr "People recommendations"
+
+#: .\funATIAPP\templates\friends.html:59
+msgid "Agregar amigo"
+msgstr "Add friend"
+
+#: .\funATIAPP\templates\friends.html:64
+msgid "Dejar de seguir"
+msgstr "Unfollow"
+
+#: .\funATIAPP\templates\friends.html:69
+msgid "Seguir"
+msgstr "Follow"
+
+#: .\funATIAPP\templates\friends.html:74
+msgid "No hay recomendaciones por ahora."
+msgstr "No recommendations for now."
+
+#: .\funATIAPP\templates\login.html:5 .\funATIAPP\templates\login.html:15
+msgid "Iniciar Sesión"
+msgstr "Sign In"
+
+#: .\funATIAPP\templates\login.html:13 .\funATIAPP\templates\register.html:13
+msgid "Ingrese el correo"
+msgstr "Enter your email"
+
+#: .\funATIAPP\templates\login.html:14 .\funATIAPP\templates\register.html:14
+msgid "Ingrese la clave"
+msgstr "Enter your password"
+
+#: .\funATIAPP\templates\login.html:23
+msgid "Recuperar Clave"
+msgstr "Recover Password"
+
+#: .\funATIAPP\templates\login.html:24 .\funATIAPP\templates\register.html:5
+#: .\funATIAPP\templates\register.html:16
+msgid "Registrarse"
+msgstr "Sign Up"
+
+#: .\funATIAPP\templates\menu-main.html:16 .\funATIAPP\templates\muro.html:5
+#: .\funATIAPP\templates\muro.html:7
+msgid "Muro"
+msgstr "Feed"
+
+#: .\funATIAPP\templates\menu-main.html:35
+msgid "Chats"
+msgstr "Chats"
+
+#: .\funATIAPP\templates\menu-main.html:50
+#: .\funATIAPP\templates\notifications.html:5
+#: .\funATIAPP\templates\notifications.html:7
+#: .\funATIAPP\templates\settings.html:68
+msgid "Notificaciones"
+msgstr "Notifications"
+
+#: .\funATIAPP\templates\menu-main.html:66
+#: .\funATIAPP\templates\settings.html:5 .\funATIAPP\templates\settings.html:7
+msgid "Configuración"
+msgstr "Settings"
+
+#: .\funATIAPP\templates\menu-main.html:75
+#: .\funATIAPP\templates\menu-main.html:77
+msgid "Avatar"
+msgstr "Avatar"
+
+#: .\funATIAPP\templates\menu-main.html:92
+#: .\funATIAPP\templates\settings.html:95
+msgid "Cerrar sesión"
+msgstr "Log Out"
+
+#: .\funATIAPP\templates\muro.html:28
+msgid "¿A quién quieres Funar?"
+msgstr "Who do you want to roast?"
+
+#: .\funATIAPP\templates\muro.html:33
+msgid "Vista previa"
+msgstr "Preview"
+
+#: .\funATIAPP\templates\muro.html:48
+msgid "Funar"
+msgstr "Roast"
+
+#: .\funATIAPP\templates\perfil-main.html:5
+#: .\funATIAPP\templates\perfil-main.html:7
+msgid "Perfil"
+msgstr "Profile"
+
+#: .\funATIAPP\templates\perfil-main.html:31
+msgid "Perfil público"
+msgstr "Public profile"
+
+#: .\funATIAPP\templates\perfil-main.html:41
+msgid "Solo amigos"
+msgstr "Friends only"
+
+#: .\funATIAPP\templates\perfil-main.html:50
+msgid "Seguidores"
+msgstr "Followers"
+
+#: .\funATIAPP\templates\perfil-main.html:51
+msgid "Seguidos"
+msgstr "Following"
+
+#: .\funATIAPP\templates\perfil-main.html:72
+msgid "Editar Perfil"
+msgstr "Edit Profile"
+
+#: .\funATIAPP\templates\perfil-main.html:77
+msgid "Publicaciones"
+msgstr "Posts"
+
+#: .\funATIAPP\templates\perfil-main.html:78
+msgid "Respuestas"
+msgstr "Replies"
+
+#: .\funATIAPP\templates\perfil-main.html:79
+msgid "Multimedia"
+msgstr "Media"
+
+#: .\funATIAPP\templates\perfil-main.html:93
+#: .\funATIAPP\templates\publication.html:27
+#: .\funATIAPP\templates\publication.html:86
+#: .\funATIAPP\templates\replies_recursive.html:15
+msgid "atrás"
+msgstr "ago"
+
+#: .\funATIAPP\templates\perfil-main.html:99
+#: .\funATIAPP\templates\publication.html:33
+msgid "Imagen publicación"
+msgstr ""
+
+#: .\funATIAPP\templates\publication.html:5
+#: .\funATIAPP\templates\publication.html:7
+msgid "Publicación"
+msgstr "Post"
+
+#: .\funATIAPP\templates\publication.html:47
+msgid "Comentarios"
+msgstr "Comments"
+
+#: .\funATIAPP\templates\publication.html:61
+msgid "Escribe un comentario..."
+msgstr "Write a comment..."
+
+#: .\funATIAPP\templates\publication.html:69
+msgid "Comentar"
+msgstr "Comment"
+
+#: .\funATIAPP\templates\publication.html:90
+#: .\funATIAPP\templates\publication.html:113
+#: .\funATIAPP\templates\replies_recursive.html:19
+#: .\funATIAPP\templates\replies_recursive.html:42
+msgid "Responder"
+msgstr "Reply"
+
+#: .\funATIAPP\templates\publication.html:105
+#: .\funATIAPP\templates\replies_recursive.html:34
+msgid "Escribe una respuesta..."
+msgstr "Write a reply..."
+
+#: .\funATIAPP\templates\publication.html:122
+msgid "No hay comentarios aún."
+msgstr "No comments yet."
+
+#: .\funATIAPP\templates\register.html:15
+msgid "Repite la clave ingresada"
+msgstr "Repeat the entered password"
+
+#: .\funATIAPP\templates\register.html:33
+msgid "¿Ya tienes cuenta? Inicia sesión"
+msgstr "Already have an account? Sign in"
+
+#: .\funATIAPP\templates\settings.html:27
+msgid "Ajustes Generales"
+msgstr "General Settings"
+
+#: .\funATIAPP\templates\settings.html:30
+msgid "Privacidad de publicaciones"
+msgstr "Post Privacy"
+
+#: .\funATIAPP\templates\settings.html:32
+msgid "Público - Cualquiera puede ver mis publicaciones"
+msgstr "Public - Anyone can see my posts"
+
+#: .\funATIAPP\templates\settings.html:33
+msgid "Privado - Solo mis amigos pueden ver mis publicaciones"
+msgstr "Private - Only my friends can see my posts"
+
+#: .\funATIAPP\templates\settings.html:36
+msgid ""
+"Esta configuración controla quién puede ver las publicaciones en tu perfil."
+msgstr "This setting controls who can see the posts on your profile."
+
+#: .\funATIAPP\templates\settings.html:40
+msgid "Idioma"
+msgstr "Language"
+
+#: .\funATIAPP\templates\settings.html:49
+msgid "Color"
+msgstr "Color"
+
+#: .\funATIAPP\templates\settings.html:51
+msgid "Rosado"
+msgstr "Pink"
+
+#: .\funATIAPP\templates\settings.html:52
+msgid "Azul"
+msgstr "Blue"
+
+#: .\funATIAPP\templates\settings.html:53
+msgid "Verde"
+msgstr "Green"
+
+#: .\funATIAPP\templates\settings.html:57
+msgid "Tema"
+msgstr "Theme"
+
+#: .\funATIAPP\templates\settings.html:59
+msgid "Modo Claro"
+msgstr "Light Mode"
+
+#: .\funATIAPP\templates\settings.html:60
+msgid "Modo Oscuro"
+msgstr "Dark Mode"
+
+#: .\funATIAPP\templates\settings.html:61
+msgid "Automático"
+msgstr "Automatic"
+
+#: .\funATIAPP\templates\settings.html:71
+msgid ""
+"Recibe correos electrónicos para saber qué pasa cuando no estás en FunATI. "
+"Puedes desactivarlos en cualquier momento."
+msgstr ""
+"Receive emails to know what's happening when you're not on FunATI. You can "
+"turn them off at any time."
+
+#: .\funATIAPP\templates\settings.html:71
+msgid "Más información en"
+msgstr "More information at"
+
+#: .\funATIAPP\templates\settings.html:80
+msgid "Seguridad"
+msgstr "Security"
+
+#: .\funATIAPP\templates\settings.html:83
+msgid "Contraseña vieja"
+msgstr "Old Password"
+
+#: .\funATIAPP\templates\settings.html:84
+msgid "Ingresa tu contraseña actual"
+msgstr "Enter your current password"
+
+#: .\funATIAPP\templates\settings.html:87
+msgid "Contraseña nueva"
+msgstr "New Password"
+
+#: .\funATIAPP\templates\settings.html:88
+msgid "Ingresa tu nueva contraseña"
+msgstr "Enter your new password"
+
+#: .\funATIAPP\templates\settings.html:94
+msgid "Cambiar contraseña"
+msgstr "Change Password"
+
+#: .\funATIAPP\templates\settings.html:97
+msgid "Guardar"
+msgstr "Save"
+
+#: .\funATIAPP\templates\settings.html:169
+msgid "Por favor, completa ambos campos de contraseña."
+msgstr "Please complete both password fields."
+
+#: .\funATIAPP\templates\settings.html:186
+msgid "Contraseña cambiada exitosamente."
+msgstr "Password changed successfully."
+
+#: .\funATIAPP\templates\settings.html:190
+msgid "Error al cambiar la contraseña:"
+msgstr "Error changing password:"
+
+#: .\funATIAPP\templates\settings.html:203
+msgid "Error de conexión. Por favor, inténtalo de nuevo."
+msgstr "Connection error. Please try again."
+
+#: .\funATIAPP\views.py:444
+msgid "Configuración guardada exitosamente."
+msgstr "Settings saved successfully."
+
+#: .\funATIAPP\views.py:670
+msgid "Idioma cambiado exitosamente."
+msgstr "Language changed successfully."
+
+#: .\funATIAPP\views.py:675
+msgid "Idioma no válido."
+msgstr "Invalid language."
+
+#: .\funATIAPP\views.py:678
+msgid "Método no permitido."
+msgstr "Method not allowed."
+
+#: .\funATIAPP\templates\chats-main.html:21
+msgid "Buscar amigos"
+msgstr "Search friends"
+
+#: .\funATIAPP\templates\chats-main.html:47
+msgid "Nueva"
+msgstr "New"
+
+#: .\funATIAPP\templates\chats-main.html:55
+msgid "No tienes amigos aún"
+msgstr "You don't have friends yet"
+
+#: .\funATIAPP\templates\chats-main.html:57
+msgid "¡Encuentra amigos aquí!"
+msgstr "Find friends here!"
+
+#: .\funATIAPP\templates\chats-main.html:68
+msgid "Selecciona un amigo para comenzar a chatear"
+msgstr "Select a friend to start chatting"
+
+#: .\funATIAPP\templates\chats-main.html:69
+msgid "Haz clic en cualquier contacto de la lista para iniciar una conversación"
+msgstr "Click on any contact from the list to start a conversation"
+
+#: .\funATIAPP\templates\chats-main.html:114
+msgid "No se encontraron amigos"
+msgstr "No friends found"
+
+#: .\funATIAPP\templates\chats-main.html:227
+msgid "Comienza tu mensaje"
+msgstr "Start your message"
+
+#: .\funATIAPP\templates\notifications.html:44
+msgid "te está siguiendo"
+msgstr "is following you"
+
+#: .\funATIAPP\templates\notifications.html:46
+msgid "es ahora tu amigo"
+msgstr "is now your friend"
+
+#: .\funATIAPP\templates\notifications.html:48
+msgid "respondió a tu publicación:"
+msgstr "replied to your post:"
+
+#: .\funATIAPP\templates\notifications.html:66
+msgid "No tienes notificaciones aún."
+msgstr "You don't have notifications yet."
+
+#: .\funATIAPP\templates\perfil-main.html:110
+msgid "Ver comentarios"
+msgstr "View comments"
+
+#: .\funATIAPP\templates\perfil-main.html:122
+msgid "Este perfil es privado"
+msgstr "This profile is private"
+
+#: .\funATIAPP\templates\perfil-main.html:124
+msgid "Solo los amigos de"
+msgstr "Only friends of"
+
+#: .\funATIAPP\templates\perfil-main.html:124
+msgid "pueden ver sus publicaciones."
+msgstr "can view their posts."
+
+#: .\funATIAPP\templates\perfil-main.html:129
+msgid "No hay publicaciones aún."
+msgstr "No posts yet."
+
+#: .\funATIAPP\templates\edit-perfil.html:55
+msgid "Información de usuario"
+msgstr "User Information"
+
+#: .\funATIAPP\templates\edit-perfil.html:59
+msgid "Nombre"
+msgstr "First Name"
+
+#: .\funATIAPP\templates\edit-perfil.html:63
+msgid "Apellido"
+msgstr "Last Name"
+
+#: .\funATIAPP\templates\edit-perfil.html:69
+msgid "Correo"
+msgstr "Email"
+
+#: .\funATIAPP\templates\edit-perfil.html:77
+msgid "Información personal"
+msgstr "Personal Information"
+
+#: .\funATIAPP\templates\edit-perfil.html:80
+msgid "Biografía"
+msgstr "Biography"
+
+#: .\funATIAPP\templates\edit-perfil.html:89
+msgid "Fecha de Nacimiento"
+msgstr "Birth Date"
+
+#: .\funATIAPP\templates\edit-perfil.html:97
+msgid "Color Favorito"
+msgstr "Favorite Color"
+
+#: .\funATIAPP\templates\edit-perfil.html:102
+msgid "Videojuegos Favoritos"
+msgstr "Favorite Games"
+
+#: .\funATIAPP\templates\edit-perfil.html:109
+msgid "Cédula"
+msgstr "ID Number"
+
+#: .\funATIAPP\templates\edit-perfil.html:114
+msgid "Libros Favoritos"
+msgstr "Favorite Books"
+
+#: .\funATIAPP\templates\edit-perfil.html:119
+msgid "Música Favorita"
+msgstr "Favorite Music"
+
+#: .\funATIAPP\templates\edit-perfil.html:124
+msgid "Lenguajes de Programación"
+msgstr "Programming Languages"
+
+#~ msgid "hace unos segundos"
+#~ msgstr "a few seconds ago"
+
+#~ msgid "hace 1 minuto"
+#~ msgstr "1 minute ago"
+
+#~ msgid "hace 1 hora"
+#~ msgstr "1 hour ago"
+
+#~ msgid "hace 1 día"
+#~ msgstr "1 day ago"
+
+#~ msgid "hace 1 semana"
+#~ msgstr "1 week ago"
+
+#~ msgid "hace 1 mes"
+#~ msgstr "1 month ago"
+
+#~ msgid "hace 1 año"
+#~ msgstr "1 year ago"

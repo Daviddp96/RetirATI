@@ -20,7 +20,7 @@ function showReplyForm(commentId) {
     }
 }
 // Placeholder y envío para el input de comentario principal
-const COMMENT_PLACEHOLDER = 'Escribe un comentario...';
+const COMMENT_PLACEHOLDER = window.TRANSLATIONS?.commentPlaceholder || 'Escribe un comentario...';
 var commentSpan = document.getElementById('comment-content');
 if (commentSpan) {
     if (!commentSpan.innerText.trim()) {
@@ -64,7 +64,7 @@ if (commentSpan) {
     });
 }
 // Placeholder y envío para los formularios de respuesta
-const REPLY_PLACEHOLDER = 'Escribe una respuesta...';
+const REPLY_PLACEHOLDER = window.TRANSLATIONS?.replyPlaceholder || 'Escribe una respuesta...';
 document.querySelectorAll('.reply-form').forEach(function(form) {
     var replySpan = form.querySelector('.reply-contenteditable');
     var hiddenInput = form.querySelector('.hidden-reply-content');

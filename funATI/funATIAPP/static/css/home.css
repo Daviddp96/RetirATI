@@ -98,7 +98,6 @@ body {
     outline: none;
 }
 
-/* Utility: make button full width if needed */
 .btn--block {
     display: flex;
     width: 100%;

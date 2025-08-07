@@ -11,9 +11,9 @@ services:
       - ALLOWED_HOSTS=localhost,127.0.0.1
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "/app/healthcheck.sh || exit 0"]
-      interval: 60s
-      timeout: 30s
-      retries: 5
-      start_period: 120s
+      test: ["CMD-SHELL", "/app/healthcheck.sh"]
+      interval: 90s
+      timeout: 45s
+      retries: 3
+      start_period: 180s
   

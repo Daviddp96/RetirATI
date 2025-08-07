@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     tzdata \
     locales \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 ENV TZ=America/Caracas
@@ -60,6 +61,11 @@ RUN python3 manage.py collectstatic --noinput
 
 COPY start.sh /app/start.sh
 COPY healthcheck.sh /app/healthcheck.sh
+
+# Convert line endings from Windows to Unix format (in case files were edited on Windows)
+RUN dos2unix /app/start.sh /app/healthcheck.sh
+
+# Make scripts executable
 RUN chmod +x /app/start.sh /app/healthcheck.sh
 
 EXPOSE 80

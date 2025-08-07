@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editar Perfil</title>
+    <title>{% trans "Editar Perfil" %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
@@ -17,7 +18,7 @@
 
     <div class="main-content">
       <div class="top-bar">
-        <h1>Editar Perfil</h1>
+        <h1>{% trans "Editar Perfil" %}</h1>
       </div>
 
       <div class="edit-profile-container">
@@ -52,21 +53,21 @@
           </div>
 
           <div class="edit-section">
-            <div class="edit-section-title">Información de usuario</div>
+            <div class="edit-section-title">{% trans "Información de usuario" %}</div>
             <div class="edit-sections-container">
               <div class="edit-section">
                 <div class="edit-field">
-                  <label class="edit-label">Nombre</label>
+                  <label class="edit-label">{% trans "Nombre" %}</label>
                   {{ form.first_name }}
                 </div>
                 <div class="edit-field">
-                  <label class="edit-label">Apellido</label>
+                  <label class="edit-label">{% trans "Apellido" %}</label>
                   {{ form.last_name }}
                 </div>
               </div>
               <div class="edit-section">
                 <div class="edit-field">
-                  <label class="edit-label">Correo</label>
+                  <label class="edit-label">{% trans "Correo" %}</label>
                   {{ form.email }}
                 </div>
               </div>
@@ -74,10 +75,10 @@
           </div>
 
           <div class="edit-section">
-            <div class="edit-section-title">Información personal</div>
+            <div class="edit-section-title">{% trans "Información personal" %}</div>
 
             <div class="edit-field">
-              <label class="edit-label">Biografía</label>
+              <label class="edit-label">{% trans "Biografía" %}</label>
               {{ form.biography }}
               <div class="counter"><span id="bio-counter">0</span> / 130</div>
             </div>
@@ -86,7 +87,7 @@
           <div class="edit-sections-container">
             <div class="edit-section">
               <div class="edit-field">
-                <label class="edit-label">Fecha de Nacimiento</label>
+                <label class="edit-label">{% trans "Fecha de Nacimiento" %}</label>
                 <div class="date-field-container">
                   {{ form.birth_date }}
                   <span class="date-icon">📅</span>
@@ -94,39 +95,39 @@
               </div>
 
               <div class="edit-field">
-                <label class="edit-label">Color Favorito</label>
+                <label class="edit-label">{% trans "Color Favorito" %}</label>
                 {{ form.favorite_color }}
               </div>
 
               <div class="edit-field">
-                <label class="edit-label">Videojuegos Favoritos</label>
+                <label class="edit-label">{% trans "Videojuegos Favoritos" %}</label>
                 {{ form.favorite_games }}
               </div>
             </div>
 
             <div class="edit-section">
               <div class="edit-field">
-                <label class="edit-label">Cédula</label>
+                <label class="edit-label">{% trans "Cédula" %}</label>
                 {{ form.national_id }}
               </div>
 
               <div class="edit-field">
-                <label class="edit-label">Libros Favoritos</label>
+                <label class="edit-label">{% trans "Libros Favoritos" %}</label>
                 {{ form.favorite_books }}
               </div>
 
               <div class="edit-field">
-                <label class="edit-label">Música Favorita</label>
+                <label class="edit-label">{% trans "Música Favorita" %}</label>
                 {{ form.favorite_music }}
               </div>
 
               <div class="edit-field">
-                <label class="edit-label">Lenguajes de Programación</label>
+                <label class="edit-label">{% trans "Lenguajes de Programación" %}</label>
                 {{ form.programming_languages }}
               </div>
             </div>
           </div>
-          <button type="submit" class="save-btn">Guardar</button>
+          <button type="submit" class="save-btn">{% trans "Guardar" %}</button>
         </form>
       </div>
     </div>

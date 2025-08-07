@@ -141,23 +141,23 @@ msgstr ""
 
 #: .\funATIAPP\templates\perfil-main.html:51
 msgid "Seguidos"
-msgstr ""
+msgstr "Seguidos"
 
 #: .\funATIAPP\templates\perfil-main.html:72
 msgid "Editar Perfil"
-msgstr ""
+msgstr "Editar Perfil"
 
 #: .\funATIAPP\templates\perfil-main.html:77
 msgid "Publicaciones"
-msgstr ""
+msgstr "Publicaciones"
 
 #: .\funATIAPP\templates\perfil-main.html:78
 msgid "Respuestas"
-msgstr ""
+msgstr "Respuestas"
 
 #: .\funATIAPP\templates\perfil-main.html:79
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimedia"
 
 #: .\funATIAPP\templates\perfil-main.html:93
 #: .\funATIAPP\templates\publication.html:27
@@ -444,3 +444,77 @@ msgstr ""
 #: .\funATIAPP\templates\notifications.html:66
 msgid "No tienes notificaciones aún."
 msgstr ""
+
+#: .\funATIAPP\templates\perfil-main.html:110
+msgid "Ver comentarios"
+msgstr ""
+
+#: .\funATIAPP\templates\perfil-main.html:122
+msgid "Este perfil es privado"
+msgstr ""
+
+#: .\funATIAPP\templates\perfil-main.html:124
+msgid "Solo los amigos de"
+msgstr ""
+
+#: .\funATIAPP\templates\perfil-main.html:124
+msgid "pueden ver sus publicaciones."
+msgstr ""
+
+#: .\funATIAPP\templates\perfil-main.html:129
+msgid "No hay publicaciones aún."
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:55
+msgid "Información de usuario"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:59
+msgid "Nombre"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:63
+msgid "Apellido"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:69
+msgid "Correo"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:77
+msgid "Información personal"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:80
+msgid "Biografía"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:89
+msgid "Fecha de Nacimiento"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:97
+msgid "Color Favorito"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:102
+msgid "Videojuegos Favoritos"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:109
+msgid "Cédula"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:114
+msgid "Libros Favoritos"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:119
+msgid "Música Favorita"
+msgstr ""
+
+#: .\funATIAPP\templates\edit-perfil.html:124
+msgid "Lenguajes de Programación"
+msgstr ""
+
+

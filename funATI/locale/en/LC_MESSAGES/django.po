@@ -137,28 +137,24 @@ msgid "Seguidores"
 msgstr "Followers"
 
 #: .\funATIAPP\templates\perfil-main.html:51
-#, fuzzy
-#| msgid "Seguridad"
 msgid "Seguidos"
-msgstr "Security"
+msgstr "Following"
 
 #: .\funATIAPP\templates\perfil-main.html:72
 msgid "Editar Perfil"
-msgstr ""
+msgstr "Edit Profile"
 
 #: .\funATIAPP\templates\perfil-main.html:77
-#, fuzzy
-#| msgid "Notificaciones"
 msgid "Publicaciones"
-msgstr "Notifications"
+msgstr "Posts"
 
 #: .\funATIAPP\templates\perfil-main.html:78
 msgid "Respuestas"
-msgstr ""
+msgstr "Replies"
 
 #: .\funATIAPP\templates\perfil-main.html:79
 msgid "Multimedia"
-msgstr ""
+msgstr "Media"
 
 #: .\funATIAPP\templates\perfil-main.html:93
 #: .\funATIAPP\templates\publication.html:27
@@ -389,6 +385,78 @@ msgstr "replied to your post:"
 #: .\funATIAPP\templates\notifications.html:66
 msgid "No tienes notificaciones aún."
 msgstr "You don't have notifications yet."
+
+#: .\funATIAPP\templates\perfil-main.html:110
+msgid "Ver comentarios"
+msgstr "View comments"
+
+#: .\funATIAPP\templates\perfil-main.html:122
+msgid "Este perfil es privado"
+msgstr "This profile is private"
+
+#: .\funATIAPP\templates\perfil-main.html:124
+msgid "Solo los amigos de"
+msgstr "Only friends of"
+
+#: .\funATIAPP\templates\perfil-main.html:124
+msgid "pueden ver sus publicaciones."
+msgstr "can view their posts."
+
+#: .\funATIAPP\templates\perfil-main.html:129
+msgid "No hay publicaciones aún."
+msgstr "No posts yet."
+
+#: .\funATIAPP\templates\edit-perfil.html:55
+msgid "Información de usuario"
+msgstr "User Information"
+
+#: .\funATIAPP\templates\edit-perfil.html:59
+msgid "Nombre"
+msgstr "First Name"
+
+#: .\funATIAPP\templates\edit-perfil.html:63
+msgid "Apellido"
+msgstr "Last Name"
+
+#: .\funATIAPP\templates\edit-perfil.html:69
+msgid "Correo"
+msgstr "Email"
+
+#: .\funATIAPP\templates\edit-perfil.html:77
+msgid "Información personal"
+msgstr "Personal Information"
+
+#: .\funATIAPP\templates\edit-perfil.html:80
+msgid "Biografía"
+msgstr "Biography"
+
+#: .\funATIAPP\templates\edit-perfil.html:89
+msgid "Fecha de Nacimiento"
+msgstr "Birth Date"
+
+#: .\funATIAPP\templates\edit-perfil.html:97
+msgid "Color Favorito"
+msgstr "Favorite Color"
+
+#: .\funATIAPP\templates\edit-perfil.html:102
+msgid "Videojuegos Favoritos"
+msgstr "Favorite Games"
+
+#: .\funATIAPP\templates\edit-perfil.html:109
+msgid "Cédula"
+msgstr "ID Number"
+
+#: .\funATIAPP\templates\edit-perfil.html:114
+msgid "Libros Favoritos"
+msgstr "Favorite Books"
+
+#: .\funATIAPP\templates\edit-perfil.html:119
+msgid "Música Favorita"
+msgstr "Favorite Music"
+
+#: .\funATIAPP\templates\edit-perfil.html:124
+msgid "Lenguajes de Programación"
+msgstr "Programming Languages"
 
 #~ msgid "hace unos segundos"
 #~ msgstr "a few seconds ago"

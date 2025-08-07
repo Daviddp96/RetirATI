@@ -107,7 +107,7 @@
                 </svg>
                 <span>{{ publication.comments.count }}</span>
               </button>
-            <span class="ver-comentarios">Ver comentarios</span>
+            <span class="ver-comentarios">{% trans "Ver comentarios" %}</span>
         </div>
     </div>
     </a>
@@ -119,14 +119,14 @@
                     <circle cx="12" cy="16" r="1"></circle>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <h3 style="color: var(--text-primary); margin-bottom: 8px;">Este perfil es privado</h3>
+                <h3 style="color: var(--text-primary); margin-bottom: 8px;">{% trans "Este perfil es privado" %}</h3>
                 {% if profile_privacy == 'privado' %}
-                    <p style="color: var(--text-secondary);">Solo los amigos de {{ profile.user.get_full_name|default:profile.user.username }} pueden ver sus publicaciones.</p>
+                    <p style="color: var(--text-secondary);">{% trans "Solo los amigos de" %} {{ profile.user.get_full_name|default:profile.user.username }} {% trans "pueden ver sus publicaciones." %}</p>
                 {% endif %}
             </div>
         {% else %}
             <div style="text-align: center; padding: 40px 20px; color: var(--text-secondary);">
-                <p>No hay publicaciones aún.</p>
+                <p>{% trans "No hay publicaciones aún." %}</p>
             </div>
         {% endif %}
     {% endfor %}

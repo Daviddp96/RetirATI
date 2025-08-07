@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% for publication in publications %}
 <a href="{% url 'funATIAPP:publication_detail' publication.id %}" class="post-link">
 <div class="post">
@@ -10,13 +11,13 @@
         {% endif %}
         <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
         <span class="post-handle">@{{ publication.profile.user.username }}</span>
-        <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
+        <span class="post-time">{{ publication.created_at|timesince }} {% trans "atrás" %}</span>
     </div>
     <div class="post-content">{{ publication.content }}</div>
     {% if publication.media %}
     <div class="post-media-placeholder">
         <div class="media-preview">
-            <img src="{{ publication.media.url }}" alt="Imagen publicación" class="publication-img" />
+            <img src="{{ publication.media.url }}" alt="{% trans 'Imagen publicación' %}" class="publication-img" />
         </div>
     </div>
     {% endif %}
@@ -28,7 +29,7 @@
           <span>{{ publication.comments.count }}</span>
         </button>
     </div>
-    <span class="ver-comentarios">Ver comentarios</span>
+    <span class="ver-comentarios">{% trans "Ver comentarios" %}</span>
 </div>
 </a>
 {% endfor %}

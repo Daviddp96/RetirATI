@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Muro - FunATI{% endblock %}
+{% block title %}{% trans "Muro" %} - FunATI{% endblock %}
 
-{% block page_title %}Muro{% endblock %}
+{% block page_title %}{% trans "Muro" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -11,11 +12,9 @@
 {% endblock %}
 
 {% block content %}
-<!-- Formulario de publicación -->
 <form method="post" enctype="multipart/form-data" class="funar" id="funar-form" data-container-url="{% url 'funATIAPP:container' %}">
     {% csrf_token %}
     <div class="funar-flex">
-        <!-- Primera columna: Avatar del usuario -->
         <div class="funar-avatar-column">
             {% if user.is_authenticated and user.profile.avatar %}
                 <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="post-avatar" />
@@ -24,21 +23,17 @@
             {% endif %}
         </div>
         
-        <!-- Segunda columna: Input y botones -->
         <div class="funar-content-column">
-            <!-- Input de contenido -->
             <div class="funar-input-container">
-                <span class="span-funar" id="funar-content" contenteditable="true">¿A quién quieres Funar?</span>
+                <span class="span-funar" id="funar-content" contenteditable="true"></span>
                 <input type="hidden" name="content" id="hidden-content" />
             </div>
             
-            <!-- Preview de imagen -->
             <div class="media-preview-container" id="media-preview-container">
-                <img id="media-preview-img" class="media-preview-img" alt="Preview" />
+                <img id="media-preview-img" class="media-preview-img" alt="{% trans 'Vista previa' %}" />
                 <button type="button" class="media-preview-remove" id="media-preview-remove" onclick="removeMediaPreview()">×</button>
             </div>
             
-            <!-- Botones en flex -->
             <div class="buton-flex">
                 <div class="multimedia-btn-bottom">
                     <label for="media-input" class="media-input-btn">
@@ -50,16 +45,21 @@
                     <input type="file" name="media" id="media-input" class="input-media" accept="image/*" />
                 </div>
                 <div class="funar-submit-container">
-                    <button type="submit" class="button-funar" id="funar-btn" disabled>Funar</button>
+                    <button type="submit" class="button-funar" id="funar-btn" disabled>{% trans "Funar" %}</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
-<!-- Un solo contenedor para publicaciones -->
 <div id="publicaciones" class="section muro"></div>
 {% endblock %}
 
 {% block extra_js %}
+<script>
+    // Pasar traducciones de Django a JavaScript
+    window.TRANSLATIONS = {
+        'placeholder': '{% trans "¿A quién quieres Funar?" %}'
+    };
+</script>
 <script src="{% static 'js/muro.js' %}"></script>
 {% endblock %}

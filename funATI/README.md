@@ -133,7 +133,6 @@ funATI/
    {% extends 'base.html' %}
    {% block title %}Mi Página{% endblock %}
    {% block content %}
-   <!-- Contenido aquí -->
    {% endblock %}
    ```
 

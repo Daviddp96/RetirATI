@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <nav class="sidebar">
       <div class="sidebar-logo">
         <a href="{% url 'funATIAPP:muro' %}">
@@ -12,7 +13,7 @@
               <path d="M32 1.25V6.875H17.2308V0H30.7692C31.0957 3.31515e-06 31.4087 0.131701 31.6395 0.36612C31.8703 0.60054 32 0.91848 32 1.25ZM24.6154 16.25H32V9.375H24.6154V16.25ZM9.84615 16.25H22.1538V9.375H9.84615V16.25ZM7.38462 9.375H0V16.25H7.38462V9.375ZM17.2308 25H30.7692C31.0957 25 31.4087 24.8683 31.6395 24.6339C31.8703 24.3995 32 24.0815 32 23.75V18.75H17.2308V25ZM14.7692 0H1.23077C0.90435 3.31515e-06 0.591301 0.131701 0.360487 0.36612C0.129674 0.60054 3.26414e-06 0.91848 0 1.25V6.875H14.7692V0ZM0 23.75C3.26414e-06 24.0815 0.129674 24.3995 0.360487 24.6339C0.591301 24.8683 0.90435 25 1.23077 25H14.7692V18.75H0V23.75Z" fill="currentColor"/>
             </svg>
           </span>
-          <span>Muro</span>
+          <span>{% trans "Muro" %}</span>
         </a>
         <a href="{% url 'funATIAPP:friends' %}" class="menu-item {% if request.resolver_match.url_name == 'friends' %}active{% endif %}">
                      <span class="icon-sidebar">
@@ -23,7 +24,7 @@
                <path d="M26.1149 6.25438C27.842 6.25438 29.2421 4.85429 29.2421 3.12719C29.2421 1.40009 27.842 0 26.1149 0C24.3878 0 22.9877 1.40009 22.9877 3.12719C22.9877 4.85429 24.3878 6.25438 26.1149 6.25438Z" fill="currentColor"/>
              </svg>
            </span>
-          <span>Amigos</span>
+          <span>{% trans "Amigos" %}</span>
         </a>
         <a href="{% url 'funATIAPP:chats' %}" class="menu-item {% if request.resolver_match.url_name == 'chats' or request.resolver_match.url_name == 'chat_room' %}active{% endif %}">
                      <span class="icon-sidebar">
@@ -31,7 +32,7 @@
                <path fill-rule="evenodd" clip-rule="evenodd" d="M31.594 15.8715C31.1429 15.1816 30.3853 14.7699 29.5674 14.7699H20.226L21.3639 12.3083H23.8785C24.8392 12.3083 25.7118 11.7329 26.1008 10.8424L29.3286 3.45739C29.6665 2.68566 29.5926 1.80501 29.1323 1.10159C28.6812 0.411712 27.9236 0 27.1058 0H5.65982C4.69916 0 3.82651 0.574796 3.43757 1.4653L0.209721 8.85026C-0.128141 9.62199 -0.0542915 10.5026 0.406038 11.2061C0.857751 11.8959 1.61471 12.3083 2.43259 12.3083H17.5453L16.408 14.7699H8.12148C7.16082 14.7699 6.28816 15.3447 5.89922 16.2352L2.67137 23.6202C2.33351 24.3919 2.40736 25.2726 2.86769 25.976C3.31941 26.6659 4.07636 27.0782 4.89425 27.0782H8.23471L6.21862 31.1104C6.09307 31.3602 6.15215 31.6624 6.36139 31.847C6.47709 31.9492 6.62295 32.0015 6.7688 32.0015C6.88757 32.0015 7.00635 31.967 7.11035 31.8981L14.3402 27.0782H26.3402C27.3008 27.0782 28.1735 26.5028 28.5624 25.6123L31.7903 18.2273C32.1281 17.4556 32.0543 16.5749 31.594 15.8715Z" fill="currentColor"/>
              </svg>
            </span>
-          <span>Chats</span>
+          <span>{% trans "Chats" %}</span>
         </a>
         <a href="{% url 'funATIAPP:notifications' %}" class="menu-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
                      <span class="icon-sidebar">
@@ -46,7 +47,7 @@
                </defs>
              </svg>
            </span>
-          <span>Notificaciones</span>
+          <span>{% trans "Notificaciones" %}</span>
         </a>
         <a href="{% url 'funATIAPP:settings' %}" class="menu-item {% if request.resolver_match.url_name == 'settings' or request.resolver_match.url_name == 'edit_profile' %}active{% endif %}">
                      <span class="icon-sidebar">
@@ -62,7 +63,7 @@
                </defs>
              </svg>
            </span>
-          <span>Configuración</span>
+          <span>{% trans "Configuración" %}</span>
         </a>
       </div>
 
@@ -71,12 +72,12 @@
         <a href="{% url 'funATIAPP:profile' %}" class="profile-btn">
           <span class="sidebar-avatar">
             {% if user.profile.avatar %}
-              <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="sidebar-avatar-img" />
+              <img src="{{ user.profile.avatar.url }}" alt="{% trans 'Avatar' %}" class="sidebar-avatar-img" />
             {% else %}
-              <img src="{% static 'assets/user-placeholder.png' %}" alt="Avatar" class="sidebar-avatar-img" />
+              <img src="{% static 'assets/user-placeholder.png' %}" alt="{% trans 'Avatar' %}" class="sidebar-avatar-img" />
             {% endif %}
           </span>
-          <span class="user-info">
+          <span class="user-info user-info2">
             <span class="user-name">
               {% if user.first_name or user.last_name %}
                 {{ user.first_name }} {{ user.last_name }}
@@ -88,7 +89,7 @@
           </span>
         </a>
         {% endif %}
-        <a href="{% url 'funATIAPP:logout' %}" class="logout-btn" title="Cerrar sesión">
+        <a href="{% url 'funATIAPP:logout' %}" class="logout-btn" title="{% trans 'Cerrar sesión' %}">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -125,25 +126,22 @@
     overflow: hidden;
   }
 
-  /* Estilos para el sistema de enlaces activos */
   .sidebar .sidebar-nav .menu-item {
-    color: var(--text-primary) !important; /* Color dinámico - aplicará a texto e íconos */
+    color: var(--text-primary) !important; 
   }
 
   .sidebar .sidebar-nav .menu-item.active {
-    color: #1DA1F2 !important; /* Azul para texto activo */
+    color: #1DA1F2 !important; 
   }
 
   .sidebar .sidebar-nav .menu-item.active .icon-sidebar {
-    color: #F344EA !important; /* Rosado para ícono activo */
+    color: #F344EA !important; 
   }
 
-  /* Estados hover se mantienen iguales */
   .sidebar .sidebar-nav .menu-item:hover {
     color: #1DA1F2 !important;
   }
 
-  /* Estilos para el botón de logout */
   .logout-btn {
     display: flex;
     align-items: center;

@@ -21,7 +21,6 @@
     <button class="active">Siguiendo</button>
 </div>      
 
-<!-- Contenedor general -->
 <div class="followers-container">
     {% if following %}
         {% for followed in following %}
@@ -54,7 +53,6 @@
 
 {% block extra_js %}
 <script>
-    // Función para cargar un archivo HTML en un elemento
     function loadHTML(selector, filePath) {
         fetch(filePath)
             .then(response => response.text())
@@ -64,7 +62,6 @@
             .catch(error => console.error('Error al cargar el archivo:', error));
     }
 
-    // Cargar el footer cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
         // Puedes cargar también un header si tuvieras:
         // loadHTML('#header-placeholder', 'header.html');

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Perfil - FunATI{% endblock %}
+{% block title %}{% trans "Perfil" %} - FunATI{% endblock %}
 
-{% block page_title %}Perfil{% endblock %}
+{% block page_title %}{% trans "Perfil" %}{% endblock %}
 
 {% block content %}
-<!-- Encabezado del perfil -->
 <div class="profile-header">
     <div class="profile-main container">
         <div class="profile-heading">
@@ -28,7 +28,7 @@
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <path d="M12 6v6l4 2"></path>
                                 </svg>
-                                Perfil público
+                                {% trans "Perfil público" %}
                             </span>
                         {% elif profile_privacy == 'privado' %}
                             <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text-secondary);">
@@ -38,7 +38,7 @@
                                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
-                                Solo amigos
+                                {% trans "Solo amigos" %}
                             </span>
                         {% endif %}
                     </div>
@@ -47,8 +47,8 @@
         </div>
         <p class="profile-bio">{{ profile.biography }}</p>
         <div class="seguidos">
-            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="seguidores">Seguidores</a>
-            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="seguidores">Seguidos</a>
+            <a href="{% url 'funATIAPP:followers_profile' profile.id %}" class="edit-profile">{% trans "Seguidores" %}</a>
+            <a href="{% url 'funATIAPP:follows_profile' profile.id %}" class="edit-profile">{% trans "Seguidos" %}</a>
         </div>
     </div>
     <div class="profile-details container">
@@ -66,22 +66,18 @@
         </div>
     </div>
 </div>
-<!-- Botón de editar perfil -->
 {% if user.is_authenticated and user.id == profile.user.id %}
-<div class="edit-profile-container">
+<div class="edit-profile-button-container">
     <a href="{% url 'funATIAPP:edit_profile' %}" class="edit-profile">
-        <!-- SVG ... -->
-        Editar Perfil
+        {% trans "Editar Perfil" %}
     </a>
 </div>
 {% endif %}
-<!-- Barra de navegación de perfil -->
 <div class="profile-nav">
-    <button class="profile-nav-btn active">Publicaciones</button>
-    <button class="profile-nav-btn">Respuestas</button>
-    <button class="profile-nav-btn">Multimedia</button>
+    <button class="profile-nav-btn active">{% trans "Publicaciones" %}</button>
+    <button class="profile-nav-btn">{% trans "Respuestas" %}</button>
+    <button class="profile-nav-btn">{% trans "Multimedia" %}</button>
 </div>
-<!-- Publicaciones del usuario -->
 <div class="publications">
     {% for publication in publications %}
     <a href="{% url 'funATIAPP:publication_detail' publication.id %}" class="post-link">
@@ -94,13 +90,13 @@
             {% endif %}
             <span class="post-username">{{ publication.profile.user.get_full_name|default:publication.profile.user.username }}</span>
             <span class="post-handle">@{{ publication.profile.user.username }}</span>
-            <span class="post-time">{{ publication.created_at|timesince }} atrás</span>
+            <span class="post-time">{{ publication.created_at|timesince }} {% trans "atrás" %}</span>
         </div>
         <div class="post-content">{{ publication.content }}</div>
         {% if publication.media %}
         <div class="post-media-placeholder">
             <div class="media-preview">
-                <img src="{{ publication.media.url }}" alt="Imagen publicación" class="publication-img" />
+                <img src="{{ publication.media.url }}" alt="{% trans 'Imagen publicación' %}" class="publication-img" />
             </div>
         </div>
         {% endif %}
@@ -111,7 +107,7 @@
                 </svg>
                 <span>{{ publication.comments.count }}</span>
               </button>
-            <span class="ver-comentarios">Ver comentarios</span>
+            <span class="ver-comentarios">{% trans "Ver comentarios" %}</span>
         </div>
     </div>
     </a>
@@ -123,14 +119,14 @@
                     <circle cx="12" cy="16" r="1"></circle>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <h3 style="color: var(--text-primary); margin-bottom: 8px;">Este perfil es privado</h3>
+                <h3 style="color: var(--text-primary); margin-bottom: 8px;">{% trans "Este perfil es privado" %}</h3>
                 {% if profile_privacy == 'privado' %}
-                    <p style="color: var(--text-secondary);">Solo los amigos de {{ profile.user.get_full_name|default:profile.user.username }} pueden ver sus publicaciones.</p>
+                    <p style="color: var(--text-secondary);">{% trans "Solo los amigos de" %} {{ profile.user.get_full_name|default:profile.user.username }} {% trans "pueden ver sus publicaciones." %}</p>
                 {% endif %}
             </div>
         {% else %}
             <div style="text-align: center; padding: 40px 20px; color: var(--text-secondary);">
-                <p>No hay publicaciones aún.</p>
+                <p>{% trans "No hay publicaciones aún." %}</p>
             </div>
         {% endif %}
     {% endfor %}
@@ -139,7 +135,6 @@
 
 {% block extra_js %}
 <script>
-    // Función para cargar un archivo HTML en un elemento
     function loadHTML(selector, filePath) {
         fetch(filePath)
             .then(response => response.text())
@@ -149,7 +144,6 @@
             .catch(error => console.error('Error al cargar el archivo:', error));
     }
 
-    // Cargar el footer cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
         loadHTML('#container-main', '{% url "funATIAPP:container" %}');
     });

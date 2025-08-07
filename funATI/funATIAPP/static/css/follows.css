@@ -62,7 +62,6 @@
   text-decoration: none;
 }
 .post-avatar.profile-pic-default {
-  /* Asegura que el círculo gris en muro tenga el mismo tamaño que el avatar */
   width: 40px;
   height: 40px;
   margin: 0 10px 0 0;
@@ -81,8 +80,7 @@
   margin-left: 0;
   object-fit: cover;
 }
-/* Botón "Amigos" que cambia a "Eliminar amigo" solo al pasar el mouse */
-/* Botón "Amigos" que cambia a "Eliminar amigo" solo al pasar el mouse */
+
 .amigo-hover-btn {
   position: relative;
   transition: background 0.2s, color 0.2s;
@@ -119,7 +117,6 @@
   color: transparent !important;
   border: 1px solid #f754e4;
 }
-/* Botón de amigo: muestra 'Amigos' por defecto y 'Eliminar amigo' solo al pasar el mouse */
 .friend-btn {
   background: white;
   color: #1E1E1E;
@@ -179,8 +176,8 @@ form .remove-btn:focus {
 
 .followers-tabs {
   position: fixed;
-  top: 3rem; /* justo debajo de la .top-bar */
-  left: 250px; /* respeta el ancho de la sidebar */
+  top: 3rem; 
+  left: 250px; 
   width: calc(100% - 250px);
   height: 3rem;
   display: flex;
@@ -188,12 +185,11 @@ form .remove-btn:focus {
   align-items: center;
   background-color: white;
   border-bottom: 1px solid #eee;
-  z-index: 1001; /* justo debajo de top-bar */
-  gap: 20rem; /* aumenta la separación entre los tabs */
+  z-index: 1001; 
+  gap: 20rem; 
 
 }
 
-/* Botones de tab */
 .followers-tabs button {
   background: none;
   border: none;
@@ -206,13 +202,11 @@ form .remove-btn:focus {
   position: relative;
 }
 
-/* Tab activo */
 .followers-tabs button.active {
   color: #000000;
   font-weight: 600;
 }
 
-/* Línea rosa bajo el tab activo */
 .followers-tabs button.active::after {
   content: '';
   position: absolute;
@@ -225,12 +219,12 @@ form .remove-btn:focus {
 }
 
 .followers-container {
-  background-color: var(--bg-container); /* fondo adaptable al tema */
+  background-color: var(--bg-container); 
   padding: 1rem 2rem 1rem 2rem;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 95%;
-  margin: 3rem auto 0 auto; /* agrega espacio arriba */
+  margin: 3rem auto 0 auto; 
 }
 
 
@@ -298,7 +292,7 @@ form .remove-btn:focus {
 
 @media (max-width: 600px) {
   .user-header {
-    position: relative; /* necesario para posicionar el botón dentro */
+    position: relative; 
     padding: 8px 0;
     line-height: 1.1;
   }
@@ -330,7 +324,7 @@ form .remove-btn:focus {
   .followers-tabs {
     left: 0;
     width: 100%;
-    gap: 2rem; /* menos separación en móvil */
+    gap: 2rem; 
     height: 3.5rem;
     padding: 0 0.5rem;
   }
@@ -343,7 +337,18 @@ form .remove-btn:focus {
     padding-top: 10rem;
     border-radius: 0;
     box-shadow: none;
-    background-color: white; /* opcional, pero consistente */
-    padding: 1rem 1rem 0 1rem; /* opcional: ajustar padding para móvil */
+    background-color: white; 
+    padding: 1rem ; 
+    margin: 3rem auto 3rem ;
+  }
+}
+@media (max-width: 350px) {
+  .post-header , .follower-item{
+    gap: 0px
+  }
+}
+@media (max-width: 315px) {
+  .follower-item{
+    display: block;
   }
 }

@@ -1,5 +1,6 @@
 {# replies_recursive.html - template recursivo para respuestas anidadas #}
 {% load static %}
+{% load i18n %}
 {% for reply in replies %}
 <div class="post reply" style="margin-left: {{ parent_margin }}px; margin-top: 8px;" id="comment-{{ reply.id }}">
     <div class="post-header">
@@ -11,11 +12,11 @@
             {% endif %}
             <span class="post-username">{{ reply.user.username }}</span>
         </a>
-        <span class="post-time">{{ reply.created_at|timesince }} atrás</span>
+        <span class="post-time">{{ reply.created_at|timesince }} {% trans "atrás" %}</span>
     </div>
     <div class="post-content">{{ reply.content }}</div>
     <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 8px;">
-        <button class="reply-btn button-funar" onclick="showReplyForm('{{ reply.id }}')">Responder</button>
+        <button class="reply-btn button-funar" onclick="showReplyForm('{{ reply.id }}')">{% trans "Responder" %}</button>
     </div>
     <div class="reply-form-container" id="reply-form-{{ reply.id }}" style="display:none;">
         <form method="post" class="funar reply-form" style="margin-bottom: 16px;">
@@ -30,7 +31,7 @@
                 </div>
                 <div class="funar-content-column">
                     <div class="funar-input-container">
-                        <span class="span-funar reply-contenteditable" contenteditable="true">Escribe una respuesta...</span>
+                        <span class="span-funar reply-contenteditable" contenteditable="true">{% trans "Escribe una respuesta..." %}</span>
                         <input type="hidden" name="content" class="hidden-reply-content" />
                         <input type="hidden" name="parent" value="{{ reply.id }}">
                     </div>
@@ -38,7 +39,7 @@
             </div>
             <div class="buton-flex" style="position: relative; min-height: 50px;">
                 <div style="margin-left: auto;">
-                    <button type="submit" class="button-funar" id="funar-btn-reply-{{ reply.id }}">Responder</button>
+                    <button type="submit" class="button-funar" id="funar-btn-reply-{{ reply.id }}">{% trans "Responder" %}</button>
                 </div>
             </div>
         </form>

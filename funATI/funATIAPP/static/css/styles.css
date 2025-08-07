@@ -2,6 +2,9 @@
   position: relative;
 }
 
+.profile{
+  display: none;
+}
 
 .media-input-btn {
   cursor: pointer;
@@ -25,7 +28,6 @@
   display: none;
 }
 
-/* Estilos para imágenes de publicaciones */
 .publication-img {
   width: 100%;
   max-height: 400px;
@@ -44,7 +46,6 @@
     Helvetica, Arial, sans-serif;
   --sidebar-width: 250px;
   
-  /* Variables para modo claro (por defecto) */
   --bg-primary: white;
   --bg-sidebar: white;
   --bg-topbar: white;
@@ -110,7 +111,6 @@ body {
   padding: 1rem;
 }
 
-/* Barra lateral */
 .sidebar {
   position: relative;
   height: 100vh;
@@ -196,11 +196,12 @@ body {
   display: flex;
   background: var(--bg-container);
   border-radius: 8px;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   height: 4rem;
 }
 
-.edit-profile-container {
+.edit-profile-button-container {
   display: flex;
   justify-content: flex-end;
 }
@@ -293,7 +294,6 @@ body {
   background-color: #e1e8ed;
 }
 
-/* Barra superior */
 .top-bar {
   position: sticky;
   top: 0;
@@ -315,7 +315,6 @@ body {
   color: var(--text-primary);
 }
 
-/* Contenido principal */
 .main-content {
   padding: 0;
   width: 100%;
@@ -331,7 +330,6 @@ body {
   padding-top: 1.5rem;
 }
 
-/* Encabezado del perfil */
 .profile-header {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -416,7 +414,6 @@ body {
   color: var(--text-secondary);
 }
 
-/* Sección de detalles */
 .profile-details {
   display: flex;
   flex-direction: column;
@@ -425,7 +422,6 @@ body {
 .detail-section {
   display: flex;
   flex-direction: column;
-
 }
 
 .detail-item {
@@ -444,10 +440,8 @@ body {
   flex: 1;
 }
 
-/* Secciones */
 .section {
   padding: 20px;
-  /*border-bottom: 1px solid var(--border-color);*/
 }
 
 .muro,
@@ -522,12 +516,12 @@ body {
   width: 50%;
   max-width: 200px;
   margin-top: 1rem;
-  margin-bottom: 1rem;
   transition: all 0.2s;
 }
 
 .seguidos {
   display: flex;
+  gap: 1rem;
 }
 
 .seguidores {
@@ -554,7 +548,6 @@ body {
   background-color: #e130c1;
 }
 
-/* Acciones de publicación */
 .post-actions {
   display: flex;
   justify-content: space-between;
@@ -576,7 +569,6 @@ body {
   transition: all 0.2s;
 }
 
-/* Placeholder para multimedia */
 .post-media-placeholder {
   margin-top: 12px;
   border-radius: 12px;
@@ -646,19 +638,15 @@ form .media-preview-img {
   opacity: 0.8;
 }
 
-
 .followers-container_ {
   background-color: var(--bg-container);
-  /* fondo translúcido adaptable al tema */
   padding: 1rem 2rem 1rem 2rem;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 95%;
   margin: 3rem auto 0 auto;
-  /* agrega espacio arriba */
 }
 
-/* Media Queries */
 @media (max-width: 900px) {
   body {
     grid-template-columns: 80px 1fr;
@@ -671,7 +659,6 @@ form .media-preview-img {
     padding: 0;
   }
 
-  /* Sidebar adjustments */
   .sidebar {
     width: 80px;
     height: 100vh;
@@ -723,7 +710,7 @@ form .media-preview-img {
   }
 
   .profile-btn {
-    padding: 8px;
+    padding: 1px;
     min-width: 40px;
     justify-content: center;
   }
@@ -733,10 +720,6 @@ form .media-preview-img {
     display: none;
   }
 
-  .profile-btn::after {
-    content: "👤";
-    font-size: 24px;
-  }
 
   .logout-btn {
     display: none;
@@ -764,14 +747,25 @@ form .media-preview-img {
     justify-content: center;
   }
 
-  /* Edit profile button */
   .edit-profile {
     width: 80%;
     max-width: 250px;
   }
 }
 
+@media (max-width: 845px) {
+  .sidebar-footer {
+      display: block;
+  }
+}
+
+
 @media (max-width: 600px) {
+  .profile{
+    display: block;
+    margin: 20px 0px;
+  }
+
   body {
     display: flex;
     flex-direction: column;
@@ -784,7 +778,6 @@ form .media-preview-img {
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    /* <-- fuerza el contenido arriba y ancho completo */
     background: white;
     padding: 0;
     height: calc(100vh - 60px);
@@ -847,13 +840,6 @@ form .media-preview-img {
     font-size: 20px;
   }
 
-
-
-  .profile-header {
-    padding: 15px;
-  }
-
-
   .section:has(.edit-profile) {
     padding: 8px 15px;
     margin-bottom: 6px;
@@ -876,8 +862,6 @@ form .media-preview-img {
     top: 0;
     left: 0;
     width: 100%;
-    justify-content: center;
-    /* centra el contenido */
   }
 
   .top-bar h1 {
@@ -897,6 +881,8 @@ form .media-preview-img {
     font-size: 18px;
     font-weight: 600;
     margin: 0;
+    text-align: center;
+    width:80%;
   }
 
   .top-settings {
@@ -906,10 +892,8 @@ form .media-preview-img {
     cursor: pointer;
   }
 
-  .followers-container_,
-  .profile-nav {
+  .followers-container_ {
     margin: 0px;
-    /* agrega espacio arriba */
   }
 
   .responder_publi {

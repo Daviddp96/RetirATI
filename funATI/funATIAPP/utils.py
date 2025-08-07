@@ -15,17 +15,14 @@ def send_notification_email(notification):
         notification: Instancia del modelo Notification
     """
     try:
-        # Verificar si el usuario tiene habilitadas las notificaciones por correo
         user_settings = UserSettings.get_user_settings(notification.recipient)
         if not user_settings.email_notifications:
             return False
         
-        # Verificar que el usuario tenga email
         if not notification.recipient.email:
             logger.warning(f"Usuario {notification.recipient.username} no tiene email configurado")
             return False
         
-        # Configurar el asunto y contenido según el tipo de notificación
         subject = ""
         message = ""
         
@@ -74,7 +71,6 @@ def send_notification_email(notification):
             Si no quieres recibir más notificaciones por correo, puedes desactivarlas en tu configuración.
             """
         
-        # Enviar el correo
         send_mail(
             subject=subject,
             message=message,

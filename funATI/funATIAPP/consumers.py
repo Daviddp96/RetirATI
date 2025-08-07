@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         try:
-            # Check if user is authenticated
             if isinstance(self.scope.get("user"), AnonymousUser) or not hasattr(self.scope.get("user"), 'is_authenticated') or not self.scope["user"].is_authenticated:
                 logger.warning("Unauthenticated user trying to connect to chat")
                 await self.close()
@@ -23,7 +22,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             logger.info(f"User {self.scope['user'].username} connecting to room {self.room_name}")
 
-            # Join room group
             await self.channel_layer.group_add(
                 self.room_group_name,
                 self.channel_name
@@ -41,7 +39,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         try:
-            # Leave room group
             if hasattr(self, 'room_group_name'):
                 await self.channel_layer.group_discard(
                     self.room_group_name,
@@ -53,12 +50,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         try:
-            # Parse message data
             text_data_json = json.loads(text_data)
             message = text_data_json.get("message", "")
             receiver_id = text_data_json.get("receiver_id")
 
-            # Validate required fields
             if not receiver_id:
                 logger.error("Missing receiver_id in message")
                 await self.send_error("Missing receiver_id")
@@ -69,7 +64,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.send_error("Message cannot be empty")
                 return
 
-            # Validate receiver exists
             receiver_exists = await self.user_exists(receiver_id)
             if not receiver_exists:
                 logger.error(f"Receiver {receiver_id} does not exist")
@@ -78,7 +72,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             logger.info(f"Saving message from {self.user_id} to {receiver_id}")
 
-            # Save message to database
             saved_message = await self.save_message(
                 sender_id=self.user_id,
                 receiver_id=receiver_id,
@@ -89,7 +82,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.send_error("Failed to save message")
                 return
 
-            # Send message to room group
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -117,7 +109,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             timestamp = event["timestamp"]
             message_id = event["message_id"]
 
-            # Send message to WebSocket
             await self.send(text_data=json.dumps({
                 "message": message,
                 "sender_id": sender_id,
